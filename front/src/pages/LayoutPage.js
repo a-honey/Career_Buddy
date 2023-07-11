@@ -11,7 +11,7 @@ const LayoutPage = ({children}) => {
         <main style={{paddingTop: "50px"}}>
             {children}
         </main>
-        <footer style={{paddingBottom: "100px"}} >
+        <footer style={{paddingBottom: "250px"}} >
             <Footer />
         </footer>
         </LayoutPageBlock>
