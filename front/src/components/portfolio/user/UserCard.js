@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import PortfolioList from "../PortfolioList";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
@@ -17,12 +18,15 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
         <h2>{user?.email}</h2>
         <h3>{user?.description}</h3>
       </div>
-        {isEditable && (
-                <button
+      
+        {isEditable && (  // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
+ 
+          <button
                   onClick={() => setIsEditing(true)}
                 >
                   편집
                 </button>
+
         )}
 
         {isNetwork && (

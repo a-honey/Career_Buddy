@@ -4,10 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserStateContext } from "../../App";
 import * as Api from "../../api";
 
-import User from "../user/User";
-import Education from "./Education";
-import Award from "./Award";
-import Certificate from "./Certificate";
+import UserContainer from "./user/UserContainer";
 import { styled } from "styled-components";
 
 function Portfolio() {
@@ -56,34 +53,11 @@ function Portfolio() {
   }
 
   return (
-    <PortfolioBlock>
-      <div>
-        <User
+        <UserContainer
           portfolioOwnerId={portfolioOwner.id}
-          isEditable={portfolioOwner.id === userState.user?.id}
+          isEditable={portfolioOwner.id === userState.user?.id}  // 로그인 user의 portfolio면 isEditable
         />
-      </div>
-      <PortfolioListBlock>
-        <Education />
-        <Award />
-        <Certificate/>
-      </PortfolioListBlock>
-    </PortfolioBlock>
   );
 }
 
-export default Portfolio;
-
-const PortfolioListBlock = styled.div`
-  background-color: pink;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-
-`
-
-const PortfolioBlock = styled.div`
-  display: flex;
-  width: 100%;
-`
+export default Portfolio;  //

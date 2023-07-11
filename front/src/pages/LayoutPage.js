@@ -5,13 +5,13 @@ import Header from "../components/layout/Header";
 const LayoutPage = ({children}) => {
     return (
         <LayoutPageBlock>
-        <header>
+        <header >
             <Header />
         </header>
-        <main style={{marginTop: "50px"}}>
+        <main style={{paddingTop: "50px"}}>
             {children}
         </main>
-        <footer>
+        <footer style={{paddingBottom: "100px"}} >
             <Footer />
         </footer>
         </LayoutPageBlock>
@@ -21,6 +21,7 @@ const LayoutPage = ({children}) => {
 export default LayoutPage;
 
 const LayoutPageBlock = styled.div`
+    position: relative;
     background-color: gray;
     padding: 0 200px;
     margin: 0 auto;

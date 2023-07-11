@@ -1,4 +1,4 @@
-import RegisterForm from "../components/user/RegisterForm"
+import RegisterForm from "../components/register/RegisterForm"
 import LayoutPage from "./LayoutPage"
 
 const RegisterPage = () => {

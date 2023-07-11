@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 
 import * as Api from "../../api";
-import UserCard from "./UserCard";
+import UserCard from "../portfolio/user/UserCard";
 import { UserStateContext } from "../../App";
 import { styled } from "styled-components";
 
