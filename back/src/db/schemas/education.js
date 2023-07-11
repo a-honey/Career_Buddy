@@ -2,6 +2,18 @@ import { Schema, model } from "mongoose";
 
 const EducationSchema = new Schema(
   {
+    user_id:{
+      type: String,
+      required: true,
+    },
+    item_id:{
+      type: String,
+      required: true, 
+    },
+    sort_order:{
+      type: Number,
+      required: true,
+    },
     institution: {
       type: String,
       required: true,
@@ -11,6 +23,10 @@ const EducationSchema = new Schema(
     },
     major: {
       type: String,
+    },
+    status: {
+      type: String,
+      required: true,
     },
     entryDate: {
       type: String,
