@@ -29,9 +29,9 @@ function Header() {
       <ul>
         <li key="myPage" onClick={() => navigate("/")}>나의 페이지</li>
         <li key="network" onClick={() => navigate("/network")}>네트워크</li>
-        {isLogin && (
-          <li key="logout" onClick={logout}>로그아웃</li>
-        )}
+        {isLogin? 
+          <li key="logout" onClick={logout}>로그아웃</li>:
+          <li key="login" onClick={() => navigate("/login")}>로그인</li>}
       </ul>
     </HeaderBlock>
   );
@@ -42,13 +42,16 @@ export default Header;
 const HeaderBlock = styled.div`
   z-index: 1000;
   position: fixed;
-  background-color: yellow;
   width: 100%;
   height: 50px;
   padding: 0 50px;
   display: flex;
   z-index: 100;
   justify-content: space-between;
+  border-bottom: 1px solid black;
+  span {
+    color: rgb(115, 83, 234);
+  }
   ul {
     display: flex;
     width: 300px;
@@ -56,14 +59,21 @@ const HeaderBlock = styled.div`
     line-height: 50px;
     li {
       position: relative;
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        height: 2px;
-        width: 100%;
-        background-color: black;
+      cursor: pointer;
+      &:hover {
+        color: rgb(115, 83, 234);
+        font-size: 18px;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -5px;
+          right: -5px;
+          height: 2px;
+          background-color: rgb(115, 83, 234);
+        }
       }
+      
     }
   }
 `
