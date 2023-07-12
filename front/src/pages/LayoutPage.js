@@ -21,8 +21,5 @@ const LayoutPage = ({children}) => {
 export default LayoutPage;
 
 const LayoutPageBlock = styled.div`
-    position: relative;
-    background-color: gray;
-    padding: 0 200px;
-    margin: 0 auto;
+   
 `

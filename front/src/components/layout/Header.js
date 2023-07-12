@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../../App";
 import { styled } from "styled-components";
 
@@ -26,22 +25,14 @@ function Header() {
 
   return (
     <HeaderBlock>
-      <Nav activeKey={location.pathname}>
-        <Nav.Item className="me-auto mb-5">
-          <Nav.Link disabled><Logo>WebWizards</Logo></Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-        </Nav.Item>
+      <Logo className="logo" key="logo">WEP <span>WIZARDS</span></Logo>
+      <ul>
+        <li key="myPage" onClick={() => navigate("/")}>나의 페이지</li>
+        <li key="network" onClick={() => navigate("/network")}>네트워크</li>
         {isLogin && (
-          <Nav.Item>
-            <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-          </Nav.Item>
+          <li key="logout" onClick={logout}>로그아웃</li>
         )}
-      </Nav>
+      </ul>
     </HeaderBlock>
   );
 }
@@ -49,15 +40,35 @@ function Header() {
 export default Header;
 
 const HeaderBlock = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 50px;
+  z-index: 1000;
+  position: fixed;
   background-color: yellow;
+  width: 100%;
+  height: 50px;
+  padding: 0 50px;
+  display: flex;
+  z-index: 100;
+  justify-content: space-between;
+  ul {
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    line-height: 50px;
+    li {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
+        background-color: black;
+      }
+    }
+  }
 `
 
-const Logo = styled.div`
+const Logo = styled.li`
   font-size: 30px;
   font-weight: 700;
 `

@@ -19,7 +19,11 @@ const EducationEdit = ({ user }) => {
 
 export default EducationEdit;
 
-const EducationEditItem = ({ user, setIsAdding }) => {
+const EducationEditItem = ({ }) =>  {
+
+    
+}
+const EducationAddItem = ({ user, setIsAdding }) => {
     const [institution, setInstitution] = useState('');
     const [degree, setDegree] = useState('user.degree'); 
     const [major, setMajor] = useState('user.major'); 
