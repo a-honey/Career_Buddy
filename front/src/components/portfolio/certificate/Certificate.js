@@ -1,4 +1,4 @@
-import Block from "../Block";
+import Block from "../common/FieldBlock";
 
 const CertificateItem = () => {
     return(

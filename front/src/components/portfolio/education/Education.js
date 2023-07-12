@@ -1,4 +1,4 @@
-import Block from "../Block";
+import Block from "../common/FieldBlock";
 import { getData } from '../../../services/api';
 import { styled } from "styled-components";
 

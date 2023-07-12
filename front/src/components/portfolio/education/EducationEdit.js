@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Block from "../Block";
+import Block from "../common/FieldBlock";
 
 const EducationEdit = ({ user }) => {
     const [isAdding, setIsAdding] = useState(false);
