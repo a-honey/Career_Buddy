@@ -3,14 +3,14 @@ import { CertificateModel } from "../schemas/certification";
 
 class Certificate {
   // 새로운 자격증 추가
-  static async create({ title,issuer,certDate }) {
-    const createdNewCert = await CertificateModel.create({ title,issuer,certDate });
+  static async create({newCertificate}) {
+    const createdNewCert = await CertificateModel.create({newCertificate});
     // Certificate.create = new Cert
     return createdNewCert;
   }
 
-  static async findOneById({ cert_id }) {
-    const Cert = await CertificateModel.findOne({ id: cert_id });
+  static async findOneById({ user_id }) {
+    const Cert = await CertificateModel.findOne({ user_id });
     return Cert;
   }
   static async findOneByTitle({ title }) {

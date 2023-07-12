@@ -1,8 +1,7 @@
 // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import { Certificate } from "../db/certificate";
+import { Certificate } from "../db";
 
 
-// 필요없다고 생각해 주석처리함
 // import bcrypt from "bcrypt";
 // import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -18,7 +17,7 @@ class CertificateService{
         // 새로운 자격증 생성.
         const newCertificate={title,issuer,certDate}
         //db에 저장
-        const createdNewCertificate=await Certificate.create({newCertificate})
+        const createdNewCertificate=await Certificate.create(newCertificate)
         createdNewCertificate.errorMessage=null;
 
         return createdNewCertificate;
@@ -34,10 +33,9 @@ class CertificateService{
 
         
     }
-    static async getCetficates(){
-        //  _certificate.Certificate.findAll is not a function
-        const certificates=await Certificate.findAll()
-        return certificates;
+    static async getCetificate({user_id}){
+        const certificate=await Certificate.findOneById({user_id:user_id})
+        return certificate;
     }
 
 }
