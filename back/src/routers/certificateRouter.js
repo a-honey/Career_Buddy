@@ -19,14 +19,15 @@ certificateRouter.get("/:id/certificate",
 
         }
     )
-certificateRouter.put(
-  "/:id/certificate/register", 
-  async function (req, res, next) {
+    
+certificateRouter.post(
+  "/:id/certificate/register",
+  async function (req, res) {
         const user_id=req.params.id;
         const title=req.body.title
         const issuer=req.body.issuer
         const certDate=req.body.certDate
-        await Certificate.create({
+        const newCertificate=await Certificate.create({
           user_id:user_id,title:title,issuer:issuer,certDate:certDate
         })
         if (newCertificate.errorMessage) {
