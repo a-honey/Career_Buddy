@@ -3,17 +3,20 @@ import { EducationModel } from "../schemas/education";
 class Education {
 
   // 새로운 학력정보를 추가합니다. 
-  static async create({ user_id, institution, degree, major, entryDate, gradDate, grade, description }) {
+
+  static async create({ id, institution, degree, major, status, entryDate, gradDate, grade, description, sortOrder }) {
     // EducationSchema에서 정의된 필드에 해당되는 데이터로 새로운 학력정보 document를 만듭니다.
     const createdNewEducation = await EducationModel.create({
-        user_id,
+        id,
         institution, 
         degree, 
         major, 
+        status,
         entryDate, 
         gradDate, 
         grade, 
-        description
+        description,
+        sortOrder
     });
     return createdNewEducation;
   }
