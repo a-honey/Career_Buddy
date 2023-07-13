@@ -8,21 +8,27 @@ import jwt from "jsonwebtoken";
 
 class CertificateService{
     // Create 자격증 생성
-    static async addCertificate({title,issuer,certDate}){
-        const certificate=await Certificate.findOne({title})
-        if (certificate){
-            const errorMessage="등록된 자격증입니다. 다른 자격증을 입력하세요."
-        return {errorMessage}
+    static async addCertificate({ title, issuer, certDate }) {
+        try {
+          const certificate = await Certificate.findOneByTitle({ title });
+      
+          if (certificate) {
+            const errorMessage = "등록된 자격증입니다. 다른 자격증을 입력하세요.";
+            return { errorMessage };
+          }
+      
+          const newCertificate = { title, issuer, certDate };
+          const createdNewCertificate = await Certificate.create({newCertificate});
+      
+          return createdNewCertificate;
+        } catch (error) {
+          // 에러 처리
+          console.error("자격증 추가 중 오류 발생:", error);
+          throw error; // 오류를 상위 레벨로 던져 처리하도록 함
         }
-        // 새로운 자격증 생성.
-        const newCertificate={title,issuer,certDate}
-        //db에 저장
-        const createdNewCertificate=await Certificate.create(newCertificate)
-        createdNewCertificate.errorMessage=null;
-
-        return createdNewCertificate;
-    }
-    static async delCertificate({title,issuer,certDate}){
+      }
+      
+    static async delCertificate({title}){
         try{
             const delCertificate=await Certificate.findAndDelete({title:title})
         }
@@ -33,7 +39,7 @@ class CertificateService{
 
         
     }
-    static async getCetificate({user_id}){
+    static async getCertificate({user_id}){
         const certificate=await Certificate.findOneById({user_id:user_id})
         return certificate;
     }
