@@ -7,12 +7,23 @@ import { useEffect, useState } from "react";
 
 const mockDatas = [
     {
-        title: '가짜 제목',
-        date: '가짜 날짜',
+        institution: "한국대학교",
+        degree: "학사",
+        major: "무역학과",
+        status: "졸업",
+        entryDate: "2019-01-01",
+        gradDate: "4.3",
+        description: "텍스트입니다",
     },
     {
-        title: '가짜 제목1',
-        date: '가짜 날짜1',
+        institution: "하버드대학교",
+        degree: "석사",
+        major: "MBA",
+        status: "졸업",
+        entryDate: "2019-01-01",
+        gradDate: "2023-01-01",
+        grade: "4.0",
+        description: "텍스트입니다",
     },
 ];
 const Education = ({user, isEditing}) => {

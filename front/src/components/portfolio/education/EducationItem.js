@@ -22,8 +22,13 @@ export default EducationContainer;
 const EducationItem = ({data}) => {
     return (
         <FieldDocumentBlock>
-            <h1>{data.title}</h1>
-            <h2>{data.date}</h2>
-        </FieldDocumentBlock>
+            <div>{data.institution}</div>
+            <div>{data.degree}</div>
+            <div>{data.major}</div>
+            <div>{data.status}</div>
+            <div>{data.entryDate}</div>
+            <div>{data.gradDate}</div>
+            <div>{data.grade}</div>
+            </FieldDocumentBlock>
     )
 }

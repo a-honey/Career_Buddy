@@ -62,7 +62,7 @@ const HeaderBlock = styled.div`
       position: relative;
       cursor: pointer;
       &:hover {
-        color: mainColor;
+        color: rgb(115, 83, 234);
         font-size: 18px;
         &::after {
           content: "";
