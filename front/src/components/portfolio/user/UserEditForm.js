@@ -33,7 +33,7 @@ function UserEditForm({ user, setUser }) {
   };
 
   return (
-        <form onSubmit={handleSubmit}>
+        <form style={{display: "flex", flexDirection: "column", alignItems: "center"}} onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="이름"

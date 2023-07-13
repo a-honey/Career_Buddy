@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { EmptyBtn, FullBtn } from "../../common/Btns";
+import { EmptyBtn, FullBtn, FullRedBtn } from "../../common/Btns";
 import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 
@@ -9,8 +9,9 @@ const FieldDocumentBlock = ({ children }) => {
     <Block>
         <div className="data">{children}</div>
         {isEditing && <div className="btns">
-            <FullBtn>저장</FullBtn>
-            <EmptyBtn>취소</EmptyBtn>
+            <FullBtn>수정</FullBtn>
+            <EmptyBtn>초기화</EmptyBtn>
+            <FullRedBtn>삭제</FullRedBtn>
         </div> }
     </Block>
     )
@@ -32,12 +33,14 @@ const Block = styled.div`
     .btns {
         border-left: 1px solid black;
         display: flex;
-        justify-content: center;
         align-items: center;
         position: absolute;
         right: 20px;
         top: 0;
         bottom: 0;
-        width: 200px;
+        button {
+            height: 50px;
+            margin-right: 20px;
+        };
     }
 `;

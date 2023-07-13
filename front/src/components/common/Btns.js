@@ -8,10 +8,18 @@ const FullBtn = styled.button`
     margin-right: 10px;
 `
 
+const FullRedBtn = styled.button`
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: red;
+    color: #ffffff;
+    margin-right: 10px;
+`
+
 const EmptyBtn = styled.button`
     padding: 10px 20px;
     border-radius: 5px;
     border: 2px solid rgb(115, 83, 234);
 `
 
-export {FullBtn, EmptyBtn};
+export {FullBtn, EmptyBtn, FullRedBtn};
