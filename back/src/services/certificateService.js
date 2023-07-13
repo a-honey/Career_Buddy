@@ -30,7 +30,7 @@ class CertificateService{
       
     static async delCertificate({title}){
         try{
-            const delCertificate=await Certificate.findAndDelete({title:title})
+            const delCertificate=await Certificate.deleteOne({title:title})
         }
         catch(err){
             console.log(err)
@@ -39,8 +39,8 @@ class CertificateService{
 
         
     }
-    static async getCertificate({user_id}){
-        const certificate=await Certificate.findOneById({user_id:user_id})
+    static async getCertificate({id}){
+        const certificate=await Certificate.findOneById({id:id})
         return certificate;
     }
 

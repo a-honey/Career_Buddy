@@ -37,8 +37,17 @@ certificateRouter.put("/:id/certificate/register",async (req, res)=> {
 
 
 
-certificateRouter.delete("/:id/certificate/delete",async function(req,res){
-  res.send('deletepage')
+certificateRouter.delete("/:id/certificate/delete",
+async (req,res)=>{
+  const id=req.params.id
+  const title=req.body.title
+  try {   
+    const delCertificate=await CertificateModel.deleteOne({title})
+    res.send(delCertificate)
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+
 })
 
 
