@@ -2,13 +2,13 @@ import { Schema, model } from "mongoose";
 
 const EducationSchema = new Schema(
   {
-    id:{
+    userId: {
+      /*
       type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true
-    },
-    sortOrder:{
-      type: Number,
+      ref: 'User',
+      */
+      type: String,
+      required: true,
     },
     institution: {
       type: String,
@@ -38,6 +38,9 @@ const EducationSchema = new Schema(
     description: {
       type: String,
       required: false,
+    },
+    sortOrder:{
+      type: Number,
     },
   },
   {
