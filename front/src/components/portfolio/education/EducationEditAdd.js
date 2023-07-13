@@ -1,27 +1,21 @@
 import { useState } from "react";
 import FieldBlock from "../common/FieldDocumentBlock";
+import FieldDocumentBlock from "../common/FieldDocumentBlock";
+import { styled } from "styled-components";
+import { EmptyBtn } from "../../common/Btns";
 
-const EducationEdit = ({ user }) => {
+const EducationEdit = ({ data }) => {
     const [isAdding, setIsAdding] = useState(false);
-    
     return(
-        <FieldBlock>
-            <h1>학력</h1>
-            <div>학교 이름</div>
-            <div>학교 이름</div>
-            <div>전공</div>
-            <div>재학중</div>
-            <button onClick={()=>setIsAdding(true)}>+</button>
-            {isAdding && <EducationEditItem setIsAdding={setIsAdding} />}
-        </FieldBlock>
+        <div>
+            <EmptyBtn style={{width: "100px"}} onClick={()=>setIsAdding(true)}>+</EmptyBtn>
+            {isAdding && <EducationAddItem setIsAdding={setIsAdding} />}
+        </div>
     )
 }
 
 export default EducationEdit;
 
-const EducationEditItem = () =>  {
-    return <div>하이</div>
-}
 const EducationAddItem = ({ user, setIsAdding }) => {
     const [institution, setInstitution] = useState('');
     const [degree, setDegree] = useState('user.degree'); 
@@ -32,7 +26,7 @@ const EducationAddItem = ({ user, setIsAdding }) => {
 
     const handleAddSubmit = (e) => {
         e.preventDefault();
-        
+        //setDatas에 데이터 추가
         const newDocument = {
             institution,
             degree,

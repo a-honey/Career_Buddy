@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../../api";
 import PortfolioList from "../PortfolioList";
 import PortfolioEditList from "../PortfolioEditList";
+import { EditContext, EditContextProvider } from "../../../contexts/EditContext";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
-  const [isEditing, setIsEditing] = useState(false);
   // useState 훅을 통해 user 상태를 생성함.
   const [user, setUser] = useState(null);
 
@@ -17,27 +17,12 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <div style={{display: "flex"}}>
-      {isEditing ? (
-        <>
-        <UserEditForm
-          user={user}
-          setIsEditing={setIsEditing}
-          setUser={setUser}
-        />
-        <PortfolioEditList user={user}/>
-      </>
-        ) : (
-        <>
-        <UserCard
-          user={user}
-          setIsEditing={setIsEditing}
-          isEditable={isEditable}
-        />
-        <PortfolioList isEditing={isEditing} user={user}/>
-        </>
-      )}
-    </div>
+    <EditContextProvider>
+      <div style={{display: "flex"}}>
+          <UserCard user={user} setUser={setUser} isEditable={isEditable} />
+          <PortfolioList user={user}/>
+      </div>
+    </EditContextProvider>
   );
 }
 

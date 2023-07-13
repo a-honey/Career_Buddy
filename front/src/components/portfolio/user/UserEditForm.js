@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../../api";
+import { EmptyBtn, FullBtn } from "../../common/Btns";
+import { EditContext } from "../../../contexts/EditContext";
 
-function UserEditForm({ user, setIsEditing, setUser }) {
+function UserEditForm({ user, setUser }) {
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
   const [email, setEmail] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
+
+  const {turnEditing} = useContext(EditContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +29,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setUser(updatedUser);
 
     // isEditing을 false로 세팅함.
-    setIsEditing(false);
+    turnEditing();
   };
 
   return (
@@ -48,12 +52,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-              <button type="submit" className="me-3">
+              <FullBtn type="submit" className="me-3">
                 확인
-              </button>
-              <button variant="secondary" onClick={() => setIsEditing(false)}>
+              </FullBtn>
+              <EmptyBtn variant="secondary" onClick={() => {turnEditing()}}>
                 취소
-              </button>
+              </EmptyBtn>
         </form>
   );
 }

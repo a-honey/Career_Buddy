@@ -2,9 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import PortfolioList from "../PortfolioList";
 import { FullBtn } from "../../common/Btns";
+import { useContext } from "react";
+import { EditContext } from "../../../contexts/EditContext";
+import UserEditForm from "./UserEditForm";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, setUser, isEditable, isNetwork }) {
   const navigate = useNavigate();
+  const { isEditing, turnEditing } = useContext(EditContext);
   return (
     <UserCardBlock>
       <div className="img-container">
@@ -14,20 +18,10 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
           />
       </div>
-      <UserInfoBlock>
-        <h1>{user?.name}</h1>
-        <h2>{user?.email}</h2>
-        <h3>{user?.description}</h3>
-      </UserInfoBlock>
-      
-        {isEditable && (  // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
-
-          <FullBtn
-                  onClick={() => setIsEditing(true)}
-                >
-                  편집
-                </FullBtn>
-
+        {isEditing ? <UserEditForm user={user} setUser={setUser} />
+        : <UserItem user={user} />}
+        {isEditable && !isEditing && (  // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
+          <FullBtn onClick={() => turnEditing(true)}>편집</FullBtn>
         )}
 
         {isNetwork && (
@@ -44,6 +38,16 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
 }
 
 export default UserCard;
+
+const UserItem = ({ user }) => {
+  return (
+    <UserInfoBlock>
+      <h1>{user?.name}</h1>
+      <h2>{user?.email}</h2>
+      <h3>{user?.description}</h3>
+    </UserInfoBlock>
+  )
+}
 
 const UserCardBlock = styled.div`
   width: 500px;

@@ -1,14 +1,17 @@
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
+import { useContext } from "react";
+import { EditContext } from "../../../contexts/EditContext";
 
 const FieldDocumentBlock = ({ children }) => {
+    const { isEditing } = useContext(EditContext);
     return(
     <Block>
         <div className="data">{children}</div>
-        <div className="btns">
+        {isEditing && <div className="btns">
             <FullBtn>저장</FullBtn>
             <EmptyBtn>취소</EmptyBtn>
-        </div>
+        </div> }
     </Block>
     )
 };

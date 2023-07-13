@@ -1,4 +1,4 @@
-import EducationEdit from "./education/EducationEdit";
+import EducationEdit from "./education/EducationEditAdd";
 
 const PortfolioEditList = () => {
     return (
