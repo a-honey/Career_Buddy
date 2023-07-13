@@ -1,1 +1,22 @@
-//Education에 주고, EducationEdit에 줄 Item 하나의 컴포넌트  >> portflio/common으로 만들어도 될듯
+import FieldDocumentBlock from "../common/FieldDocumentBlock";
+import FieldListBlock from "../common/FieldListBlock";
+
+const EducationContainer = ({ datas }) => {
+    return (
+        <FieldListBlock>
+            <h1 className="fieldName">교육사항</h1>
+                {datas.map((data) => <EducationItem data={data} />)}
+        </FieldListBlock>
+    )
+}
+
+export default EducationContainer;
+
+const EducationItem = ({data}) => {
+    return (
+        <FieldDocumentBlock>
+            <h1>{data.title}</h1>
+            <h2>{data.date}</h2>
+        </FieldDocumentBlock>
+    )
+}

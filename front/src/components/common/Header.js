@@ -40,6 +40,7 @@ function Header() {
 export default Header;
 
 const HeaderBlock = styled.div`
+  background-color: #ffffff;
   z-index: 1000;
   position: fixed;
   width: 100%;
@@ -61,7 +62,7 @@ const HeaderBlock = styled.div`
       position: relative;
       cursor: pointer;
       &:hover {
-        color: rgb(115, 83, 234);
+        color: mainColor;
         font-size: 18px;
         &::after {
           content: "";

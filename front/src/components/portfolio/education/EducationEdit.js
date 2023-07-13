@@ -1,27 +1,26 @@
 import { useState } from "react";
-import Block from "../common/FieldBlock";
+import FieldBlock from "../common/FieldDocumentBlock";
 
 const EducationEdit = ({ user }) => {
     const [isAdding, setIsAdding] = useState(false);
     
     return(
-        <Block>
+        <FieldBlock>
             <h1>학력</h1>
-            <div>학교 이름{user?.id}</div>
+            <div>학교 이름</div>
             <div>학교 이름</div>
             <div>전공</div>
             <div>재학중</div>
             <button onClick={()=>setIsAdding(true)}>+</button>
             {isAdding && <EducationEditItem setIsAdding={setIsAdding} />}
-        </Block>
+        </FieldBlock>
     )
 }
 
 export default EducationEdit;
 
-const EducationEditItem = ({ }) =>  {
-
-    
+const EducationEditItem = () =>  {
+    return <div>하이</div>
 }
 const EducationAddItem = ({ user, setIsAdding }) => {
     const [institution, setInstitution] = useState('');

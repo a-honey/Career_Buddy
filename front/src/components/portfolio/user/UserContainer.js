@@ -17,7 +17,7 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <>
+    <div style={{display: "flex"}}>
       {isEditing ? (
         <>
         <UserEditForm
@@ -34,10 +34,10 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
           setIsEditing={setIsEditing}
           isEditable={isEditable}
         />
-        <PortfolioList user={user}/>
+        <PortfolioList isEditing={isEditing} user={user}/>
         </>
       )}
-    </>
+    </div>
   );
 }
 

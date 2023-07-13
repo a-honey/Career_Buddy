@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import Footer from "../components/layout/Footer";
-import Header from "../components/layout/Header";
+import Footer from "../components/common/Footer";
+import Header from "../components/common/Header";
 
 const LayoutPage = ({children}) => {
     return (
@@ -8,10 +8,10 @@ const LayoutPage = ({children}) => {
         <header >
             <Header />
         </header>
-        <main style={{paddingTop: "50px"}}>
+        <main style={{paddingTop: "50px", paddingBottom: "250px"}}>
             {children}
         </main>
-        <footer style={{paddingBottom: "250px"}} >
+        <footer style={{position: "relative"}}>
             <Footer />
         </footer>
         </LayoutPageBlock>
@@ -21,5 +21,5 @@ const LayoutPage = ({children}) => {
 export default LayoutPage;
 
 const LayoutPageBlock = styled.div`
-   
+
 `

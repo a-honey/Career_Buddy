@@ -3,12 +3,12 @@ import Award from "./award/Award";
 import Certificate from "./certificate/Certificate";
 import { styled } from "styled-components";
 
-const PortfolioList = ({ user }) => {
+const PortfolioList = ({ user, isEditing }) => {
     return (
         <PortfolioListBlock>
-            <Education user={user} />
-            <Award user={user} />
-            <Certificate user={user} />
+            <Education user={user} isEditing={isEditing} />
+            <Award user={user} isEditing={isEditing} />
+            <Certificate user={user}  isEditing={isEditing} />
         </PortfolioListBlock>
     )
 }
