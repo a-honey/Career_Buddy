@@ -2,8 +2,8 @@ import { EducationModel } from "../schemas/education";
 
 class Education {
 
+  // CRUD: CREATE
   // 새로운 학력정보를 추가하는 기능을 구현합니다.
-
   static async create({ newEduData }) {
 
     // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만듭니다.
@@ -12,8 +12,8 @@ class Education {
 
   }
 
+  // CRUD: READ
   // 사용자 document의 ObjectId로 학력정보를 찾아주는 기능을 구현합니다.
-  
   static async findEducationByEduId({ eduId }) {
 
     // 사용자 ID를 사용해서 학력정보 document를 찾습니다.
@@ -23,6 +23,7 @@ class Education {
 
   }
 
+  // CRUD: READ
   // document의 ObjectId로 학력정보를 찾아주는 기능을 구현합니다.
   static async findEducationByUserId({ userId }) {
 
@@ -32,8 +33,8 @@ class Education {
 
   }
 
-
-  // 프론트엔드로부터 입력받은 새로운 학력정보로 기존 학력정보 document를 최신화하는 기능을 구현합니다.
+  // CRUD: UPDATE
+  // 프론트엔드로부터 입력받은 학력정보 document ObjectID로 기존 학력정보 document를 찾아서, 프론트엔드로부터 입력받은 새로운 학력정보로 최신화하는 기능을 구현합니다.
   static async update({ eduId }, { updatedEduData }) {
     
     // 사용자의 기존 학력정보 document를 찾을 때 사용할 ObjectId를 지정합니다.
@@ -55,7 +56,7 @@ class Education {
 
   }
 
-
+  // CRUD: DELETE
   // 학력정보를 삭제하는 기능을 구현합니다.
   static async delete({ eduId }) {
     return EducationModel.findOneAndDelete({ _id: eduId });
