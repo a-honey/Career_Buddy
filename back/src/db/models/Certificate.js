@@ -19,8 +19,8 @@ class Certificate {
     const Cert = await CertificateModel.findOne({ title });
     return Cert;
   }
-  static async updateOne({ id, fieldToUpdate, newValue }) {
-    const filter = { id: id };
+  static async updateOne({ id,title,fieldToUpdate, newValue }) {
+    const filter = { id: id,title:title };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
