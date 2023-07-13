@@ -77,7 +77,7 @@ educationRouter.put("/education/:edu_id", async(req, res)=>{
     console.log(updatedEduData);
 
     // Education 모델의 update() 메소드를 사용해서 document를 생성합니다.
-    const newEducation = await Education.update({ _id: eduId }, { updatedEduData });
+    const newEducation = await Education.update({ eduId }, { updatedEduData });
     
     if(Education.error){
         throw new Error(Education.error);

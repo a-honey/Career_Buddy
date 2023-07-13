@@ -34,7 +34,7 @@ class Education {
 
 
   // 프론트엔드로부터 입력받은 새로운 학력정보로 기존 학력정보 document를 최신화하는 기능을 구현합니다.
-  static async update( eduId, { updatedEduData } ) {
+  static async update({ eduId }, { updatedEduData }) {
     
     // 사용자의 기존 학력정보 document를 찾을 때 사용할 ObjectId를 지정합니다.
     const filter = { _id: eduId };
