@@ -21,7 +21,7 @@ class Certification {
   }
   // Update
   //////////////////////////////////////////////문제의 구간
-  static async updateOne({certDocId},newValue) {
+  static async updateOne({certDocId},{newValue}) {
     const filter = { _id: certDocId};
     // _id에 certDocId를 받아옴
     const update = { $set: newValue } ;

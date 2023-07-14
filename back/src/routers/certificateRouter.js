@@ -1,7 +1,6 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { CertificateService } from "../services/certificateService";
 import {Certification} from "../db/models/Certificate"
 const certificateRouter = Router();
 const mongoose = require('mongoose');
@@ -51,6 +50,8 @@ certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
   try{
     const certDocId=req.params.id;
     const updateData=req.body;
+    console.log("certDocId",certDocId,"\n")
+    console.log("updateData",updateData)
     const updatedCertificate=await Certification.updateOne(
       {certDocId},{updateData}
       )
