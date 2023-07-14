@@ -3,49 +3,45 @@ import { EducationModel } from "../schemas/education";
 // 학력정보 document를 다루는 CRUD 작업을 객체지향적 메소드로 정의합니다.
 class Education {
 
-  // CRUD: CREATE
-  // 새로운 학력정보를 추가하는 기능을 구현합니다.
+  // [CRUD] CREATE
   // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만들어 데이터베이스에 저장합니다.
-  static async create({ newEduData }) {
+  static async create(newEduData) {
     try {
       const result = await EducationModel.create(newEduData);
       return result;
     }
     catch(error) {
-      return error; 
+      throw new Error(error);
     }
   }
 
-  // CRUD: READ
-  // 학력정보 document의 ObjectId를 사용해 학력정보를 찾아주는 기능을 구현합니다.
+  // [CRUD] READ
   // 찾고자 하는 학력정보의 ObjectId를 eduId로 입력받아, 이와 일치하는 학력정보 document를 찾습니다.
-  static async findEducationByEduId({ eduId }) {
+  static async findEducationByEduId(eduId) {
     try {
-
       const result = await EducationModel.findOne({ _id: eduId });
       return result;
     }
     catch(error) {
-        return error; 
+      throw new Error(error);
     }
   }
 
-  // CRUD: READ
-  // 사용자의 학력정보 전체를 찾아주는 기능을 구현합니다.
+  // [CRUD] READ
   // 찾고자 하는 사용자의 고유번호를 UserSchema에 정의된 id인 userId로 입력받아, 이와 일치하는 학력정보 document들을 모두 찾습니다.
-  static async findEducationByUserId({ userId }) {
+  static async findEducationByUserId(userId) {
     try {
       const result = await EducationModel.find({ userId: userId });
       return result;
     }
     catch(error) {
-        return error; 
+      throw new Error(error);
     }
   }
 
-  // CRUD: UPDATE
+  // [CRUD] UPDATE
   // ObjectId로 기존 학력정보 document를 찾아서, 입력받은 새로운 학력정보로 최신화하는 기능을 구현합니다.
-  static async update({ eduId }, { updatedEduData }) {
+  static async update(eduId, updatedEduData) {
     try {
       // 기존 학력정보 document를 찾을 때 사용할 ObjectId를 지정합니다.
       const filter = { _id: eduId };
@@ -68,20 +64,21 @@ class Education {
       return result;
     }
     catch(error) {
-        return error; 
+      throw new Error(error);
     }
   }
 
-  // CRUD: DELETE
+  // [CRUD] DELETE
   // ObjectId로 찾은 학력정보 document를 데이터베이스로부터 삭제하는 기능을 구현합니다.
-  static async delete({ eduId }) {
+  static async delete(eduId) {
     try{
       return EducationModel.findOneAndDelete({ _id: eduId });
     }
     catch(error) {
-      return error; 
+      throw new Error(error);
     }
   }
-}
 
+}
+  
 export { Education };
