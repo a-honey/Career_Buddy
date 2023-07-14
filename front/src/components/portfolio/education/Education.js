@@ -2,6 +2,7 @@ import { getDatas } from '../../../services/api';
 import EducationContainer from "./EducationItem";
 import { useContext, useEffect} from "react";
 import { EducationContext } from '../../../contexts/EducationContext';
+import { UserStateContext } from '../../../App';
 
 const mockDatas = [
     {
@@ -27,21 +28,20 @@ const mockDatas = [
         description: "텍스트입니다",
     },
 ];
-const Education = ({user}) => {
+const Education = () => {
     const {setEducationDocuments} = useContext(EducationContext);
-    try {
-        // userId를 통해 해당 user가 참조하고 있는 Education 필드 받아오기
-        // userId/education 요청
-            useEffect(() => {
-                getDatas(user?.id, "education").then((res) => setEducationDocuments(res.data));
-            }, [setEducationDocuments, user?.id]);
+    const userState = useContext(UserStateContext);
 
-    return <EducationContainer /> 
-    } catch {
-        console.log('education 가져오기 실패, mockData실행');
-        setEducationDocuments(mockDatas);
-
-    }
+    useEffect(() => {
+        getDatas(userState.user.id, "education")
+        .then((res) => setEducationDocuments(res.data))
+        .catch((error) => {
+            console.log('education 가져오기 실패, mockData 실행');
+            setEducationDocuments(mockDatas);
+        });
+    }, [setEducationDocuments, userState.user.id]);
+    
+    return <EducationContainer />;
 };
 
 export default Education;

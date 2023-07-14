@@ -25,15 +25,15 @@ const EducationItem = ({ data }) => {
     const [ isDocumentEditing, setIsDocumentEditing ] = useState(false);
     const { educationDocuments, setEducationDocuments} = useContext(EducationContext);
 
-    const [institution, setInstitution] = useState(data.institution);
-    const [degree, setDegree] = useState(data.degree); 
-    const [major, setMajor] = useState(data.major); 
-    const [status, setStatus] = useState(data.status); 
-    const [entryDate, setEntryDate] = useState(data.entryDate); 
-    const [gradDate, setGradDate] = useState(data.gradDate); 
-    const [grade, setGrade] = useState(data.grade); 
+    const [institution, setInstitution] = useState(data?.institution);
+    const [degree, setDegree] = useState(data?.degree); 
+    const [major, setMajor] = useState(data?.major); 
+    const [status, setStatus] = useState(data?.status); 
+    const [entryDate, setEntryDate] = useState(data?.entryDate); 
+    const [gradDate, setGradDate] = useState(data?.gradDate); 
+    const [grade, setGrade] = useState(data?.grade); 
 
-    const handleUpdateSubmit = (e) => {
+    const handleUpdateSubmit = async (e) => {
         e.preventDefault();
         //setDatas에 데이터 추가
         const newDocument = {
@@ -49,20 +49,20 @@ const EducationItem = ({ data }) => {
         //필드name/ 도큐먼트id로 수정을 요청
         console.log(`education의 ${data._id} 수정 요청 함수 실행`);
         //db의 education에서 _id 업데이트
-        updateData(data._id, 'education');
+        await updateData(data._id, 'education');
         //education의 datas에서 _id의 바뀐값을 가져오기
         setEducationDocuments((datas) => [...datas, newDocument]);
         setIsDocumentEditing(false);
     };
 
-    const handleGetDocument = (e) => {
+    const handleGetDocument = async (e) => {
         e.preventDefault();
-        console.log(`education의 ${data._id} 다시 가져오기 함수 실행`);
+        console.log(`education의 ${data?._id} 다시 가져오기 함수 실행`);
     };
 
     if (!isDocumentEditing) {
         return (
-        <FieldDocumentBlock fieldName={'education'} datas={educationDocuments} documentId={data._id}  isDocumentEditing={isDocumentEditing} setIsDocumentEditing={setIsDocumentEditing}>
+        <FieldDocumentBlock fieldName={'education'} datas={educationDocuments} documentId={data?._id}  isDocumentEditing={isDocumentEditing} setIsDocumentEditing={setIsDocumentEditing}>
             <div className="field-main-content">
             <span className="field-title">교육기관 | </span>
             {data?.institution} {data?.major}{" "}

@@ -3,7 +3,6 @@ import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../../api";
 import PortfolioList from "../PortfolioList";
-import PortfolioEditList from "../PortfolioEditList";
 import { EditContext, EditContextProvider } from "../../../contexts/EditContext";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {

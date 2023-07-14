@@ -1,46 +1,46 @@
 import axios from 'axios';
 
 // userId의 FieldName 데이터 요청하기
-const getDatas = (userId, FieldName) => {
+const getDatas = async (userId, FieldName) => {
     try {
         console.log('getData 실행됨');
-        return axios.post(`/${userId}/${FieldName}`);
+        return await axios.get(`/${userId}/${FieldName}`);
     } catch (err) {
         console.log("포스트 가져오기 실패");
     }
 };
 
 // FieldName의 documentId 데이터 불러오기
-const getData = (documentId, FieldName) => {
+const getData = async (documentId, FieldName) => {
     try {
-        return axios.post(`/${FieldName}/${documentId}`);
+        return await axios.post(`/${FieldName}/${documentId}`);
     } catch (err) {
         console.log("포스트 가져오기 실패");
     }
 };
 
 // FieldName에 newData 추가하기
-const addData = (userId, FieldName, newData) => {
+const addData = async (userId, FieldName, newData) => {
     try {
-        return axios.post(`/${userId}/${FieldName}`, newData);
+        return await axios.post(`/${userId}/${FieldName}`, newData);
     } catch {
         console.log("포스트 업로드 실패")
     }
 };
 
 // userId의 FieldName 필드에 data 업데이트하기 
-const updateData = (userId, FieldName, updateData) => {
+const updateData = async (userId, FieldName, updateData) => {
     try {
-        return axios.put(`/${userId}/${FieldName}`, updateData);
+        return await axios.put(`/${userId}/${FieldName}`, updateData);
     } catch {
-        console.log("포스트 업로드 실패")
+        console.log("포스트 업로드 실패");
     }
 };
 
 // userId의 FieldName 필드에 data 삭제하기
-const deleteData = (documentId, FieldName) => {
+const deleteData = async (documentId, FieldName) => {
     try {
-        axios.delete(`/${FieldName}/${documentId}`);
+        await axios.delete(`/${FieldName}/${documentId}`);
     } catch {
         console.log("포스트 업로드 실패")
     }

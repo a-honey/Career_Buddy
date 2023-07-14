@@ -32,7 +32,7 @@ const EducationAddItem = ({ setIsAdding }) => {
 
     const {setEducationDocuments} = useContext(EducationContext);
 
-    const handleAddSubmit = (e) => {
+    const handleAddSubmit = async (e) => {
         e.preventDefault();
         //setDatas에 데이터 추가
         const newDocument = {
@@ -45,7 +45,7 @@ const EducationAddItem = ({ setIsAdding }) => {
         }
     
         console.log(newDocument);
-        addData(userState.user.id, 'education', newDocument);
+        await addData(userState.user.id, 'education', newDocument);
         setEducationDocuments((datas) => [...datas, newDocument]);
         console.log("교육필드에서 postData함수를 실행");
     }
