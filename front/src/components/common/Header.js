@@ -41,7 +41,13 @@ function Header() {
           네트워크
         </li>
         {isLogin ? (
-          <li key="logout" onClick={logout}>
+          <li
+            key="logout"
+            onClick={() => {
+              logout();
+              navigate("/login");
+            }}
+          >
             로그아웃
           </li>
         ) : (

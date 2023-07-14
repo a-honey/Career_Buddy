@@ -7,7 +7,7 @@ function UserEditForm({ user, setUser }) {
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
-  const [email, setEmail] = useState(user.email);
+  const [email] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
 
