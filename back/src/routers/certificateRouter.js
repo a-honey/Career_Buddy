@@ -10,6 +10,11 @@ certificateRouter.put("/:user_id/certificate/register",login_required,async (req
   console.log(req.header.authorization)
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
+certificateRouter.put("/:user_id/certificate/register",login_required,async (req, res)=> {
+  const user_id=req.params.user_id;
+  console.log(req.header.authorization)
+  //이때의 id는 유저의 id입니다. (_id 아님)
+  // _id는 자동으로 생성됩니다.
   try {
       const newCertificate=await Certification.create({
         id:user_id,
@@ -36,6 +41,7 @@ certificateRouter.get("/:userId/certificate",
         const userId=req.params.userId;
         //이때의 id는 유저의 id입니다. 잘 불러와질지...
         const certificateList=await Certification.findById({userId})
+
         // id를 기반으로 사용자의 자격증 목록을 불러오고자 함
         res.status(200).json(certificateList)
         } catch (error) {
@@ -64,12 +70,42 @@ certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
 )
 //////////////////////////////////////////////////
 
+
+// >>>>>>> c8b7358 (CRUD login_required 작동 확인)의 코드
+// certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
+//   const certDocId=req.params.certDocId;
+//   const updateData=req.body;
+
+//   const updateCertificate=await CertificateModel.updateOne(
+//     {certDocId:certDocId},updateData)
+//     if(!updateCertificate){
+//       return res.status(500).json({ error: error.message });
+//     }
+//     res.status(200).json(updateCertificate)
+// })
+// certificateRouter.put("/certificate/edit/:certDocId",async(req,res)=>{
+//   const certDocId=req.params.certDocId;
+//   const updateData=req.body;
+//   console.log(updateData)
+//   console.log(typeof certDocId,certDocId)
+//   const updateCertificate=await CertificateModel.updateOne(
+//     {certDocId:certDocId},updateData)
+
+//     if(!updateCertificate){
+//       return res.status(500).json({ error: error.message });
+//     }
+//     res.status(200).json(updateCertificate)
+//     console.log(updateCertificate)
+// })
+
+
+
+
 //Delete
 certificateRouter.delete("/:certDocId/certificate/delete",login_required,
 async (req,res)=>{
   const certDocId=req.params.certDocId
   try {   
-
     const delCertificate=await Certification.deleteOne({certDocId})
     res.status(200).send(delCertificate)
   }catch(error){
