@@ -6,9 +6,14 @@ import {CertificateModel} from "../db/models/Certificate"
 const certificateRouter = Router();
 const mongoose = require('mongoose');
 // Create
-certificateRouter.put("/:id/certificate/register",async (req, res)=> {
-  const id=req.params.id
+certificateRouter.put("/:user_id/certificate/register",login_required,async (req, res)=> {
+  const user_id=req.params.user_id;
+  console.log(req.header.authorization)
+  //이때의 id는 유저의 id입니다. (_id 아님)
+  // _id는 자동으로 생성됩니다.
   try {
+    // 아래 부분은 같은 자격증이 등록될 경우 실행되는 코드인데 추가하니 에러가 발생해
+    // 일단 주석처리했습니다.
     // const titleDuplicate = await CertificateModel.findOne({ title:req.body.title });
     // if (titleDuplicate){
     //   const errorMessage =
@@ -16,7 +21,7 @@ certificateRouter.put("/:id/certificate/register",async (req, res)=> {
     // return { errorMessage };
     // }
       const newCertificate=await CertificateModel.create({
-        id:id,
+        id:user_id,
         title:req.body.title,
         issuer:req.body.issuer,
         certDate:req.body.certDate,
@@ -34,13 +39,14 @@ certificateRouter.put("/:id/certificate/register",async (req, res)=> {
 });
 
 //Read
-certificateRouter.get("/:id/certificate",
+certificateRouter.get("/:certDocId/certificate",
     async function (req, res) {
       try{
-        const id=req.params.id;
-        const certificateList=await CertificateModel.find({id})
+        const certDocId=req.params.certDocId;
+        //이때의 id는 유저의 id입니다. 잘 불러와질지...
+        const certificateList=await CertificateModel.find({certDocId})
         // id를 기반으로 사용자의 자격증 목록을 불러오고자 함
-        res.status(200).send(certificateList)
+        res.status(200).json(certificateList)
         } catch (error) {
           res.status(500).json({ error: error.message });
         }
@@ -48,29 +54,40 @@ certificateRouter.get("/:id/certificate",
 
 )
 //Update
-certificateRouter.put("/certificate/edit/:certDocId",async(req,res)=>{
+certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
   const certDocId=req.params.certDocId;
   const updateData=req.body;
-  console.log(updateData)
-  console.log(typeof certDocId,certDocId)
-  const updateCertificate=await CertificateModel.findOneAndUpdate(
-    {certDocId:certDocId},updateData)
 
+  const updateCertificate=await CertificateModel.updateOne(
+    {certDocId:certDocId},updateData)
     if(!updateCertificate){
       return res.status(500).json({ error: error.message });
     }
     res.status(200).json(updateCertificate)
-    console.log(updateCertificate)
 })
-    
+// certificateRouter.put("/certificate/edit/:certDocId",async(req,res)=>{
+//   const certDocId=req.params.certDocId;
+//   const updateData=req.body;
+//   console.log(updateData)
+//   console.log(typeof certDocId,certDocId)
+//   const updateCertificate=await CertificateModel.updateOne(
+//     {certDocId:certDocId},updateData)
+
+//     if(!updateCertificate){
+//       return res.status(500).json({ error: error.message });
+//     }
+//     res.status(200).json(updateCertificate)
+//     console.log(updateCertificate)
+// })
+
+
+
 //Delete
-certificateRouter.delete("/:id/certificate/delete",
+certificateRouter.delete("/:certDocId/certificate/delete",login_required,
 async (req,res)=>{
-  const id=req.params.id
-  const title=req.body.title
+  const certDocId=req.params.certDocId
   try {   
-    // certificate스키마에는 certId가 존재하지만 자격증의 발급번호를 다루기 위한 필드라 사용자의 id와 자격증 이름을 기준으로 삭제함.
-    const delCertificate=await CertificateModel.deleteMany({id,title})
+    const delCertificate=await CertificateModel.deleteOne({certDocId})
     res.status(200).send(delCertificate)
   }catch(error){
     res.status(500).json({ error: error.message });
