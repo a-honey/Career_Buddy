@@ -1,9 +1,9 @@
 import cors from "cors";
 import express from "express";
+import { query } from 'express-validator';
 import { userAuthRouter } from "./routers/userRouter";
 import { educationRouter } from "./routers/educationRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
-
 
 const app = express();
 
