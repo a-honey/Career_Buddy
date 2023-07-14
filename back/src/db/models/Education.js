@@ -41,10 +41,12 @@ class Education {
     const filter = { _id: eduId };
 
     // 최신화가 필요한 필드와 그 필드에 넣어줄 새로운 데이터를 지정합니다.
+    // updatedEduData에 속한 필드와 값을 한꺼번에 넣어주기 위해서 $set 연산자를 사용합니다.
     const update = { $set: updatedEduData };
 
-    // findOneAndUpdate() 메소드에 사용할 옵션을 지정합니다. 지금은 사용하지 않도록 하겠습니다.
-    const option = null;
+    // findOneAndUpdate() 메소드에 사용할 옵션을 지정합니다.
+    // 수정되지 않은 원래의 문서를 반환하는 것이 기본값이므로, 이를 비활성화 하도록 하겠습니다.
+    const option = { returnOriginal: false }
 
     // 위에서 지정한 변수들을 findOneAndUpdate() 메소드에 전달인자로 사용해서 학력정보 document를 최신화합니다.
     const updatedEducation = await EducationModel.findOneAndUpdate(
