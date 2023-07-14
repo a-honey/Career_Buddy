@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
 
+
 // Define the Project schema
 const projectSchema = new mongoose.Schema({
+  userId: {//<--userID from user Schema
+    /*
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    */
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true
@@ -25,7 +34,7 @@ const projectSchema = new mongoose.Schema({
 
 
 // Create the Project model
-const Project = mongoose.model('Project', projectSchema);
+const ProjectModel = mongoose.model('Project', projectSchema);
 
 // Export the Project model
-module.exports = Project;
+module.exports = ProjectModel;

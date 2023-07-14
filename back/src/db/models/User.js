@@ -1,5 +1,6 @@
 import { UserModel } from "../schemas/user";
 
+//creating new document, searching certain document based on 
 class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
