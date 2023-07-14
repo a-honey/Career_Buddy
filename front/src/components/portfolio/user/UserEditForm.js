@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../../api";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { EditContext } from "../../../contexts/EditContext";
@@ -37,19 +36,17 @@ function UserEditForm({ user, setUser }) {
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       onSubmit={handleSubmit}
     >
+      <label> 사용자 email</label>
+      <div>{email}</div>
+      <label>이름</label>
       <input
         type="text"
         placeholder="이름"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
+      <label>소개글</label>
+      <textarea
         type="text"
         placeholder="정보, 인사말"
         value={description}

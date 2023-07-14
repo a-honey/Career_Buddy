@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
 import { styled } from "styled-components";
 
 function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
@@ -29,9 +28,15 @@ function Header() {
         WEP <span>WIZARDS</span>
       </Logo>
       <ul>
-        <li key="myPage" onClick={() => navigate("/")}>
-          나의 페이지
-        </li>
+        {isLogin ? (
+          <li key="myPage" onClick={() => navigate("/")}>
+            나의 페이지
+          </li>
+        ) : (
+          <li key="myPage" onClick={() => navigate("/register")}>
+            페이지 생성
+          </li>
+        )}
         <li key="network" onClick={() => navigate("/network")}>
           네트워크
         </li>
@@ -62,6 +67,12 @@ const HeaderBlock = styled.div`
   z-index: 100;
   justify-content: space-between;
   border-bottom: 1px solid black;
+  .logged-out {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   span {
     color: rgb(115, 83, 234);
   }

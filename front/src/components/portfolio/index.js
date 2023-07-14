@@ -5,7 +5,6 @@ import { UserStateContext } from "../../App";
 import * as Api from "../../api";
 
 import UserContainer from "./user/UserContainer";
-import { styled } from "styled-components";
 
 function Portfolio() {
   const navigate = useNavigate();

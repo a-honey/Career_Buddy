@@ -10,6 +10,7 @@ const EditContextProvider = ({ children }) => {
   };
 
   const contextValue = {
+    setIsEditing,
     isEditing,
     turnEditing,
   };

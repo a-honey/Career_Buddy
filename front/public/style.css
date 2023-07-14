@@ -36,3 +36,17 @@ button {
   font-size: 20px;
   font-weight: bold;
 }
+
+.input-edit {
+  display: flex;
+}
+
+.input-edit-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-edit-btns > button {
+  padding: 5px 10px;
+  font-size: 10px;
+}

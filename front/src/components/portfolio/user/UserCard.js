@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import PortfolioList from "../PortfolioList";
 import { FullBtn } from "../../common/Btns";
 import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";

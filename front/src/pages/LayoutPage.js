@@ -18,7 +18,7 @@ const LayoutPage = ({ children }) => {
       >
         {children}
       </main>
-      <footer style={{ position: "relative" }}>
+      <footer style={{ position: "relative", marginTop: "100px" }}>
         <Footer />
       </footer>
     </LayoutPageBlock>

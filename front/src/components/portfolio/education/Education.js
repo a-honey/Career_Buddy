@@ -6,7 +6,7 @@ import { UserStateContext } from "../../../App";
 
 const mockDatas = [
   {
-    _id: "가짜 아이디1번",
+    _id: "mockId1",
     institution: "한국대학교",
     degree: "학사",
     major: "무역학과",
@@ -17,7 +17,7 @@ const mockDatas = [
     description: "텍스트입니다",
   },
   {
-    _id: "가짜 아이디2번",
+    _id: "mockId2",
     institution: "하버드대학교",
     degree: "석사",
     major: "MBA",

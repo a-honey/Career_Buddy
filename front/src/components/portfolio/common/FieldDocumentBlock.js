@@ -31,7 +31,7 @@ const FieldDocumentBlock = ({
   };
 
   return (
-    <Block>
+    <Block key={documentId}>
       <div className="data">{children}</div>
       {isEditing && (
         <div className="btns">
