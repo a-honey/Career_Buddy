@@ -14,3 +14,24 @@ button {
     border: none;
     background-color: transparent;
 }
+
+.field-main-content {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.field-title {
+    color: rgb(90, 90, 90);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.field-content {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.field-sub-content {
+    font-size: 20px;
+    font-weight: bold;
+}

@@ -1,14 +1,10 @@
 import { styled } from "styled-components"
-import FieldDocumentBlock from "./FieldDocumentBlock";
-import EducationItem from "../education/EducationItem";
 
 const FieldListBlock = ({children}) => {
     return (
-        <ListBlock>
-            {children}
-        </ListBlock>
-    )
-}
+        <ListBlock>{children}</ListBlock>
+    );
+};
 
 export default FieldListBlock;
 
@@ -19,6 +15,7 @@ const ListBlock = styled.div`
     border: 1px solid black;
     border-radius: 15px;
     margin: 30px;
+    position: relative;
     .fieldName {
         font-size: 30px;
         font-weight: 700;

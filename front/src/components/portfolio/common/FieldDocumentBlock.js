@@ -1,17 +1,25 @@
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn, FullRedBtn } from "../../common/Btns";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 
-const FieldDocumentBlock = ({ children }) => {
-    const { isEditing } = useContext(EditContext);
+const FieldDocumentBlock = ({ children, fieldName, documentId, isDocumentEditing, setIsDocumentEditing}) => {
+    const { isEditing} = useContext(EditContext);
+
+    const handleDeleteDocument = (e) => {
+        e.preventDefault();
+        console.log(`education}의 ${documentId} 삭제 함수 실행`);
+    };
+
     return(
     <Block>
         <div className="data">{children}</div>
         {isEditing && <div className="btns">
-            <FullBtn>수정</FullBtn>
-            <EmptyBtn>초기화</EmptyBtn>
-            <FullRedBtn>삭제</FullRedBtn>
+            {isDocumentEditing ||
+                <>
+                <FullBtn onClick={() => {setIsDocumentEditing(true)}}>수정</FullBtn>
+                <FullRedBtn onClick={handleDeleteDocument}>삭제</FullRedBtn>
+            </>}
         </div> }
     </Block>
     )
@@ -21,10 +29,9 @@ export default FieldDocumentBlock;
 
 const Block = styled.div`
     background-color: blue;
-    padding: 20px 40px;
     border: solid 2px black;
     border-radius: 8px;
-    margin: 20px;
+    margin: 10px 20px;
     display: flex;
     position: relative;
     .data {

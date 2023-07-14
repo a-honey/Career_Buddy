@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FieldBlock from "../common/FieldDocumentBlock";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { styled } from "styled-components";
 import { EmptyBtn } from "../../common/Btns";
+import { addData, getData } from "../../../services/api";
+import { useParams } from "react-router-dom";
+import { EducationContext } from "../../../contexts/EducationContext";
 
-const EducationEdit = ({ data }) => {
+const EducationEdit = () => {
     const [isAdding, setIsAdding] = useState(false);
     return(
         <div>
@@ -16,13 +19,17 @@ const EducationEdit = ({ data }) => {
 
 export default EducationEdit;
 
-const EducationAddItem = ({ user, setIsAdding }) => {
+const EducationAddItem = ({ setIsAdding }) => {
     const [institution, setInstitution] = useState('');
-    const [degree, setDegree] = useState('user.degree'); 
-    const [major, setMajor] = useState('user.major'); 
-    const [entryDate, setEntryDate] = useState('user.entryDate'); 
-    const [gradDate, setGradDate] = useState('user.gradDate'); 
-    const [grade, setGrade] = useState('user.grade'); 
+    const [degree, setDegree] = useState(''); 
+    const [major, setMajor] = useState(''); 
+    const [entryDate, setEntryDate] = useState(''); 
+    const [gradDate, setGradDate] = useState(''); 
+    const [grade, setGrade] = useState(''); 
+
+    const params = useParams();
+
+    const {setEducationDocuments} = useContext(EducationContext);
 
     const handleAddSubmit = (e) => {
         e.preventDefault();
@@ -37,6 +44,9 @@ const EducationAddItem = ({ user, setIsAdding }) => {
         }
 
         console.log(newDocument);
+        addData(params.userId, 'education', newDocument);
+        setEducationDocuments((datas) => [...datas, newDocument]);
+        console.log("교육필드에서 postData함수를 실행");
     }
 
     return (
@@ -75,7 +85,7 @@ const EducationAddItem = ({ user, setIsAdding }) => {
             <button type="submit" className="me-3">
                 확인
             </button>
-            <button variant="secondary" onClick={() => setIsAdding(false)}>
+            <button type="button" onClick={() => setIsAdding(false)}>
                 취소
             </button>
         </form>

@@ -1,21 +1,22 @@
-import Block from "../common/FieldDocumentBlock";
-import { getData } from '../../../services/api';
-import { styled } from "styled-components";
-import FieldListBlock from "../common/FieldListBlock";
+import { getDatas } from '../../../services/api';
 import EducationContainer from "./EducationItem";
-import { useEffect, useState } from "react";
+import { useContext, useEffect} from "react";
+import { EducationContext } from '../../../contexts/EducationContext';
 
 const mockDatas = [
     {
+        _id: '가짜 아이디1번',
         institution: "한국대학교",
         degree: "학사",
         major: "무역학과",
         status: "졸업",
         entryDate: "2019-01-01",
-        gradDate: "4.3",
+        gradDate: "2023-12-01",
+        grade: "4.3",
         description: "텍스트입니다",
     },
     {
+        _id: '가짜 아이디2번',
         institution: "하버드대학교",
         degree: "석사",
         major: "MBA",
@@ -26,22 +27,21 @@ const mockDatas = [
         description: "텍스트입니다",
     },
 ];
-const Education = ({user, isEditing}) => {
-    const { datas, setDatas } = useState(null);
+const Education = ({user}) => {
+    const {setEducationDocuments} = useContext(EducationContext);
     try {
         // userId를 통해 해당 user가 참조하고 있는 Education 필드 받아오기
         // userId/education 요청
             useEffect(() => {
-                getData(user?.id, "education").then((res) => setDatas(res.data));
-            }, [setDatas, user?.id]);
+                getDatas(user?.id, "education").then((res) => setEducationDocuments(res.data));
+            }, [setEducationDocuments, user?.id]);
 
-    return <EducationContainer datas={mockDatas} /> 
+    return <EducationContainer /> 
     } catch {
-        console.log('education 가져오기 실패')
+        console.log('education 가져오기 실패, mockData실행');
+        setEducationDocuments(mockDatas);
+
     }
-}
+};
 
 export default Education;
-
-const EducationItem = styled.div`
-`

@@ -2,11 +2,14 @@ import Education from "./education/Education";
 import Award from "./award/Award";
 import Certificate from "./certificate/Certificate";
 import { styled } from "styled-components";
+import { EducationContextProvider } from "../../contexts/EducationContext";
 
 const PortfolioList = ({ user, isEditing }) => {
     return (
         <PortfolioListBlock>
-            <Education user={user} isEditing={isEditing} />
+            <EducationContextProvider>
+                <Education user={user} isEditing={isEditing} />
+            </EducationContextProvider>
             <Award user={user} isEditing={isEditing} />
             <Certificate user={user}  isEditing={isEditing} />
         </PortfolioListBlock>

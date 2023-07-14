@@ -8,7 +8,13 @@ const LayoutPage = ({children}) => {
         <header >
             <Header />
         </header>
-        <main style={{paddingTop: "50px", paddingBottom: "250px"}}>
+        <main
+        style={{
+            paddingTop: "50px",
+            paddingBottom: "250px",
+            width: "1350px",
+            margin: "0 auto",
+        }}>
             {children}
         </main>
         <footer style={{position: "relative"}}>
