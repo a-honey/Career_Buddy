@@ -13,7 +13,7 @@ class Education {
   }
 
   // CRUD: READ
-  // 사용자 document의 ObjectId로 학력정보를 찾아주는 기능을 구현합니다.
+  // 학력정보 document의 ObjectId로 학력정보를 찾아주는 기능을 구현합니다.
   static async findEducationByEduId({ eduId }) {
 
     // 사용자 ID를 사용해서 학력정보 document를 찾습니다.
@@ -24,11 +24,11 @@ class Education {
   }
 
   // CRUD: READ
-  // document의 ObjectId로 학력정보를 찾아주는 기능을 구현합니다.
+  // 사용자 document의 ObjectId로 사용자의 학력정보 전체를 찾아주는 기능을 구현합니다.
   static async findEducationByUserId({ userId }) {
 
     // 사용자 ID를 사용해서 학력정보 document를 찾습니다.
-    const foundEducationByUser = await EducationModel.findOne({ userId: userId });
+    const foundEducationByUser = await EducationModel.find({ userId: userId });
     return foundEducationByUser;
 
   }
