@@ -5,9 +5,9 @@ class Education {
 
   // CRUD: CREATE
   // 새로운 학력정보를 추가하는 기능을 구현합니다.
+  // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만들어 데이터베이스에 저장합니다.
   static async create({ newEduData }) {
     try {
-      // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만듭니다.
       const result = await EducationModel.create(newEduData);
       return result;
     }
@@ -18,9 +18,10 @@ class Education {
 
   // CRUD: READ
   // 학력정보 document의 ObjectId를 사용해 학력정보를 찾아주는 기능을 구현합니다.
+  // 찾고자 하는 학력정보의 ObjectId를 eduId로 입력받아, 이와 일치하는 학력정보 document를 찾습니다.
   static async findEducationByEduId({ eduId }) {
     try {
-      // 찾고자 하는 학력정보의 ObjectId를 eduId로 입력받아, 이와 일치하는 학력정보 document를 찾습니다.
+
       const result = await EducationModel.findOne({ _id: eduId });
       return result;
     }
@@ -31,9 +32,9 @@ class Education {
 
   // CRUD: READ
   // 사용자의 학력정보 전체를 찾아주는 기능을 구현합니다.
+  // 찾고자 하는 사용자의 고유번호를 UserSchema에 정의된 id인 userId로 입력받아, 이와 일치하는 학력정보 document들을 모두 찾습니다.
   static async findEducationByUserId({ userId }) {
     try {
-      // 찾고자 하는 사용자의 고유번호를 UserSchema에 정의된 id인 userId로 입력받아, 이와 일치하는 학력정보 document들을 모두 찾습니다.
       const result = await EducationModel.find({ userId: userId });
       return result;
     }
@@ -72,7 +73,7 @@ class Education {
   }
 
   // CRUD: DELETE
-  // 학력정보를 삭제하는 기능을 구현합니다.
+  // ObjectId로 찾은 학력정보 document를 데이터베이스로부터 삭제하는 기능을 구현합니다.
   static async delete({ eduId }) {
     try{
       return EducationModel.findOneAndDelete({ _id: eduId });
