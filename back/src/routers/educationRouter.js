@@ -37,7 +37,7 @@ educationRouter.post("/:user_id/education", sanitizeBody, login_required, async 
 
 // CRUD: READ
 // 프론트엔드로부터 전달받은 userId를 사용해서 해당 사용자의 학력정보를 모두 가져옵니다.
-educationRouter.get("/:user_id/education", sanitizeBody, async (req, res, next) => {
+educationRouter.get("/:user_id/education", sanitizeBody, login_required, async (req, res, next) => {
   try {
     const userId = req.params.user_id;
 
@@ -58,7 +58,7 @@ educationRouter.get("/:user_id/education", sanitizeBody, async (req, res, next) 
 
 // CRUD: READ
 // 프론트엔드로부터 전달받은 eduId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
-educationRouter.get("/education/:edu_id", sanitizeBody, async (req, res, next) => {
+educationRouter.get("/education/:edu_id", sanitizeBody, login_required, async (req, res, next) => {
   try {
     const eduId = req.params.edu_id;
 
@@ -79,7 +79,7 @@ educationRouter.get("/education/:edu_id", sanitizeBody, async (req, res, next) =
 
 // CRUD: UPDATE
 // 프론트엔드로부터 전달받은 최신 학력사항 입력값으로 기존 학력정보를 업데이트합니다.
-educationRouter.put("/education/:edu_id", sanitizeBody, async (req, res, next) => {
+educationRouter.put("/education/:edu_id", sanitizeBody, login_required, async (req, res, next) => {
   try {
     const updatedEduData = req.body;
     const eduId = req.params.edu_id;
@@ -104,7 +104,7 @@ educationRouter.put("/education/:edu_id", sanitizeBody, async (req, res, next) =
 
 // CRUD: DELETE
 // 프론트엔드로부터 전달받은 eduId를 사용해서 학력정보를 찾아 삭제합니다.
-educationRouter.delete("/education/:edu_id", sanitizeBody, async (req, res, next) => {
+educationRouter.delete("/education/:edu_id", sanitizeBody, login_required, async (req, res, next) => {
   try {
     const eduId = req.params.edu_id;  
 
