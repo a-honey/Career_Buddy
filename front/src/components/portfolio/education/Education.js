@@ -34,7 +34,7 @@ const Education = () => {
 
     useEffect(() => {
         getDatas(userState.user.id, "education")
-        .then((res) => setEducationDocuments(res.data))
+        .then((res) => {setEducationDocuments(res.data)})
         .catch((error) => {
             console.log('education 가져오기 실패, mockData 실행');
             setEducationDocuments(mockDatas);

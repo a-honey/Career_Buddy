@@ -1,14 +1,24 @@
 import { styled } from "styled-components";
-import { EmptyBtn, FullBtn, FullRedBtn } from "../../common/Btns";
-import { useContext, useState } from "react";
+import { FullBtn, FullRedBtn } from "../../common/Btns";
+import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
-
-const FieldDocumentBlock = ({ children, fieldName, documentId, isDocumentEditing, setIsDocumentEditing}) => {
+import { deleteData } from "../../../services/api";
+const FieldDocumentBlock = ({ setDatas, children, fieldName, documentId, isDocumentEditing, setIsDocumentEditing}) => {
     const { isEditing} = useContext(EditContext);
-
-    const handleDeleteDocument = (e) => {
+    const handleDeleteDocument = async (e) => {
         e.preventDefault();
-        console.log(`education}의 ${documentId} 삭제 함수 실행`);
+        //field context 다가져오거나 할 것.
+        try {
+            console.log(`${fieldName}의 ${documentId} 삭제 함수 실행`);
+            await deleteData(documentId, fieldName);
+            
+            setDatas((documents) => {
+                const updatedDocuments = documents.filter((item) => item._id !== documentId);
+                return updatedDocuments;
+            });
+        } catch (error) {
+            console.log('삭제 실패:', error);
+        }
     };
 
     return(

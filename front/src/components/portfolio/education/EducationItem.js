@@ -4,7 +4,7 @@ import FieldListBlock from "../common/FieldListBlock";
 import { EditContext } from "../../../contexts/EditContext";
 import EducationEdit from "./EducationEditAdd";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
-import { deleteData, updateData } from "../../../services/api";
+import { updateData, getData } from "../../../services/api";
 import { EducationContext } from "../../../contexts/EducationContext";
 
 const EducationContainer = () => {
@@ -13,7 +13,7 @@ const EducationContainer = () => {
     return (
         <FieldListBlock>
             <h1 className="fieldName">교육사항</h1>
-                {educationDocuments.map((data) => (<EducationItem key="data._id"/>))}
+                {educationDocuments.map((data) => (<EducationItem key={data._id} data={data} />))}
                 {isEditing && <EducationEdit />}
         </FieldListBlock>
     )
@@ -49,20 +49,23 @@ const EducationItem = ({ data }) => {
         //필드name/ 도큐먼트id로 수정을 요청
         console.log(`education의 ${data._id} 수정 요청 함수 실행`);
         //db의 education에서 _id 업데이트
-        await updateData(data._id, 'education');
+        await updateData(data._id, 'education', newDocument);
         //education의 datas에서 _id의 바뀐값을 가져오기
-        setEducationDocuments((datas) => [...datas, newDocument]);
+        setEducationDocuments((datas) => {
+            const updatedDatas = datas.filter((item) => item._id !== data._id);
+            return [...updatedDatas, newDocument];});
         setIsDocumentEditing(false);
     };
 
     const handleGetDocument = async (e) => {
         e.preventDefault();
         console.log(`education의 ${data?._id} 다시 가져오기 함수 실행`);
+        getData(data._id, 'education');
     };
 
     if (!isDocumentEditing) {
         return (
-        <FieldDocumentBlock fieldName={'education'} datas={educationDocuments} documentId={data?._id}  isDocumentEditing={isDocumentEditing} setIsDocumentEditing={setIsDocumentEditing}>
+        <FieldDocumentBlock setDatas={setEducationDocuments} documentId={data?._id} fieldName={'education'} datas={educationDocuments}  isDocumentEditing={isDocumentEditing} setIsDocumentEditing={setIsDocumentEditing}>
             <div className="field-main-content">
             <span className="field-title">교육기관 | </span>
             {data?.institution} {data?.major}{" "}
@@ -97,6 +100,12 @@ const EducationItem = ({ data }) => {
             placeholder="전공"
             value={major}
             onChange={(e) => setMajor(e.target.value)}
+            />
+            <input
+            type="text"
+            placeholder="학위"
+            value={degree}
+            onChange={(e) => setDegree(e.target.value)}
             />
             <select value={status} onChange={(e) => setStatus(e.target.value)}>
                 <option value="학사">학사</option>

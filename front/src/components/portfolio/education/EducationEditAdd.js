@@ -1,10 +1,6 @@
 import { useContext, useState } from "react";
-import FieldBlock from "../common/FieldDocumentBlock";
-import FieldDocumentBlock from "../common/FieldDocumentBlock";
-import { styled } from "styled-components";
 import { EmptyBtn } from "../../common/Btns";
-import { addData, getData } from "../../../services/api";
-import { useParams } from "react-router-dom";
+import { addData } from "../../../services/api";
 import { EducationContext } from "../../../contexts/EducationContext";
 import { UserStateContext } from "../../../App";
 
@@ -70,6 +66,12 @@ const EducationAddItem = ({ setIsAdding }) => {
             placeholder="입학년월"
             value={entryDate}
             onChange={(e) => setEntryDate(e.target.value)}
+            />
+            <input
+            type="text"
+            placeholder="학위"
+            value={degree}
+            onChange={(e) => setDegree(e.target.value)}
             />
             <input
             type="text"
