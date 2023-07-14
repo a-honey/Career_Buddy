@@ -3,7 +3,10 @@ import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../../api";
 import PortfolioList from "../PortfolioList";
-import { EditContext, EditContextProvider } from "../../../contexts/EditContext";
+import {
+  EditContext,
+  EditContextProvider,
+} from "../../../contexts/EditContext";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
@@ -17,9 +20,9 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
 
   return (
     <EditContextProvider>
-      <div style={{display: "flex"}}>
-          <UserCard user={user} setUser={setUser} isEditable={isEditable} />
-          <PortfolioList user={user}/>
+      <div style={{ display: "flex" }}>
+        <UserCard user={user} setUser={setUser} isEditable={isEditable} />
+        <PortfolioList user={user} />
       </div>
     </EditContextProvider>
   );

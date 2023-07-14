@@ -12,7 +12,7 @@ function UserEditForm({ user, setUser }) {
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
 
-  const {turnEditing} = useContext(EditContext);
+  const { turnEditing } = useContext(EditContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,32 +33,40 @@ function UserEditForm({ user, setUser }) {
   };
 
   return (
-        <form style={{display: "flex", flexDirection: "column", alignItems: "center"}} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="이름"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="이메일"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="정보, 인사말"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-              <FullBtn type="submit" className="me-3">
-                확인
-              </FullBtn>
-              <EmptyBtn variant="secondary" onClick={() => {turnEditing()}}>
-                취소
-              </EmptyBtn>
-        </form>
+    <form
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      onSubmit={handleSubmit}
+    >
+      <input
+        type="text"
+        placeholder="이름"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="이메일"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="정보, 인사말"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <FullBtn type="submit" className="me-3">
+        확인
+      </FullBtn>
+      <EmptyBtn
+        variant="secondary"
+        onClick={() => {
+          turnEditing();
+        }}
+      >
+        취소
+      </EmptyBtn>
+    </form>
   );
 }
 

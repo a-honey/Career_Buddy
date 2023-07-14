@@ -53,11 +53,11 @@ function Portfolio() {
   }
 
   return (
-        <UserContainer
-          portfolioOwnerId={portfolioOwner.id}
-          isEditable={portfolioOwner.id === userState.user?.id}  // 로그인 user의 portfolio면 isEditable
-        />
+    <UserContainer
+      portfolioOwnerId={portfolioOwner.id}
+      isEditable={portfolioOwner.id === userState.user?.id} // 로그인 user의 portfolio면 isEditable
+    />
   );
 }
 
-export default Portfolio;  //
+export default Portfolio; //

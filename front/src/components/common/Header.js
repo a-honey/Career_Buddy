@@ -25,13 +25,25 @@ function Header() {
 
   return (
     <HeaderBlock>
-      <Logo className="logo" key="logo">WEP <span>WIZARDS</span></Logo>
+      <Logo className="logo" key="logo">
+        WEP <span>WIZARDS</span>
+      </Logo>
       <ul>
-        <li key="myPage" onClick={() => navigate("/")}>나의 페이지</li>
-        <li key="network" onClick={() => navigate("/network")}>네트워크</li>
-        {isLogin? 
-          <li key="logout" onClick={logout}>로그아웃</li>:
-          <li key="login" onClick={() => navigate("/login")}>로그인</li>}
+        <li key="myPage" onClick={() => navigate("/")}>
+          나의 페이지
+        </li>
+        <li key="network" onClick={() => navigate("/network")}>
+          네트워크
+        </li>
+        {isLogin ? (
+          <li key="logout" onClick={logout}>
+            로그아웃
+          </li>
+        ) : (
+          <li key="login" onClick={() => navigate("/login")}>
+            로그인
+          </li>
+        )}
       </ul>
     </HeaderBlock>
   );
@@ -74,12 +86,11 @@ const HeaderBlock = styled.div`
           background-color: rgb(115, 83, 234);
         }
       }
-      
     }
   }
-`
+`;
 
 const Logo = styled.li`
   font-size: 30px;
   font-weight: 700;
-`
+`;

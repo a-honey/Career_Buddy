@@ -5,22 +5,22 @@ import { styled } from "styled-components";
 import { EducationContextProvider } from "../../contexts/EducationContext";
 
 const PortfolioList = ({ user, isEditing }) => {
-    return (
-        <PortfolioListBlock>
-            <EducationContextProvider>
-                <Education user={user} isEditing={isEditing} />
-            </EducationContextProvider>
-            <Award user={user} isEditing={isEditing} />
-            <Certificate user={user}  isEditing={isEditing} />
-        </PortfolioListBlock>
-    )
-}
+  return (
+    <PortfolioListBlock>
+      <EducationContextProvider>
+        <Education user={user} isEditing={isEditing} />
+      </EducationContextProvider>
+      <Award user={user} isEditing={isEditing} />
+      <Certificate user={user} isEditing={isEditing} />
+    </PortfolioListBlock>
+  );
+};
 
 export default PortfolioList;
 
 const PortfolioListBlock = styled.div`
-    background-color: pink;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-`
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;

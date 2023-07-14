@@ -41,4 +41,4 @@ const UserBlock = styled.div`
   grid-template-rows: repeat(4, 0.2fr);
   grid-template-columns: repeat(4, 0.2fr);
   grid-gap: 10px;
-`
+`;

@@ -1,12 +1,12 @@
-import Portfolio from "../components/portfolio"
+import Portfolio from "../components/portfolio";
 import LayoutPage from "./LayoutPage";
 
 const PortfolioPage = () => {
-    return (
-        <LayoutPage>
-            <Portfolio/>
-        </LayoutPage>
-    );
+  return (
+    <LayoutPage>
+      <Portfolio />
+    </LayoutPage>
+  );
 };
 
 export default PortfolioPage;

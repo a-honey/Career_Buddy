@@ -1,1 +1,1 @@
-const Input = () => {}
+const Input = () => {};
