@@ -20,6 +20,7 @@ class Certification {
     return certificates;
   }
   // Update
+  //////////////////////////////////////////////문제의 구간
   static async updateOne({certDocId},newValue) {
     const filter = { _id: certDocId};
     // _id에 certDocId를 받아옴
@@ -34,7 +35,7 @@ class Certification {
     );
     return updatedCert;
   }
-
+//////////////////////////////////////////////문제의 구간
 
   static async deleteOne({certDocId}) { 
     const filter = { _id: certDocId};

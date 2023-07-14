@@ -51,7 +51,7 @@ certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
   try{
     const certDocId=req.params.id;
     const updateData=req.body;
-    const updatedCertificate=await Certification.update(
+    const updatedCertificate=await Certification.updateOne(
       {certDocId},{updateData}
       )
     res.status(200).json(updatedCertificate)
