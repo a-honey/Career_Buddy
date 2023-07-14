@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+// 학력정보 document들이 저장되는 'educations' collection의 스키마를 정의합니다.
 const EducationSchema = new Schema(
   {
     userId: {
