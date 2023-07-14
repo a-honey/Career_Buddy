@@ -5,12 +5,11 @@ class EducationService {
 
   // [CRUD] CREATE
   // 사용자가 자신의 학력사항을 추가하는 기능을 구현합니다.
-  static async addEducation(currentUserId, newEduData) {
+  static async addEducation(newEduData) {
     try {
-      // 현재 로그인된 사용자의 ID를 새로운 필드인 "userId"의 값으로 만들어 newEduData 객체에 추가해줍니다.
-      newEduData["userId"] = currentUserId;
-
-      const addedEducation = await Education.create({ newEduData });
+      console.log(newEduData)
+      const addedEducation = await Education.create(newEduData);
+      console.log(addedEducation)
       return addedEducation;
     }
     catch(error) {
@@ -22,8 +21,8 @@ class EducationService {
   // 사용자가 자신의 모든 학력사항을 보는 기능을 구현합니다.
   static async getEducation(currentUserId) {
     try {
-      const targetDocuments = await Education.findEducationByUserId(currentUserId);
-
+      const targetDocuments = await Education.findEducationsByUserId(currentUserId);
+      
       // [보안] 업데이트를 요청한 사용자와 모든 학력정보 document들의 소유자가 일치하는지를 검증합니다.
       targetDocuments.forEach(element => {
         if(currentUserId !== element.userId){
@@ -69,22 +68,25 @@ class EducationService {
   // 사용자가 자신의 학력사항을 삭제하는 기능을 구현합니다.
   static async removeEducation(currentUserId, eduId) {
     try {
+      console.log(eduId)
+      console.log(currentUserId)
+
       // 해당 eduId로 document 검색을 시도합니다.
-      const targetDocument = await EducationModel.findOne({ _id: eduId })
+      const targetDocument = await Education.findEducationByEduId(eduId)
 
       // 만약 document가 없다면 오류를 생성합니다.
-      if(!targetDocument){
+      if(!targetDocument || targetDocument == null){
         throw new Error("삭제할 학력정보를 찾을 수 없습니다.")
       }
 
-      // [보안] 업데이트를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 검증합니다.
+      // [보안] 삭제를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 검증합니다.
       if(currentUserId !== targetDocument.userId){
         throw new Error("현재 로그인한 사용자는 해당 정보를 수정할 권한이 없습니다.")
       }
 
       // 검증이 통과되면 document를 삭제합니다.
       const removedEducation = await Education.delete(eduId);
-      return;
+      return "";
     }
     catch(error) {
       throw new Error(error);

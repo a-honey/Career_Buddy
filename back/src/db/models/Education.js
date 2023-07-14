@@ -7,7 +7,7 @@ class Education {
   // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만들어 데이터베이스에 저장합니다.
   static async create(newEduData) {
     try {
-      const result = await EducationModel.create(newEduData);
+      const result = await EducationModel.create({ newEduData });
       return result;
     }
     catch(error) {
@@ -29,7 +29,7 @@ class Education {
 
   // [CRUD] READ
   // 찾고자 하는 사용자의 고유번호를 UserSchema에 정의된 id인 userId로 입력받아, 이와 일치하는 학력정보 document들을 모두 찾습니다.
-  static async findEducationByUserId(userId) {
+  static async findEducationsByUserId(userId) {
     try {
       const result = await EducationModel.find({ userId: userId });
       return result;
