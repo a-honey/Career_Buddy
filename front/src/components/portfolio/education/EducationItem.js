@@ -13,7 +13,7 @@ const EducationContainer = () => {
     return (
         <FieldListBlock>
             <h1 className="fieldName">교육사항</h1>
-                {educationDocuments.map((data) => (<EducationItem />))}
+                {educationDocuments.map((data) => (<EducationItem key="data._id"/>))}
                 {isEditing && <EducationEdit />}
         </FieldListBlock>
     )
@@ -65,26 +65,26 @@ const EducationItem = ({ data }) => {
         <FieldDocumentBlock fieldName={'education'} datas={educationDocuments} documentId={data._id}  isDocumentEditing={isDocumentEditing} setIsDocumentEditing={setIsDocumentEditing}>
             <div className="field-main-content">
             <span className="field-title">교육기관 | </span>
-            {data.institution} {data.major}{" "}
+            {data?.institution} {data?.major}{" "}
             <span className="field-sub-content">
-                | {data.degree} {data.status}
+                | {data?.degree} {data?.status}
             </span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="field-content">
                 <span className="field-title">학점 | </span>
-                {data.grade}
+                {data?.grade}
             </div>
             <div className="field-date">
                 <span className="field-title">기간 | </span>
-                {data.entryDate} - {data.gradDate}
+                {data?.entryDate} - {data?.gradDate}
             </div>
             </div>
         </FieldDocumentBlock>
         );
     } else {
     return (
-        <FieldDocumentBlock fieldName={'education'} documentId={data._id} isDocumentEditing={isDocumentEditing}setIsDocumentEditing={setIsDocumentEditing}>
+        <FieldDocumentBlock fieldName={'education'} documentId={data?._id} isDocumentEditing={isDocumentEditing}setIsDocumentEditing={setIsDocumentEditing}>
         <form onSubmit={handleUpdateSubmit}>
             <input
             type="text"

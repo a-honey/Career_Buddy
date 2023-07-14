@@ -6,6 +6,7 @@ import { EmptyBtn } from "../../common/Btns";
 import { addData, getData } from "../../../services/api";
 import { useParams } from "react-router-dom";
 import { EducationContext } from "../../../contexts/EducationContext";
+import { UserStateContext } from "../../../App";
 
 const EducationEdit = () => {
     const [isAdding, setIsAdding] = useState(false);
@@ -27,7 +28,7 @@ const EducationAddItem = ({ setIsAdding }) => {
     const [gradDate, setGradDate] = useState(''); 
     const [grade, setGrade] = useState(''); 
 
-    const params = useParams();
+    const userState = useContext(UserStateContext);
 
     const {setEducationDocuments} = useContext(EducationContext);
 
@@ -42,9 +43,9 @@ const EducationAddItem = ({ setIsAdding }) => {
             gradDate,
             grade,
         }
-
+    
         console.log(newDocument);
-        addData(params.userId, 'education', newDocument);
+        addData(userState.user.id, 'education', newDocument);
         setEducationDocuments((datas) => [...datas, newDocument]);
         console.log("교육필드에서 postData함수를 실행");
     }

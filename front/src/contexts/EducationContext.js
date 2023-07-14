@@ -13,3 +13,5 @@ const EducationContextProvider = ({ children }) => {
 };
 
 export { EducationContext, EducationContextProvider};
+
+// services/api 사용하지 말고 useReducer로 사용해도 될듯
