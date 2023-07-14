@@ -19,20 +19,25 @@ class Certificate {
     const Cert = await CertificateModel.findOne({ title });
     return Cert;
   }
-  static async updateOne({ id,title,fieldToUpdate, newValue }) {
-    const filter = { id: id,title:title };
-    const update = { [fieldToUpdate]: newValue };
+  static async updateOne({ cert_id},{newValue}) {
+    const filter = { _id: cert_id };
+    // _id에 cert_id값을 받아옴
+    const update = { $set: newValue } ;
     const option = { returnOriginal: false };
-
+    // 업데이트 되기 이전의 문서는 반환하지 않음
+  
     const updatedCert = await CertificateModel.findOneAndUpdate(
       filter,
       update,
-      option
+      option,
+      {"new":true}
     );
     return updatedCert;
   }
-  static async delete({id,title}) { 
-    const deletedCert=await CertificateModel.findOneAndDelete({id:id,title:title})
+
+  static async deleteMany({id,title}) { 
+    const filter={id:id,title:title}
+    const deletedCert=await CertificateModel.deleteMany(filter)
     return deletedCert;
   }
   static async findAll() {

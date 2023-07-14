@@ -4,7 +4,7 @@ import { login_required } from "../middlewares/login_required";
 import { CertificateService } from "../services/certificateService";
 import {CertificateModel} from "../db/models/Certificate"
 const certificateRouter = Router();
-
+const mongoose = require('mongoose');
 // Create
 certificateRouter.put("/:id/certificate/register",async (req, res)=> {
   const id=req.params.id
@@ -48,16 +48,19 @@ certificateRouter.get("/:id/certificate",
 
 )
 //Update
-certificateRouter.put("/:id/certificate/update",async(req,res)=>{
-  const id=req.params.id;
-  const title=req.body.title
-  try{
-    const updateCertificaate=await CertificateModel.updateOne({id})
-    res.status(200).send({success:true})
-  }catch(error){
-    res.status(500).json({ error: error.message });
-  }
+certificateRouter.put("/certificate/edit/:certDocId",async(req,res)=>{
+  const certDocId=req.params.certDocId;
+  const updateData=req.body;
+  console.log(updateData)
+  console.log(typeof certDocId,certDocId)
+  const updateCertificate=await CertificateModel.findOneAndUpdate(
+    {certDocId:certDocId},updateData)
 
+    if(!updateCertificate){
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).json(updateCertificate)
+    console.log(updateCertificate)
 })
     
 //Delete
@@ -67,7 +70,7 @@ async (req,res)=>{
   const title=req.body.title
   try {   
     // certificate스키마에는 certId가 존재하지만 자격증의 발급번호를 다루기 위한 필드라 사용자의 id와 자격증 이름을 기준으로 삭제함.
-    const delCertificate=await CertificateModel.deleteOne({id,title})
+    const delCertificate=await CertificateModel.deleteMany({id,title})
     res.status(200).send(delCertificate)
   }catch(error){
     res.status(500).json({ error: error.message });

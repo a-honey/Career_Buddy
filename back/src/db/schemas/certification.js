@@ -22,13 +22,13 @@ const CertificateSchema = new Schema(
       expDate: {
         type: String,
       },
-      certId:{
+      certIdNum:{
         type:String,
       },
       description: {
         type: String,
         default: "설명이 아직 없습니다. 추가해 주세요.",
-      },
+      }
 },  {
   timestamps: true,
 }
