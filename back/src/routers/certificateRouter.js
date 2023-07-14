@@ -2,14 +2,11 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import {Certification} from "../db/models/Certificate"
+// import {CertificateModel} from "../schemas/certification"
 const certificateRouter = Router();
 const mongoose = require('mongoose');
+
 // Create
-certificateRouter.put("/:user_id/certificate/register",login_required,async (req, res)=> {
-  const user_id=req.params.user_id;
-  console.log(req.header.authorization)
-  //이때의 id는 유저의 id입니다. (_id 아님)
-  // _id는 자동으로 생성됩니다.
 certificateRouter.put("/:user_id/certificate/register",login_required,async (req, res)=> {
   const user_id=req.params.user_id;
   console.log(req.header.authorization)
@@ -32,7 +29,8 @@ certificateRouter.put("/:user_id/certificate/register",login_required,async (req
     res.status(500).json({ error: error.message });
   }
   // 전달 완료!
-});
+}
+);
 
 //Read
 certificateRouter.get("/:userId/certificate",
@@ -48,30 +46,28 @@ certificateRouter.get("/:userId/certificate",
           res.status(500).json({ error: error.message });
         }
       }
-
 )
-//////////////////////////////////////////////문제의 구간
-//Update
-certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
-  try{
-    const certDocId=req.params.id;
-    const updateData=req.body;
-    console.log("certDocId",certDocId,"\n")
-    console.log("updateData",updateData)
-    const updatedCertificate=await Certification.updateOne(
-      {certDocId},{updateData}
-      )
-    res.status(200).json(updatedCertificate)
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-    
-)
-//////////////////////////////////////////////////
+
+//Update 이슈 올렸습니다.
+// Certification model에서 export한 Certfication에 findOneAndUpdate를 적용하는 코드
+// certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
+//   try{
+//     const certDocId=req.params.id;
+//     const updateData=req.body;
+//     console.log("certDocId",certDocId,"\n")
+//     console.log("updateData",updateData)
+//     const updatedCertificate=await Certification.updateOne(
+//       {certDocId},{updateData}
+//       )
+//     res.status(200).json(updatedCertificate)
+//     } catch (error) {
+//       res.status(500).json({ error: error.message });
+//     }
+//   } 
+// )
 
 
-// >>>>>>> c8b7358 (CRUD login_required 작동 확인)의 코드
+// 저장용 c8b7358 (CRUD login_required 작동 확인)의 코드 
 // certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
 //   const certDocId=req.params.certDocId;
 //   const updateData=req.body;
@@ -83,22 +79,19 @@ certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
 //     }
 //     res.status(200).json(updateCertificate)
 // })
-// certificateRouter.put("/certificate/edit/:certDocId",async(req,res)=>{
-//   const certDocId=req.params.certDocId;
-//   const updateData=req.body;
-//   console.log(updateData)
-//   console.log(typeof certDocId,certDocId)
-//   const updateCertificate=await CertificateModel.updateOne(
-//     {certDocId:certDocId},updateData)
 
-//     if(!updateCertificate){
-//       return res.status(500).json({ error: error.message });
-//     }
-//     res.status(200).json(updateCertificate)
-//     console.log(updateCertificate)
-// })
+// 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
+certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
+  const certDocId=req.params.certDocId;
+  const updateData=req.body;
 
-
+  const updateCertificate=await Certification.updateOne(
+    {certDocId:certDocId},updateData)
+    if(!updateCertificate){
+      return res.status(500).json({ error: error.message });
+    }
+    res.status(200).json(updateCertificate)
+})
 
 
 //Delete
@@ -116,4 +109,4 @@ async (req,res)=>{
 
 
 
-export { certificateRouter };
+export { certificateRouter}

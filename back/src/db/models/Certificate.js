@@ -1,5 +1,6 @@
-import { CertificateModel } from "../schemas/certification";
+import { CertificateModel } from "../schemas/certification.js";
 class Certification {
+
   // Create
   // certDocId 사용하지 않음
   static async create({id,title,issuer,certDate,expDate,certId,description}) {
@@ -18,9 +19,9 @@ class Certification {
     const certificates = await CertificateModel.find({filter});
     return certificates;
   }
+
   // Update
   //////////////////////////////////////////////문제의 구간
-
   static async updateOne({certDocId},{newValue}) {
     const filter = { _id: certDocId};
     // _id에 certDocId를 받아옴
@@ -38,6 +39,7 @@ class Certification {
   }
 //////////////////////////////////////////////문제의 구간
 
+  //Delete
   static async deleteOne({certDocId}) { 
     const filter = { _id: certDocId};
     const deletedCert=await CertificateModel.findOneAndDelete(filter)
