@@ -19,7 +19,6 @@ const PortfolioList = ({ user, isEditing }) => {
 export default PortfolioList;
 
 const PortfolioListBlock = styled.div`
-  background-color: pink;
   display: flex;
   flex-direction: column;
   width: 100%;

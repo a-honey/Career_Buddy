@@ -7,7 +7,9 @@ import { UserStateContext } from "../App";
 
 const LoginPage = () => {
   const { setIsEditing } = useContext(EditContext);
-  setIsEditing(false);
+  useEffect(() => {
+    setIsEditing(false);
+  });
 
   //로그인 상태시 로그인 페이지 접근 불가능
   const userState = useContext(UserStateContext);

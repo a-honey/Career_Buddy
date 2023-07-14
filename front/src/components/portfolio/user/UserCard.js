@@ -9,7 +9,7 @@ import { UserStateContext } from "../../../App";
 function UserCard({ user, setUser, isEditable, isNetwork }) {
   const userState = useContext(UserStateContext);
   const navigate = useNavigate();
-  const { isEditing, turnEditing } = useContext(EditContext);
+  const { isEditing, setIsEditing } = useContext(EditContext);
   return (
     <UserCardBlock>
       <div className="img-container">
@@ -26,7 +26,13 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
       )}
       {isEditable &&
         !isEditing && ( // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
-          <FullBtn onClick={() => turnEditing(true)}>편집</FullBtn>
+          <FullBtn
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            편집
+          </FullBtn>
         )}
 
       {isNetwork && (

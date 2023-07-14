@@ -56,17 +56,13 @@ const FieldDocumentBlock = ({
 export default FieldDocumentBlock;
 
 const Block = styled.div`
-  background-color: blue;
   border: solid 2px black;
   border-radius: 8px;
   margin: 10px 20px;
   display: flex;
   position: relative;
-  .data {
-    background-color: yellow;
-  }
+  padding: 5px 10px;
   .btns {
-    border-left: 1px solid black;
     display: flex;
     align-items: center;
     position: absolute;

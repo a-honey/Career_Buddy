@@ -9,8 +9,7 @@ export default FieldListBlock;
 const ListBlock = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 30px;
-  border: 1px solid black;
+  padding: 5px 20px;
   border-radius: 15px;
   margin: 30px;
   position: relative;

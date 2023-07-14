@@ -17,7 +17,12 @@ function Network() {
     <>
       <UserBlock>
         {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
+          <UserCard
+            className="networkUser"
+            key={user.id}
+            user={user}
+            isNetwork
+          />
         ))}
       </UserBlock>
     </>

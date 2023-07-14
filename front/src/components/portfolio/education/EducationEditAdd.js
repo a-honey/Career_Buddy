@@ -8,7 +8,9 @@ const EducationEdit = () => {
   const [isAdding, setIsAdding] = useState(false);
   return (
     <div>
-      <EmptyBtn onClick={() => setIsAdding(true)}>+</EmptyBtn>
+      <EmptyBtn className="addingBtn" onClick={() => setIsAdding(true)}>
+        +
+      </EmptyBtn>
       {isAdding && <EducationAddItem setIsAdding={setIsAdding} />}
     </div>
   );

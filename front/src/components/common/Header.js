@@ -67,6 +67,7 @@ const HeaderBlock = styled.div`
   z-index: 1000;
   position: fixed;
   width: 100%;
+  min-width: 700px;
   height: 50px;
   padding: 0 50px;
   display: flex;
