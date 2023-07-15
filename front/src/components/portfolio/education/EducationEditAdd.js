@@ -35,16 +35,6 @@ const EducationAddItem = ({ setIsAdding }) => {
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     //setDatas에 데이터 추가
-    if (
-      institution === "" ||
-      degree === "" ||
-      status === "" ||
-      major === "" ||
-      entryDate === "" ||
-      gradDate === ""
-    ) {
-      return alert("공백 금지");
-    }
     const newDocument = {
       //mockData의 삭제를 위한 _ID
       _id: `mockdata${educationDocuments.length * Math.random()}`,
