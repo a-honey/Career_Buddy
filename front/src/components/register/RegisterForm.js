@@ -16,6 +16,8 @@ function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
+  //useState로 github 상태를 생성함.
+  const [github, setGithub] = useState(null);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -48,6 +50,7 @@ function RegisterForm() {
         email,
         password,
         name,
+        github,
       });
 
       // 로그인 페이지로 이동함.
@@ -121,6 +124,16 @@ function RegisterForm() {
                     이름은 2글자 이상으로 설정해 주세요.
                   </Form.Text>
                 )}
+              </Form.Group>
+
+              <Form.Group controlId="registerName" className="mt-3">
+                <Form.Label>깃허브 주소</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoComplete="off"
+                  value={github}
+                  onChange={(e) => setGithub(e.target.value)}
+                />
               </Form.Group>
 
               <Form.Group as={Row} className="mt-3 text-center">

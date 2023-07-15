@@ -10,6 +10,7 @@ function UserEditForm({ user, setUser }) {
   const [email] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
+  const [github, setGithub] = useState(user.github);
 
   const { turnEditing } = useContext(EditContext);
 
@@ -21,6 +22,7 @@ function UserEditForm({ user, setUser }) {
       name,
       email,
       description,
+      github,
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -51,6 +53,13 @@ function UserEditForm({ user, setUser }) {
         placeholder="정보, 인사말"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+      />
+      <label>SNS</label>
+      <textarea
+        type="text"
+        placeholder="정보, 인사말"
+        value={github}
+        onChange={(e) => setGithub(e.target.value)}
       />
       <FullBtn type="submit" className="me-3">
         확인
