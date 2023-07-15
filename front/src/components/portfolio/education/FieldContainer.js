@@ -11,7 +11,7 @@ const FieldContainer = ({ datas, setDatas }) => {
 
   return (
     <FieldListBlock>
-      <h1 className="fieldName">교육사항</h1>
+      <h1 className="fieldName">Education</h1>
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}

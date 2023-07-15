@@ -1,6 +1,6 @@
 import Education from "./education";
-import Award from "./award/Award";
-import Certificate from "./certificate/Certificate";
+import Award from "./award";
+import Project from "./project";
 import { styled } from "styled-components";
 
 const PortfolioList = ({ user, isEditing }) => {
@@ -8,7 +8,7 @@ const PortfolioList = ({ user, isEditing }) => {
     <PortfolioListBlock>
       <Education user={user} isEditing={isEditing} />
       <Award user={user} isEditing={isEditing} />
-      <Certificate user={user} isEditing={isEditing} />
+      <Project user={user} isEditing={isEditing} />
     </PortfolioListBlock>
   );
 };
