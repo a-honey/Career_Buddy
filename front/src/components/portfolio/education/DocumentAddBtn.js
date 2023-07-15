@@ -3,7 +3,7 @@ import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { addData } from "../../../services/api";
 import { UserStateContext } from "../../../App";
 
-const EducationAddBtn = ({ setDatas }) => {
+const DocumentAddBtn = ({ setDatas }) => {
   // isEditing 상태가 되면 각 education 필드에 add 버튼 생성
   const [isAdding, setIsAdding] = useState(false);
   return (
@@ -12,15 +12,15 @@ const EducationAddBtn = ({ setDatas }) => {
         +
       </EmptyBtn>
       {isAdding && (
-        <EducationAddItem setDatas={setDatas} setIsAdding={setIsAdding} />
+        <DocumentAddItem setDatas={setDatas} setIsAdding={setIsAdding} />
       )}
     </div>
   );
 };
 
-export default EducationAddBtn;
+export default DocumentAddBtn;
 
-const EducationAddItem = ({ setIsAdding, setDatas }) => {
+const DocumentAddItem = ({ setIsAdding, setDatas }) => {
   //add 버튼 클릭 시 데이터 입력 폼 생성
   //교육기관
   const [institution, setInstitution] = useState("교육기관미입력");

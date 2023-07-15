@@ -1,4 +1,4 @@
-import Education from "./education/Education";
+import Education from "./education";
 import Award from "./award/Award";
 import Certificate from "./certificate/Certificate";
 import { styled } from "styled-components";

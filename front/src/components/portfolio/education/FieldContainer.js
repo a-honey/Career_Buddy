@@ -2,11 +2,11 @@ import { useContext, useState } from "react";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import FieldListBlock from "../common/FieldListBlock";
 import { EditContext } from "../../../contexts/EditContext";
-import EducationAddBtn from "./EducationAddBtn";
+import DocumentAddBtn from "./DocumentAddBtn";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { updateData } from "../../../services/api";
 
-const EducationContainer = ({ datas, setDatas }) => {
+const FieldContainer = ({ datas, setDatas }) => {
   const { isEditing } = useContext(EditContext);
 
   return (
@@ -15,18 +15,19 @@ const EducationContainer = ({ datas, setDatas }) => {
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
-      {isEditing && <EducationAddBtn setDatas={setDatas} />}
+      {isEditing && <DocumentAddBtn setDatas={setDatas} />}
     </FieldListBlock>
   );
 };
 
-export default EducationContainer;
+export default FieldContainer;
 
 const DocumentItem = ({ data, setDatas }) => {
   const { isEditing } = useContext(EditContext);
 
   const [isDocumentEditing, setIsDocumentEditing] = useState(false);
 
+  //해당 filed Schemas State에 저장하기
   const [institution, setInstitution] = useState(data?.institution);
   const [degree, setDegree] = useState(data?.degree);
   const [major, setMajor] = useState(data?.major);
@@ -39,7 +40,8 @@ const DocumentItem = ({ data, setDatas }) => {
   async function handlePutSubmit(e) {
     e.preventDefault();
 
-    const newEducation = {
+    //해당 filed Schemas newDocument에 담기
+    const newDocument = {
       institution,
       degree,
       major,
@@ -50,7 +52,8 @@ const DocumentItem = ({ data, setDatas }) => {
     };
 
     try {
-      await updateData(data._id, "education", newEducation);
+      //해당 filedName으로 요청 보내기
+      await updateData(data._id, "education", newDocument);
     } catch {
       return;
     }
@@ -59,7 +62,7 @@ const DocumentItem = ({ data, setDatas }) => {
       const olddatas = datas.filter(
         (origindata) => origindata._id !== data._id
       );
-      return [olddatas, newEducation];
+      return [olddatas, newDocument];
     });
 
     setIsDocumentEditing(false);
@@ -69,6 +72,7 @@ const DocumentItem = ({ data, setDatas }) => {
   async function handleGetDocument(e) {
     e.preventDefault();
 
+    // 저장한 데이터를 다시 보여주기
     setInstitution(data?.institution);
     setDegree(data?.degree);
     setMajor(data?.major);
@@ -78,6 +82,7 @@ const DocumentItem = ({ data, setDatas }) => {
     setGrade(data?.grade);
   }
 
+  // 해당 field 저장한 State 출력하기
   if (isDocumentEditing && isEditing) {
     return (
       <FieldDocumentBlock
@@ -163,6 +168,7 @@ const DocumentItem = ({ data, setDatas }) => {
     );
   } else {
     return (
+      // IsEditing 상태 아닐때 응답받은 Field Document 보여주기
       <FieldDocumentBlock
         setDatas={setDatas}
         documentId={data?._id}

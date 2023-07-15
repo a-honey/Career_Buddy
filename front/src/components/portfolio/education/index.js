@@ -1,5 +1,5 @@
 import { getDatas } from "../../../services/api";
-import EducationContainer from "./EducationItem";
+import FieldContainer from "./FieldContainer";
 import { useContext, useEffect, useState } from "react";
 import { UserStateContext } from "../../../App";
 
@@ -18,7 +18,7 @@ const Education = () => {
       });
   }, [setEducations, userState.user.id]);
 
-  return <EducationContainer datas={educations} setDatas={setEducations} />;
+  return <FieldContainer datas={educations} setDatas={setEducations} />;
 };
 
 export default Education;
