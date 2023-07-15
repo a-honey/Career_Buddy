@@ -24,7 +24,7 @@ const UserSchema = new Schema(
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
     github: {
-      type: String,
+      type: Object,
       required: false,
     },
   },
