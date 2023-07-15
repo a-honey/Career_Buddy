@@ -7,14 +7,13 @@ const certificateRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-certificateRouter.put("/:user_id/certificate/register",login_required,async (req, res)=> {
-  const user_id=req.params.user_id;
-  console.log(req.header.authorization)
+certificateRouter.put("/:userId/certificate/register",login_required,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
+      const userId=req.params.userId;
       const newCertificate=await Certification.create({
-        id:user_id,
+        userId:userId,
         title:req.body.title,
         issuer:req.body.issuer,
         certDate:req.body.certDate,
@@ -33,7 +32,7 @@ certificateRouter.put("/:user_id/certificate/register",login_required,async (req
 );
 
 //Read
-certificateRouter.get("/:userId/certificate",
+certificateRouter.get("/users/:userId/certifications",
     async function (req, res) {
       try{
         const userId=req.params.userId;
@@ -81,7 +80,7 @@ certificateRouter.get("/:userId/certificate",
 // })
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
-certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
+certificateRouter.put("/certifications/edit/:certDocId",login_required,async(req,res)=>{
   const certDocId=req.params.certDocId;
   const updateData=req.body;
 
@@ -95,7 +94,7 @@ certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,re
 
 
 //Delete
-certificateRouter.delete("/:certDocId/certificate/delete",login_required,
+certificateRouter.delete("/certifications/delete/:certDocId",login_required,
 async (req,res)=>{
   const certDocId=req.params.certDocId
   try {   

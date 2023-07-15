@@ -3,9 +3,9 @@ class Certification {
 
   // Create
   // certDocId 사용하지 않음
-  static async create({id,title,issuer,certDate,expDate,certId,description}) {
+  static async create({userId,title,issuer,certDate,expDate,certId,description}) {
     const createdNewCert = await CertificateModel.create({
-      id,
+      userId,
       title,
       issuer,
       certDate,expDate,certId,description

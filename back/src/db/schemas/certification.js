@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const CertificateSchema = new Schema(
   {
-    id:{
+    userId:{
         type:String,
         ref:'UserModel',
         required:true
