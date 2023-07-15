@@ -4,6 +4,7 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
+import { styled } from "styled-components";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ function LoginForm() {
   };
 
   return (
+    <LoginFormBlock>
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
@@ -113,7 +115,12 @@ function LoginForm() {
         </Col>
       </Row>
     </Container>
+    </LoginFormBlock>
   );
 }
 
 export default LoginForm;
+
+const LoginFormBlock = styled.div`
+  background-color: white;
+`

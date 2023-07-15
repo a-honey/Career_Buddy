@@ -5,6 +5,7 @@ import { Container, Row } from "react-bootstrap";
 import * as Api from "../../api";
 import UserCard from "./UserCard";
 import { UserStateContext } from "../../App";
+import { styled } from "styled-components";
 
 function Network() {
   const navigate = useNavigate();
@@ -23,14 +24,21 @@ function Network() {
   }, [userState, navigate]);
 
   return (
-    <Container fluid>
-      <Row xs="auto" className="jusify-content-center">
+    <>
+      <UserBlock>
         {users.map((user) => (
           <UserCard key={user.id} user={user} isNetwork />
         ))}
-      </Row>
-    </Container>
+      </UserBlock>
+    </>
   );
 }
 
 export default Network;
+
+const UserBlock = styled.div`
+  display: grid;
+  grid-template-rows: repeat(4, 0.2fr);
+  grid-template-columns: repeat(4, 0.2fr);
+  grid-gap: 10px;
+`

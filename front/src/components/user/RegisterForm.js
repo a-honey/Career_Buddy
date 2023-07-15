@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
+import { styled } from "styled-components";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function RegisterForm() {
   };
 
   return (
+    <RegisterFormBlock>
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
@@ -140,7 +142,12 @@ function RegisterForm() {
         </Col>
       </Row>
     </Container>
+    </RegisterFormBlock>
   );
 }
 
 export default RegisterForm;
+
+const RegisterFormBlock = styled.div`
+  background-color: white;
+`
