@@ -151,3 +151,7 @@ function RegisterForm() {
 }
 
 export default RegisterForm;
+
+const RegisterFormBlock = styled.div`
+  background-color: white;
+`;

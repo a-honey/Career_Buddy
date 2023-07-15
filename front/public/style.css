@@ -1,5 +1,56 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 700px;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+.field-main-content {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.field-title {
+  color: rgb(90, 90, 90);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.field-content {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.field-sub-content {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.input-edit {
+  display: flex;
+}
+
+.input-edit-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-edit-btns > button {
+  padding: 5px 10px;
+  font-size: 10px;
 }

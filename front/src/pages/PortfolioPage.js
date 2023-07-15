@@ -1,12 +1,19 @@
-import Portfolio from "../components/portfolio"
+import { useContext, useEffect } from "react";
+import Portfolio from "../components/portfolio";
 import LayoutPage from "./LayoutPage";
+import { EditContext } from "../contexts/EditContext";
 
 const PortfolioPage = () => {
-    return (
-        <LayoutPage>
-            <Portfolio/>
-        </LayoutPage>
-    );
+  const { setIsEditing } = useContext(EditContext);
+  useEffect(() => {
+    setIsEditing(false);
+  }, [setIsEditing]);
+
+  return (
+    <LayoutPage>
+      <Portfolio />
+    </LayoutPage>
+  );
 };
 
 export default PortfolioPage;
