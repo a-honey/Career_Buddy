@@ -7,7 +7,7 @@ class Education {
   // 전달받은 newEduData 데이터로 새로운 학력정보 document를 만들어 데이터베이스에 저장합니다.
   static async create(newEduData) {
     try {
-      const result = await EducationModel.create({ newEduData });
+      const result = await EducationModel.create(newEduData);
       return result;
     }
     catch(error) {
