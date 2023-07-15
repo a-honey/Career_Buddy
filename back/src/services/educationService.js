@@ -7,9 +7,7 @@ class EducationService {
   // 사용자가 자신의 학력사항을 추가하는 기능을 구현합니다.
   static async addEducation(newEduData) {
     try {
-      console.log(newEduData)
       const addedEducation = await Education.create(newEduData);
-      console.log(addedEducation)
       return addedEducation;
     }
     catch(error) {
@@ -43,8 +41,10 @@ class EducationService {
   static async modifyEducation(currentUserId, eduId, updatedEduData) {
     try {
       // 해당 eduId로 document 검색을 시도합니다.
-      const targetDocument = await EducationModel.findOne({ _id: eduId })
+      const targetDocument = await Education.findEducationByEduId({ _id: eduId })
       
+      // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
+
       // 만약 document가 없다면 오류를 생성합니다.
       if(!targetDocument){
         throw new Error("수정할 학력정보를 찾을 수 없습니다.")
@@ -68,11 +68,10 @@ class EducationService {
   // 사용자가 자신의 학력사항을 삭제하는 기능을 구현합니다.
   static async removeEducation(currentUserId, eduId) {
     try {
-      console.log(eduId)
-      console.log(currentUserId)
-
       // 해당 eduId로 document 검색을 시도합니다.
       const targetDocument = await Education.findEducationByEduId(eduId)
+
+      // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
 
       // 만약 document가 없다면 오류를 생성합니다.
       if(!targetDocument || targetDocument == null){

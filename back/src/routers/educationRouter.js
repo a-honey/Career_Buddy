@@ -12,9 +12,13 @@ const educationRouter = Router();
 // 서비스 레벨에서는 프로덕트 정책과 관련된 비즈니스 로직 validation을 수행합니다. userService.js를 참조하세요.
 
 // [보안] req.body와 req.param의 모든 요소들을 sanitize 하는 미들웨어를 express-validator를 사용해 만들어 라우터에 적용합니다.
+// [TO-DO] [REFACTOR] middlewares에다가 별도의 미들웨어로 분리해서 공용으로 사용해야 합니다.
 const sanitizeRoute = 
 body('**').escape(); 
 param('**').escape();
+
+
+// [TO-DO] [REFACTOR] 라우팅 경로를 보다 RESTful하게 설정해야 합니다.
 
 
 // [CRUD] CREATE
@@ -23,8 +27,8 @@ educationRouter.post("/:user_id/education", sanitizeRoute, login_required, async
   try {
     const newEduData = req.body;
     const currentUserId = req.currentUserId;
-    console.log(currentUserId)
-    console.log(newEduData)
+
+    // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
 
     if(!newEduData || typeof newEduData !== 'object'){
       throw new Error("입력된 학력 정보가 없거나 올바르지 않습니다.")
@@ -85,9 +89,12 @@ educationRouter.get("/:user_id/education", sanitizeRoute, login_required, async 
 // 프론트엔드로부터 전달받은 eduId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
 educationRouter.get("/education/:edu_id", sanitizeRoute, login_required, async (req, res, next) => {
   try {
+    // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
+    // const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
 
     // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
+    // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
     const foundEducation = await Education.findEducationByEduId(eduId);
   
     if (foundEducation.error) {
@@ -111,6 +118,8 @@ educationRouter.put("/education/:edu_id", sanitizeRoute, login_required, async (
     const eduId = req.params.edu_id;
     const updatedEduData = req.body;
 
+    // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
+    
     if(!updatedEduData || typeof updatedEduData !== 'object'){
       throw new Error("입력된 학력 정보가 없거나 올바르지 않습니다.")
     }
@@ -123,7 +132,7 @@ educationRouter.put("/education/:edu_id", sanitizeRoute, login_required, async (
       throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
     }
 
-    const updatedEducation = await Education.update(currentUserId, eduId, updatedEduData);
+    const updatedEducation = await EducationService.modifyEducation(currentUserId, eduId, updatedEduData);
 
     if (updatedEducation.error) {
       throw new Error(updatedEducation.error);
@@ -151,7 +160,8 @@ educationRouter.delete("/education/:edu_id", sanitizeRoute, login_required, asyn
       throw new Error(deletedEducation.error);
     }
 
-    res.status(200);
+    res.status(200).send("삭제가 완료되었습니다.");
+    return;
   }
   catch(error) {
     next(error);

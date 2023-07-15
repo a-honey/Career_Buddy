@@ -31,6 +31,9 @@ class Education {
   // 찾고자 하는 사용자의 고유번호를 UserSchema에 정의된 id인 userId로 입력받아, 이와 일치하는 학력정보 document들을 모두 찾습니다.
   static async findEducationsByUserId(userId) {
     try {
+
+      // [TO-DO] [IMPROVEMENT] offset pagination을 사용해서 서버사이드 pagination을 구현할수도 있습니다.
+
       const result = await EducationModel.find({ userId: userId });
       return result;
     }
@@ -53,7 +56,7 @@ class Education {
       // findOneAndUpdate() 메소드에 사용할 옵션을 지정합니다.
       // 수정되지 않은 원래의 문서를 반환하는 것이 기본값으로 설정되어 있습니다.
       // 최신화된 정보를 반환해주기 위해서 기본값을 비활성화 하도록 하겠습니다.
-      const option = { returnOriginal: false }
+      const option = { returnOriginal: false };
 
       // 위에서 지정한 변수들을 findOneAndUpdate() 메소드에 전달인자로 사용해서 학력정보 document를 최신화합니다.
       const result = await EducationModel.findOneAndUpdate(
