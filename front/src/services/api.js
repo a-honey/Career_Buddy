@@ -39,7 +39,7 @@ const addData = async (userId, FieldName, newData) => {
       },
     });
   } catch {
-    console.log("포스트 업로드 실패");
+    alert("포스트 업로드 실패");
   }
 };
 

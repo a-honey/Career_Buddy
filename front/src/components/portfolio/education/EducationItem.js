@@ -2,32 +2,30 @@ import { useContext, useState } from "react";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import FieldListBlock from "../common/FieldListBlock";
 import { EditContext } from "../../../contexts/EditContext";
-import EducationEdit from "./EducationEditAdd";
+import EducationAddBtn from "./EducationAddBtn";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
-import { updateData, getData } from "../../../services/api";
-import { EducationContext } from "../../../contexts/EducationContext";
+import { updateData } from "../../../services/api";
 
-const EducationContainer = () => {
+const EducationContainer = ({ datas, setDatas }) => {
   const { isEditing } = useContext(EditContext);
-  const { educationDocuments } = useContext(EducationContext);
+
   return (
     <FieldListBlock>
       <h1 className="fieldName">교육사항</h1>
-      {educationDocuments.map((data) => (
-        <EducationItem key={data._id} data={data} />
+      {datas.map((data) => (
+        <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
-      {isEditing && <EducationEdit />}
+      {isEditing && <EducationAddBtn setDatas={setDatas} />}
     </FieldListBlock>
   );
 };
 
 export default EducationContainer;
 
-const EducationItem = ({ data }) => {
-  const [isDocumentEditing, setIsDocumentEditing] = useState(false);
-  const { educationDocuments, setEducationDocuments } =
-    useContext(EducationContext);
+const DocumentItem = ({ data, setDatas }) => {
   const { isEditing } = useContext(EditContext);
+
+  const [isDocumentEditing, setIsDocumentEditing] = useState(false);
 
   const [institution, setInstitution] = useState(data?.institution);
   const [degree, setDegree] = useState(data?.degree);
@@ -37,10 +35,11 @@ const EducationItem = ({ data }) => {
   const [gradDate, setGradDate] = useState(data?.gradDate);
   const [grade, setGrade] = useState(data?.grade);
 
-  const handleUpdateSubmit = async (e) => {
+  // 수정 버튼 클릭시 데이터 업데이트
+  async function handlePutSubmit(e) {
     e.preventDefault();
-    //setDatas에 데이터 추가
-    const newDocument = {
+
+    const newEducation = {
       institution,
       degree,
       major,
@@ -50,24 +49,34 @@ const EducationItem = ({ data }) => {
       grade,
     };
 
-    console.log(newDocument);
-    //필드name/ 도큐먼트id로 수정을 요청
-    console.log(`education의 ${data._id} 수정 요청 함수 실행`);
-    //db의 education에서 _id 업데이트
-    await updateData(data._id, "education", newDocument);
-    //education의 datas에서 _id의 바뀐값을 가져오기
-    setEducationDocuments((datas) => {
-      const updatedDatas = datas.filter((item) => item._id !== data._id);
-      return [...updatedDatas, newDocument];
-    });
-    setIsDocumentEditing(false);
-  };
+    try {
+      await updateData(data._id, "education", newEducation);
+    } catch {
+      return;
+    }
 
-  const handleGetDocument = async (e) => {
+    setDatas((datas) => {
+      const olddatas = datas.filter(
+        (origindata) => origindata._id !== data._id
+      );
+      return [olddatas, newEducation];
+    });
+
+    setIsDocumentEditing(false);
+  }
+
+  // 초기화 시 데이터 다시 불러오기
+  async function handleGetDocument(e) {
     e.preventDefault();
-    console.log(`education의 ${data?._id} 다시 가져오기 함수 실행`);
-    getData(data._id, "education");
-  };
+
+    setInstitution(data?.institution);
+    setDegree(data?.degree);
+    setMajor(data?.major);
+    setStatus(data?.status);
+    setEntryDate(data?.entryDate);
+    setGradDate(data?.gradDate);
+    setGrade(data?.grade);
+  }
 
   if (isDocumentEditing && isEditing) {
     return (
@@ -77,7 +86,7 @@ const EducationItem = ({ data }) => {
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <form onSubmit={handleUpdateSubmit} className="input-edit">
+        <form onSubmit={handlePutSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
               <label>교육기관</label>
@@ -94,6 +103,15 @@ const EducationItem = ({ data }) => {
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
               />
+              <label>학위</label>
+              <select
+                value={degree}
+                onChange={(e) => setDegree(e.target.value)}
+              >
+                <option value="학사">학사</option>
+                <option value="석사">석사</option>
+                <option value="박사">박사</option>
+              </select>
               <label>상태</label>
               <select
                 value={status}
@@ -103,15 +121,6 @@ const EducationItem = ({ data }) => {
                 <option value="휴학">휴학</option>
                 <option value="졸업">졸업</option>
                 <option value="졸업예정">졸업예정</option>
-              </select>
-              <label>학위</label>
-              <select
-                value={degree}
-                onChange={(e) => setDegree(e.target.value)}
-              >
-                <option value="학사">학사</option>
-                <option value="석사">석사</option>
-                <option value="박사">박사</option>
               </select>
             </div>
             <div className="education-sub">
@@ -155,10 +164,9 @@ const EducationItem = ({ data }) => {
   } else {
     return (
       <FieldDocumentBlock
-        setDatas={setEducationDocuments}
+        setDatas={setDatas}
         documentId={data?._id}
         fieldName={"education"}
-        datas={educationDocuments}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >

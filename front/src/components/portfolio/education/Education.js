@@ -1,49 +1,24 @@
 import { getDatas } from "../../../services/api";
 import EducationContainer from "./EducationItem";
-import { useContext, useEffect } from "react";
-import { EducationContext } from "../../../contexts/EducationContext";
+import { useContext, useEffect, useState } from "react";
 import { UserStateContext } from "../../../App";
 
-const mockDatas = [
-  {
-    _id: "mockId1",
-    institution: "한국대학교",
-    degree: "학사",
-    major: "무역학과",
-    status: "졸업",
-    entryDate: "2019-01-01",
-    gradDate: "2023-12-01",
-    grade: "4.3",
-    description: "텍스트입니다",
-  },
-  {
-    _id: "mockId2",
-    institution: "하버드대학교",
-    degree: "석사",
-    major: "MBA",
-    status: "졸업",
-    entryDate: "2019-01-01",
-    gradDate: "2023-01-01",
-    grade: "4.0",
-    description: "텍스트입니다",
-  },
-];
 const Education = () => {
-  const { setEducationDocuments } = useContext(EducationContext);
+  const [educations, setEducations] = useState([]);
+
   const userState = useContext(UserStateContext);
 
   useEffect(() => {
     getDatas(userState.user.id, "education")
       .then((res) => {
-        setEducationDocuments(res.data);
+        setEducations(res.data);
       })
       .catch((error) => {
-        console.log("education 가져오기 실패, mockData 실행");
-        setEducationDocuments(mockDatas);
+        console.log("educations 가져오기 실패");
       });
-  }, [setEducationDocuments, userState.user.id]);
+  }, [setEducations, userState.user.id]);
 
-  return <EducationContainer />;
+  return <EducationContainer datas={educations} setDatas={setEducations} />;
 };
 
 export default Education;

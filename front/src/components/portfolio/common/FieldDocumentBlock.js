@@ -3,6 +3,7 @@ import { FullBtn, FullRedBtn } from "../../common/Btns";
 import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 import { deleteData } from "../../../services/api";
+
 const FieldDocumentBlock = ({
   setDatas,
   children,
@@ -15,19 +16,17 @@ const FieldDocumentBlock = ({
   const handleDeleteDocument = async (e) => {
     e.preventDefault();
     //field context 다가져오거나 할 것.
-    try {
-      console.log(`${fieldName}의 ${documentId} 삭제 함수 실행`);
-      await deleteData(documentId, fieldName);
 
-      setDatas((documents) => {
-        const updatedDocuments = documents.filter(
-          (item) => item._id !== documentId
-        );
-        return updatedDocuments;
-      });
-    } catch (error) {
-      console.log("삭제 실패:", error);
+    try {
+      await deleteData(documentId, fieldName);
+    } catch (err) {
+      return;
     }
+
+    setDatas((datas) => {
+      const deleteddatas = datas.filter((origin) => origin._id !== documentId);
+      return deleteddatas;
+    });
   };
 
   return (
