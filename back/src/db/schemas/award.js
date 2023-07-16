@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const CertificateSchema = new Schema(
+const AwardSchema = new Schema(
   {
     userId:{
         type:String,
@@ -15,12 +15,9 @@ const CertificateSchema = new Schema(
         type: String,
         required: true,
       },
-      certDate: {
+      awardDate: {
         type: String,
         required: true,
-      },
-      expDate: {
-        type: String,
       },
       description: {
         type: String,
@@ -30,6 +27,6 @@ const CertificateSchema = new Schema(
   timestamps: true,
 }
 )
-const CertificateModel= model("Certificate", CertificateSchema);
+const AwardModel= model("Award", AwardSchema);
 
-export { CertificateModel };
+export { AwardModel };
