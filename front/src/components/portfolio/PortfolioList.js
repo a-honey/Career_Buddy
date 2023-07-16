@@ -3,10 +3,10 @@ import Award from "./award";
 import Project from "./project";
 import { styled } from "styled-components";
 
-const PortfolioList = ({ user, isEditing }) => {
+const PortfolioList = ({ user, ownerId, isEditing }) => {
   return (
     <PortfolioListBlock>
-      <Education user={user} isEditing={isEditing} />
+      <Education user={user} isEditing={isEditing} ownerId={ownerId} />
       <Award user={user} isEditing={isEditing} />
       <Project user={user} isEditing={isEditing} />
     </PortfolioListBlock>

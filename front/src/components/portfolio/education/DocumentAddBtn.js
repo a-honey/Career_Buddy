@@ -1,18 +1,24 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { addData } from "../../../services/api";
-import { UserStateContext } from "../../../App";
 
-const DocumentAddBtn = ({ setDatas }) => {
+const DocumentAddBtn = ({ setDatas, editId }) => {
   // isEditing 상태가 되면 각 education 필드에 add 버튼 생성
   const [isAdding, setIsAdding] = useState(false);
   return (
     <div>
-      <EmptyBtn className="addingBtn" onClick={() => setIsAdding(true)}>
+      <EmptyBtn
+        className="addingBtn"
+        onClick={() => setIsAdding((isAdding) => !isAdding)}
+      >
         +
       </EmptyBtn>
       {isAdding && (
-        <DocumentAddItem setDatas={setDatas} setIsAdding={setIsAdding} />
+        <DocumentAddItem
+          setDatas={setDatas}
+          setIsAdding={setIsAdding}
+          editId={editId}
+        />
       )}
     </div>
   );
@@ -21,19 +27,17 @@ const DocumentAddBtn = ({ setDatas }) => {
 export default DocumentAddBtn;
 
 //add 버튼 클릭 시 데이터 입력 폼 생성
-const DocumentAddItem = ({ setIsAdding, setDatas }) => {
+const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
   // newData를 state에 담아서 관리(index.js 중복 사용을 위해 명칭통일함)
   const [content, setContent] = useState({
     institution: "",
-    degree: "",
+    degree: "학사",
     major: "",
-    status: "",
+    status: "졸업",
     entryDate: "",
     gradDate: "",
     grade: "",
   });
-
-  const userState = useContext(UserStateContext);
 
   function handleChange(e, fieldName) {
     setContent((prevContent) => ({
@@ -46,8 +50,17 @@ const DocumentAddItem = ({ setIsAdding, setDatas }) => {
     e.preventDefault();
     //setDatas에 데이터 추가
 
+    const requiredFields = ["institution", "status", "entryDate"];
+
+    for (const fieldName of requiredFields) {
+      if (content[fieldName].trim() === "") {
+        alert(`${fieldName} 입력란이 비어있습니다.`);
+        return;
+      }
+    }
+
     try {
-      await addData(userState.user.id, "education", content);
+      await addData(editId, "education", content);
       setDatas((datas) => [...datas, content]);
       setIsAdding(false);
     } catch (err) {

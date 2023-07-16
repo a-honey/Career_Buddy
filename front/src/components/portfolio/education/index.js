@@ -8,28 +8,32 @@ import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 
 //api로 Model의 전체 데이터를 요청
-const Education = () => {
+const Education = ({ ownerId }) => {
   const [educations, setEducations] = useState([]);
 
-  const userState = useContext(UserStateContext);
-
   useEffect(() => {
-    getDatas(userState.user.id, "education")
+    getDatas(ownerId, "education")
       .then((res) => {
         setEducations(res.data);
       })
       .catch((error) => {
         console.log("educations 가져오기 실패");
       });
-  }, [setEducations, userState.user.id]);
+  }, [setEducations, ownerId]);
 
-  return <FieldContainer datas={educations} setDatas={setEducations} />;
+  return (
+    <FieldContainer
+      datas={educations}
+      setDatas={setEducations}
+      ownerId={ownerId}
+    />
+  );
 };
 
 export default Education;
 
 //Model에서 받아온 전체 데이터를 map
-const FieldContainer = ({ datas, setDatas }) => {
+const FieldContainer = ({ datas, setDatas, ownerId }) => {
   const { isEditing } = useContext(EditContext);
 
   return (
@@ -38,7 +42,7 @@ const FieldContainer = ({ datas, setDatas }) => {
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} />}
+      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={ownerId} />}
     </FieldListBlock>
   );
 };
