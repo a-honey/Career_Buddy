@@ -53,16 +53,16 @@ const addData = async (userId, FieldName, newData) => {
 };
 
 // userId의 FieldName 필드에 data 업데이트하기
-const updateData = async (userId, FieldName, updateData) => {
+const updateData = async (documentId, FieldName, updateData) => {
   const bodyData = JSON.stringify(updateData);
 
   console.log(
-    `%cPUT 요청: ${serverUrl}/${userId}/${FieldName}`,
+    `%cPUT 요청: ${serverUrl}/${FieldName}/${documentId}`,
     "color: #059c4b;"
   );
   console.log(`%cPUT 요청 데이터: ${bodyData}`, "color: #059c4b;");
 
-  return axios.put(`${serverUrl}/${userId}/${FieldName}`, bodyData, {
+  return axios.put(`${serverUrl}/${FieldName}/${documentId}`, bodyData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,

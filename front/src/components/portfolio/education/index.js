@@ -66,22 +66,23 @@ const DocumentItem = ({ data, setDatas }) => {
 
     try {
       await updateData(data?._id, "education", content);
+
+      setDatas((datas) => {
+        const olddatas = datas.filter(
+          (origindata) => origindata._id !== data?._id
+        );
+        return [...olddatas, content];
+      });
+
+      setIsDocumentEditing(false);
     } catch (err) {
       alert("데이터 PUT 요청 실패");
+      alert(data);
     }
-
-    setDatas((datas) => {
-      const olddatas = datas.filter(
-        (origindata) => origindata._id !== data?._id
-      );
-      return [...olddatas, content];
-    });
-
-    setIsDocumentEditing(false);
   }
 
   // 초기화 시 데이터 다시 불러오기
-  async function handleGetDocument(e) {
+  function handleGetDocument(e) {
     e.preventDefault();
 
     // 저장한 데이터를 다시 보여주기
@@ -108,6 +109,7 @@ const DocumentItem = ({ data, setDatas }) => {
                 value={content?.institution}
                 onChange={(e) => handleChange(e, "institution")}
               />
+              <div>{data?._id}</div>
               <label>전공</label>
               <input
                 type="text"
