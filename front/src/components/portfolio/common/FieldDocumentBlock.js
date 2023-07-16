@@ -15,18 +15,18 @@ const FieldDocumentBlock = ({
   const { isEditing } = useContext(EditContext);
   const handleDeleteDocument = async (e) => {
     e.preventDefault();
-    //field context 다가져오거나 할 것.
 
     try {
       await deleteData(documentId, fieldName);
+      setDatas((datas) => {
+        const deleteddatas = datas.filter(
+          (origin) => origin._id !== documentId
+        );
+        return deleteddatas;
+      });
     } catch (err) {
-      return;
+      alert("데이터 삭제 실패");
     }
-
-    setDatas((datas) => {
-      const deleteddatas = datas.filter((origin) => origin._id !== documentId);
-      return deleteddatas;
-    });
   };
 
   return (

@@ -20,47 +20,40 @@ const DocumentAddBtn = ({ setDatas }) => {
 
 export default DocumentAddBtn;
 
+//add 버튼 클릭 시 데이터 입력 폼 생성
 const DocumentAddItem = ({ setIsAdding, setDatas }) => {
-  //add 버튼 클릭 시 데이터 입력 폼 생성
-  //교육기관
-  const [institution, setInstitution] = useState("교육기관미입력");
-  //학위
-  const [degree, setDegree] = useState("학사");
-  //전공
-  const [major, setMajor] = useState("전공미입력");
-  //상태
-  const [status, setStatus] = useState("졸업");
-  //입학년월
-  const [entryDate, setEntryDate] = useState("2001-01-01");
-  //졸업년월
-  const [gradDate, setGradDate] = useState("2001-01-01");
-  //학점
-  const [grade, setGrade] = useState("3.0");
+  // newData를 state에 담아서 관리(index.js 중복 사용을 위해 명칭통일함)
+  const [content, setContent] = useState({
+    institution: "",
+    degree: "",
+    major: "",
+    status: "",
+    entryDate: "",
+    gradDate: "",
+    grade: "",
+  });
 
   const userState = useContext(UserStateContext);
 
-  const handleAddSubmit = async (e) => {
+  function handleChange(e, fieldName) {
+    setContent((prevContent) => ({
+      ...prevContent,
+      [fieldName]: e.target.value,
+    }));
+  }
+
+  async function handleAddSubmit(e) {
     e.preventDefault();
     //setDatas에 데이터 추가
-    const newDocument = {
-      institution,
-      degree,
-      status,
-      major,
-      entryDate,
-      gradDate,
-      grade,
-    };
 
     try {
-      await addData(userState.user.id, "education", newDocument);
+      await addData(userState.user.id, "education", content);
+      setDatas((datas) => [...datas, content]);
+      setIsAdding(false);
     } catch (err) {
-      return;
+      alert(err);
     }
-
-    setDatas((datas) => [...datas, newDocument]);
-    setIsAdding(false);
-  };
+  }
 
   return (
     <form onSubmit={handleAddSubmit} className="input-edit">
@@ -70,24 +63,30 @@ const DocumentAddItem = ({ setIsAdding, setDatas }) => {
           <input
             type="text"
             placeholder="교육기관"
-            value={institution}
-            onChange={(e) => setInstitution(e.target.value)}
+            value={content?.institution}
+            onChange={(e) => handleChange(e, "institution")}
           />
           <label>전공</label>
           <input
             type="text"
             placeholder="전공"
-            value={major}
-            onChange={(e) => setMajor(e.target.value)}
+            value={content?.major}
+            onChange={(e) => handleChange(e, "major")}
           />
           <label>학위</label>
-          <select value={degree} onChange={(e) => setDegree(e.target.value)}>
+          <select
+            value={content.degree || "학사"}
+            onChange={(e) => handleChange(e, "degree")}
+          >
             <option value="학사">학사</option>
             <option value="석사">석사</option>
             <option value="박사">박사</option>
           </select>
           <label>상태</label>
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <select
+            value={content.status || "졸업"}
+            onChange={(e) => handleChange(e, "status")}
+          >
             <option value="재학">재학</option>
             <option value="휴학">휴학</option>
             <option value="졸업">졸업</option>
@@ -99,22 +98,22 @@ const DocumentAddItem = ({ setIsAdding, setDatas }) => {
           <input
             type="date"
             placeholder="입학년월"
-            value={entryDate}
-            onChange={(e) => setEntryDate(e.target.value)}
+            value={content?.entryDate}
+            onChange={(e) => handleChange(e, "entryDate")}
           />
           <label>졸업년월</label>
           <input
             type="date"
             placeholder="졸업년월"
-            value={gradDate}
-            onChange={(e) => setGradDate(e.target.value)}
+            value={content?.gradDate}
+            onChange={(e) => handleChange(e, "gradDate")}
           />
           <label>학점</label>
           <input
             type="text"
             placeholder="학점"
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
+            value={content?.grade}
+            onChange={(e) => handleChange(e, "grade")}
           />
         </div>
       </div>

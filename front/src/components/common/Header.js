@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
 import { styled } from "styled-components";
+import { mainColor } from "./color";
 
 function Header() {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const HeaderBlock = styled.div`
   }
 
   span {
-    color: rgb(115, 83, 234);
+    color: ${mainColor};
   }
   ul {
     display: flex;
@@ -91,7 +92,7 @@ const HeaderBlock = styled.div`
       position: relative;
       cursor: pointer;
       &:hover {
-        color: rgb(115, 83, 234);
+        color: ${mainColor};
         font-size: 18px;
         &::after {
           content: "";
@@ -100,7 +101,7 @@ const HeaderBlock = styled.div`
           left: -5px;
           right: -5px;
           height: 2px;
-          background-color: rgb(115, 83, 234);
+          background-color: ${mainColor};
         }
       }
     }
