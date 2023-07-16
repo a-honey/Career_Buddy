@@ -67,7 +67,7 @@ async (req,res)=>{
   const certDocId=req.params.certDocId
   try {   
     const delCertificate=await Certification.deleteOne({certDocId})
-    res.status(200).send(delCertificate)
+    res.status(200)
   }catch(error){
     res.status(500).json({ error: error.message });
   }
