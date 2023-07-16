@@ -7,8 +7,8 @@ const PortfolioList = ({ user, ownerId, isEditing }) => {
   return (
     <PortfolioListBlock>
       <Education user={user} isEditing={isEditing} ownerId={ownerId} />
-      <Award user={user} isEditing={isEditing} />
-      <Project user={user} isEditing={isEditing} />
+      <Award user={user} isEditing={isEditing} ownerId={ownerId} />
+      <Project user={user} isEditing={isEditing} ownerId={ownerId} />
     </PortfolioListBlock>
   );
 };
