@@ -32,7 +32,8 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
   const [content, setContent] = useState({
     title: "",
     issuer: "",
-    awardDate: "",
+    certDate: "",
+    expDate: "",
     description: "",
   });
 
@@ -47,7 +48,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     e.preventDefault();
     //setDatas에 데이터 추가
 
-    const requiredFields = ["title", "issuer", "awardDate"];
+    const requiredFields = ["title", "issuer", "certDate"];
 
     for (const fieldName of requiredFields) {
       if (content[fieldName].trim() === "") {
@@ -57,7 +58,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     }
 
     try {
-      await addData(editId, "award", content);
+      await addData(editId, "certificate", content);
       setDatas((datas) => [...datas, content]);
       setIsAdding(false);
     } catch (err) {
@@ -69,10 +70,10 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     <form onSubmit={handleSubmit}>
       <div className="input-edit-content">
         <div className="education-main">
-          <label>수상명</label>
+          <label>자격증명</label>
           <input
             type="text"
-            placeholder="수상명"
+            placeholder="자격증명"
             value={content?.title}
             onChange={(e) => handleChange(e, "title")}
           />
@@ -85,12 +86,12 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
           />
         </div>
         <div className="education-sub">
-          <label>수상일</label>
+          <label>취득일</label>
           <input
             type="date"
-            placeholder="수상일"
+            placeholder="취득일"
             value={content?.awardDate}
-            onChange={(e) => handleChange(e, "awardDate")}
+            onChange={(e) => handleChange(e, "certDate")}
           />
           <label>비고</label>
           <input

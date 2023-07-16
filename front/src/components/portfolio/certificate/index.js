@@ -7,23 +7,23 @@ import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 
 //api로 Model의 전체 데이터를 요청
-const Award = ({ ownerId }) => {
+const Certificate = ({ ownerId }) => {
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
-    getDatas(ownerId, "education")
+    getDatas(ownerId, "certificate")
       .then((res) => {
         setDatas(res.data);
       })
-      .catch((error) => {
-        console.log("educations 가져오기 실패");
+      .catch((err) => {
+        alert(err);
       });
   }, [setDatas, ownerId]);
 
   return <FieldContainer datas={datas} setDatas={setDatas} ownerId={ownerId} />;
 };
 
-export default Award;
+export default Certificate;
 
 //Model에서 받아온 전체 데이터를 map
 const FieldContainer = ({ datas, setDatas, ownerId }) => {
@@ -31,7 +31,7 @@ const FieldContainer = ({ datas, setDatas, ownerId }) => {
 
   return (
     <FieldListBlock>
-      <h1 className="fieldName">Award</h1>
+      <h1 className="fieldName">Certificate</h1>
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
@@ -58,11 +58,11 @@ const DocumentItem = ({ data, setDatas }) => {
   }
 
   // 수정 버튼 클릭시 해당 filedName으로 업데이트(put)요청 보내기
-  async function handlePutSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      await updateData(data?._id, "award", content);
+      await updateData(data?._id, "certificate", content);
 
       setDatas((datas) => {
         const olddatas = datas.filter(
@@ -73,8 +73,7 @@ const DocumentItem = ({ data, setDatas }) => {
 
       setIsDocumentEditing(false);
     } catch (err) {
-      alert("데이터 PUT 요청 실패");
-      alert(data);
+      alert(`데이터 PUT 요청 실패: ${err}`);
     }
   }
 
@@ -91,18 +90,18 @@ const DocumentItem = ({ data, setDatas }) => {
     return (
       <FieldDocumentBlock
         setDatas={setDatas}
-        fieldName={"award"}
+        fieldName={"certificate"}
         documentId={data?._id}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <form onSubmit={handlePutSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
-              <label>수상명</label>
+              <label>자격증명</label>
               <input
                 type="text"
-                placeholder="수상명"
+                placeholder="자격증명"
                 value={content?.title}
                 onChange={(e) => handleChange(e, "title")}
               />
@@ -115,12 +114,12 @@ const DocumentItem = ({ data, setDatas }) => {
               />
             </div>
             <div className="education-sub">
-              <label>수상일</label>
+              <label>취득일</label>
               <input
                 type="date"
-                placeholder="수상일"
+                placeholder="취득일"
                 value={content?.awardDate}
-                onChange={(e) => handleChange(e, "awardDate")}
+                onChange={(e) => handleChange(e, "certDate")}
               />
               <label>비고</label>
               <input
