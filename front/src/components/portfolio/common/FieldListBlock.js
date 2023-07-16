@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { mainColor } from "../../common/color";
 
 const FieldListBlock = ({ children }) => {
   return <ListBlock>{children}</ListBlock>;
@@ -21,7 +22,7 @@ const ListBlock = styled.div`
     padding: 10px 0;
     &::after {
       content: "";
-      background-color: rgb(115, 83, 234);
+      background-color: ${mainColor};
       height: 5px;
       position: absolute;
       left: 0;
