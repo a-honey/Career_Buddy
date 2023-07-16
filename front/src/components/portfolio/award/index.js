@@ -7,26 +7,27 @@ import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 
 //api로 Model의 전체 데이터를 요청
-const Award = ({ ownerId }) => {
+const Award = ({ user }) => {
+  const userId = user?.id;
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
-    getDatas(ownerId, "education")
+    getDatas(userId, "award")
       .then((res) => {
         setDatas(res.data);
       })
-      .catch((error) => {
-        console.log("educations 가져오기 실패");
+      .catch((err) => {
+        alert(`AWARD 데이터 가져오기 실패: ${err}`);
       });
-  }, [setDatas, ownerId]);
+  }, [setDatas, userId]);
 
-  return <FieldContainer datas={datas} setDatas={setDatas} ownerId={ownerId} />;
+  return <FieldContainer datas={datas} setDatas={setDatas} userId={userId} />;
 };
 
 export default Award;
 
 //Model에서 받아온 전체 데이터를 map
-const FieldContainer = ({ datas, setDatas, ownerId }) => {
+const FieldContainer = ({ datas, setDatas, userId }) => {
   const { isEditing } = useContext(EditContext);
 
   return (
@@ -35,7 +36,7 @@ const FieldContainer = ({ datas, setDatas, ownerId }) => {
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={ownerId} />}
+      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );
 };
@@ -73,8 +74,7 @@ const DocumentItem = ({ data, setDatas }) => {
 
       setIsDocumentEditing(false);
     } catch (err) {
-      alert("데이터 PUT 요청 실패");
-      alert(data);
+      alert(`AWARD 데이터 PUT 요청 실패: ${err}`);
     }
   }
 

@@ -26,7 +26,7 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
   return (
     <div style={{ display: "flex" }}>
       <UserCard user={user} setUser={setUser} isEditable={isEditable} />
-      <PortfolioList user={user} ownerId={user?.id} />
+      <PortfolioList user={user} />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { getDatas, updateData } from "../../../services/api";
 import { useContext, useEffect, useState } from "react";
-import { UserStateContext } from "../../../App";
 import { EditContext } from "../../../contexts/EditContext";
 import FieldListBlock from "../common/FieldListBlock";
 import DocumentAddBtn from "./DocumentAddBtn";
@@ -8,24 +7,25 @@ import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 
 //api로 Model의 전체 데이터를 요청
-const Education = ({ ownerId }) => {
+const Education = ({ user }) => {
+  const userId = user?.id;
   const [educations, setEducations] = useState([]);
 
   useEffect(() => {
-    getDatas(ownerId, "education")
+    getDatas(userId, "education")
       .then((res) => {
         setEducations(res.data);
       })
-      .catch((error) => {
-        console.log("educations 가져오기 실패");
+      .catch((err) => {
+        alert(`EDUCATION 데이터 가져오기 실패: ${err}`);
       });
-  }, [setEducations, ownerId]);
+  }, [setEducations, userId]);
 
   return (
     <FieldContainer
       datas={educations}
       setDatas={setEducations}
-      ownerId={ownerId}
+      userId={userId}
     />
   );
 };
@@ -33,7 +33,7 @@ const Education = ({ ownerId }) => {
 export default Education;
 
 //Model에서 받아온 전체 데이터를 map
-const FieldContainer = ({ datas, setDatas, ownerId }) => {
+const FieldContainer = ({ datas, setDatas, userId }) => {
   const { isEditing } = useContext(EditContext);
 
   return (
@@ -42,7 +42,7 @@ const FieldContainer = ({ datas, setDatas, ownerId }) => {
       {datas.map((data) => (
         <DocumentItem key={data._id} data={data} setDatas={setDatas} />
       ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={ownerId} />}
+      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );
 };
@@ -80,8 +80,7 @@ const DocumentItem = ({ data, setDatas }) => {
 
       setIsDocumentEditing(false);
     } catch (err) {
-      alert("데이터 PUT 요청 실패");
-      alert(data);
+      alert(`EDUCATION 데이터 PUT 요청 실패: ${err}`);
     }
   }
 
