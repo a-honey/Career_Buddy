@@ -17,12 +17,14 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const github = req.body.github;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
       name,
       email,
       password,
+      github,
     });
 
     if (newUser.errorMessage) {
@@ -54,19 +56,15 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
   }
 });
 
-userAuthRouter.get(
-  "/userlist",
-  login_required,
-  async function (req, res, next) {
-    try {
-      // 전체 사용자 목록을 얻음
-      const users = await userAuthService.getUsers();
-      res.status(200).send(users);
-    } catch (error) {
-      next(error);
-    }
+userAuthRouter.get("/userlist", async function (req, res, next) {
+  try {
+    // 전체 사용자 목록을 얻음
+    const users = await userAuthService.getUsers();
+    res.status(200).send(users);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 userAuthRouter.get(
   "/user/current",
@@ -102,8 +100,9 @@ userAuthRouter.put(
       const email = req.body.email ?? null;
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
+      const github = req.body.github ?? null;
 
-      const toUpdate = { name, email, password, description };
+      const toUpdate = { name, email, password, description, github };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
