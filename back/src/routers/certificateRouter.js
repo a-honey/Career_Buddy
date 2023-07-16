@@ -47,39 +47,7 @@ certificateRouter.get("/users/:userId/certifications",
       }
 )
 
-//Update 이슈 올렸습니다.
-// Certification model에서 export한 Certfication에 findOneAndUpdate를 적용하는 코드
-// certificateRouter.put("/certificate/edit/:id",login_required,async(req,res)=>{
-//   try{
-//     const certDocId=req.params.id;
-//     const updateData=req.body;
-//     console.log("certDocId",certDocId,"\n")
-//     console.log("updateData",updateData)
-//     const updatedCertificate=await Certification.updateOne(
-//       {certDocId},{updateData}
-//       )
-//     res.status(200).json(updatedCertificate)
-//     } catch (error) {
-//       res.status(500).json({ error: error.message });
-//     }
-//   } 
-// )
-
-
-// 저장용 c8b7358 (CRUD login_required 작동 확인)의 코드 
-// certificateRouter.put("/certificate/edit/:certDocId",login_required,async(req,res)=>{
-//   const certDocId=req.params.certDocId;
-//   const updateData=req.body;
-
-//   const updateCertificate=await CertificateModel.updateOne(
-//     {certDocId:certDocId},updateData)
-//     if(!updateCertificate){
-//       return res.status(500).json({ error: error.message });
-//     }
-//     res.status(200).json(updateCertificate)
-// })
-
-// 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
+//Update
 certificateRouter.put("/certifications/edit/:certDocId",login_required,async(req,res)=>{
   const certDocId=req.params.certDocId;
   const updateData=req.body;
