@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { body, param, ValidateResult } from "express-validator";
 
 import { Education } from "../db/models/Education";
 import { EducationService } from "../services/educationService";
+
 import { login_required } from "../middlewares/login_required";
+import { routeSanitizer } from "../middlewares/routeSanitizer";
 
 const educationRouter = Router();
 
@@ -11,19 +12,12 @@ const educationRouter = Router();
 // 프레젠터 레벨에서는 schema와 data type등 ODM 관점의 input validation을 수행합니다.
 // 서비스 레벨에서는 프로덕트 정책과 관련된 비즈니스 로직 validation을 수행합니다. userService.js를 참조하세요.
 
-// [보안] req.body와 req.param의 모든 요소들을 sanitize 하는 미들웨어를 express-validator를 사용해 만들어 라우터에 적용합니다.
-// [TO-DO] [REFACTOR] middlewares에다가 별도의 미들웨어로 분리해서 공용으로 사용해야 합니다.
-const sanitizeRoute = 
-body('**').escape(); 
-param('**').escape();
-
-
 // [TO-DO] [REFACTOR] 라우팅 경로를 보다 RESTful하게 설정해야 합니다.
 
 
 // [CRUD] CREATE
 // 프론트엔드로부터 전달받은 학력사항 입력값을 사용자의 새로운 학력정보로 저장합니다.
-educationRouter.post("/:user_id/education", sanitizeRoute, login_required, async (req, res, next) => {
+educationRouter.post("/:user_id/education", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const newEduData = req.body;
     const currentUserId = req.currentUserId;
@@ -62,7 +56,7 @@ educationRouter.post("/:user_id/education", sanitizeRoute, login_required, async
 
 // [CRUD] READ
 // 프론트엔드로부터 전달받은 userId를 사용해서 해당 사용자의 학력정보를 모두 가져옵니다.
-educationRouter.get("/:user_id/education", sanitizeRoute, login_required, async (req, res, next) => {
+educationRouter.get("/:user_id/education", routeSanitizer, login_required, async (req, res, next) => {
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
@@ -87,7 +81,7 @@ educationRouter.get("/:user_id/education", sanitizeRoute, login_required, async 
 
 // [CRUD] READ
 // 프론트엔드로부터 전달받은 eduId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
-educationRouter.get("/education/:edu_id", sanitizeRoute, login_required, async (req, res, next) => {
+educationRouter.get("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
@@ -112,7 +106,7 @@ educationRouter.get("/education/:edu_id", sanitizeRoute, login_required, async (
 
 // [CRUD] UPDATE
 // 프론트엔드로부터 전달받은 최신 학력사항 입력값으로 기존 학력정보를 업데이트합니다.
-educationRouter.put("/education/:edu_id", sanitizeRoute, login_required, async (req, res, next) => {
+educationRouter.put("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
@@ -149,7 +143,7 @@ educationRouter.put("/education/:edu_id", sanitizeRoute, login_required, async (
 
 // [CRUD] DELETE
 // 프론트엔드로부터 전달받은 eduId를 사용해서 학력정보를 찾아 삭제합니다.
-educationRouter.delete("/education/:edu_id", sanitizeRoute, login_required, async (req, res, next) => {
+educationRouter.delete("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
