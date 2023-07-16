@@ -2,18 +2,32 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import {Certification} from "../db/models/Certificate"
+import { routeSanitizer } from "../middlewares/routeSanitizer"; 
 // import {CertificateModel} from "../schemas/certification"
 const certificateRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-certificateRouter.put("/:userId/certificate/register",login_required,async (req, res)=> {
+certificateRouter.post("/:userId/certificate",login_required, routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const userId=req.params.userId;
+      const currentUserId=req.currentUserId;
+      const certData=req.body;
+      if(!certData || typeof certData !== 'object'){
+        throw new Error("입력된 자격증 정보가 없거나 올바르지 않습니다.")
+      }
+  
+      if(!currentUserId || currentUserId == null){
+        throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
+      }
+  
+      if(currentUserId !== req.params.userId){
+        throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
+      } 
+      
       const newCertificate=await Certification.create({
-        userId:userId,
+        userId:currentUserId,
         title:req.body.title,
         issuer:req.body.issuer,
         certDate:req.body.certDate,
@@ -32,7 +46,7 @@ certificateRouter.put("/:userId/certificate/register",login_required,async (req,
 );
 
 //Read
-certificateRouter.get("/users/:userId/certifications",
+certificateRouter.get("/:userId/certifications",
     async function (req, res) {
       try{
         const userId=req.params.userId;
@@ -46,28 +60,51 @@ certificateRouter.get("/users/:userId/certifications",
         }
       }
 )
-
 //Update
-certificateRouter.put("/certifications/edit/:certDocId",login_required,async(req,res)=>{
+certificateRouter.put("/certificate/:certDocId",login_required, routeSanitizer,async(req,res)=>{
   const certDocId=req.params.certDocId;
   const updateData=req.body;
+  // const currentUserId=req.currentUserId;
+  // if(!updateData || typeof updateData !== 'object'){
+  //   throw new Error("입력된 자격증 정보가 없거나 올바르지 않습니다.")
+  // }
 
+  // if(!currentUserId || currentUserId == null){
+  //   throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
+  // }
+
+  // if(currentUserId !== req.params.userId){
+  //   throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
+  // }    
   const updateCertificate=await Certification.updateOne(
     {certDocId:certDocId},updateData)
     if(!updateCertificate){
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).json(updateCertificate)
+    res.status(200).send({success:true})
 })
 
 
 //Delete
-certificateRouter.delete("/certifications/delete/:certDocId",login_required,
+certificateRouter.delete("/certifications/:certDocId",login_required, routeSanitizer,
 async (req,res)=>{
   const certDocId=req.params.certDocId
+  // const currentUserId=req.currentUserId;
+  // const certData=req.body;
+  // if(!certData || typeof certData !== 'object'){
+  //   throw new Error("입력된 자격증 정보가 없거나 올바르지 않습니다.")
+  // }
+
+  // if(!currentUserId || currentUserId == null){
+  //   throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
+  // }
+
+  // if(currentUserId !== req.params.userId){
+  //   throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
+  // } 
   try {   
     const delCertificate=await Certification.deleteOne({certDocId})
-    res.status(200)
+    res.status(200).send({success:true})
   }catch(error){
     res.status(500).json({ error: error.message });
   }
