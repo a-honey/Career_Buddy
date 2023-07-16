@@ -8,7 +8,6 @@ const PortfolioList = ({ user, isEditing }) => {
     <PortfolioListBlock>
       <Education user={user} isEditing={isEditing} />
       <Award user={user} isEditing={isEditing} />
-      <Project user={user} isEditing={isEditing} />
     </PortfolioListBlock>
   );
 };
