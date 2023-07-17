@@ -1,4 +1,4 @@
-import { AwardModel } from "../schemas/awardSchema";
+import { AwardModel } from "../schemas/award";
 class Award {
   // Create
   // certDocId 사용하지 않음

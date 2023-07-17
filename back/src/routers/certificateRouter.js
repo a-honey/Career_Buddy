@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {Certification} from "../db/models/CertificateModel"
+import {Certification} from "../db/models/Certificate"
 import {routeSanitizer} from "../middlewares/routeSanitizer"
 
 const certificateRouter = Router();

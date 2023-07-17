@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { Award } from "../db/models/AwardModel";
+import { Award } from "../db/models/Award";
 import { routeSanitizer } from "../middlewares/routeSanitizer";
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
