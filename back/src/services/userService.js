@@ -132,6 +132,36 @@ class userAuthService {
 
     return user;
   }
+
+  // 로그인한 사용자가 신청한 회원 탈퇴 작업을 수행하는 기능을 구현합니다.
+  static async deleteUser(currentUserId, userEmail, userPassword){
+    try{
+
+      if(!userEmail) {
+        throw new Error("현재 로그인한 사용자의 이메일을 입력하세요.")
+      }
+
+      if(!userPassword) {
+        throw new Error("현재 로그인한 사용자의 비밀번호를 입력하세요.")
+      }
+
+      // 현재 로그인한 사용자의 currentUserId로 사용자 계정 document를 찾습니다.
+      const targetDocument = await User.findById(currentUserId);
+
+      // [보안] 삭제를 요청한 사용자와 계정 document의 소유자가 일치하는지를 validate 합니다.
+      if(currentUserId !== targetDocument.id){
+        throw new Error("현재 로그인한 사용자는 사용자 계정 정보를 삭제할 권한이 없습니다.")
+      }
+
+      // validation이 통과되었다면 사용자 계정 document를 삭제합니다.
+      const deletedUser = await User.delete(currentuserId);
+      return;
+    }
+    catch(error){
+      throw new Error(error);
+    }
+  }
+
 }
 
 export { userAuthService };

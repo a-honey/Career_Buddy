@@ -28,7 +28,7 @@ educationRouter.post("/:user_id/education", routeSanitizer, login_required, asyn
       throw new Error("입력된 학력 정보가 없거나 올바르지 않습니다.")
     }
 
-    if(!currentUserId || currentUserId == null){
+    if(!currentUserId){
       throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
     }
 
@@ -64,7 +64,7 @@ educationRouter.get("/:user_id/education", routeSanitizer, login_required, async
     
     // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
     // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
-    const foundUserEducations = await Education.findEducationsByUserId(userId);
+    const foundUserEducations = await EducationService.getUserEducations(userId);
 
     if (foundUserEducations.error) {
       throw new Error(foundUserEducations.error);
@@ -80,6 +80,7 @@ educationRouter.get("/:user_id/education", routeSanitizer, login_required, async
 
 
 // [CRUD] READ
+// [보안] 이 요청은 로그인 여부와 권한과 상관없이 누구나 보낼 수 있습니다. 프론트엔드에서 사용시 주의하세요.
 // 프론트엔드로부터 전달받은 eduId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
 educationRouter.get("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
   try {
@@ -126,7 +127,7 @@ educationRouter.put("/education/:edu_id", routeSanitizer, login_required, async 
       throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
     }
 
-    const updatedEducation = await EducationService.modifyEducation(currentUserId, eduId, updatedEduData);
+    const updatedEducation = await EducationService.modifyMyEducation(currentUserId, eduId, updatedEduData);
 
     if (updatedEducation.error) {
       throw new Error(updatedEducation.error);
@@ -148,7 +149,7 @@ educationRouter.delete("/education/:edu_id", routeSanitizer, login_required, asy
     const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
 
-    const deletedEducation = await EducationService.removeEducation(currentUserId, eduId);
+    const deletedEducation = await EducationService.removeMyEducation(currentUserId, eduId);
 
     if (deletedEducation.error) {
       throw new Error(deletedEducation.error);

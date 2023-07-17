@@ -1,7 +1,10 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
+import { routeSanitizer } from "../middlewares/routeSanitizer";
+
 import { userAuthService } from "../services/userService";
+
 
 const userAuthRouter = Router();
 
@@ -145,5 +148,26 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
     );
 });
+
+// 회원 탈퇴를 수행합니다.
+userAuthRouter.delete("/user/deletion"), login_required, async function (req, res, next) {
+  try {
+    const currentUserId = req.currentUserId ?? null;
+    const userEmail = req.body.email ?? null;
+    const userPassword = req.body.password ?? null;
+
+    const deletedUser = await userAuthService.deleteUser(currentUserId, userEmail, userPassword);
+
+    if (deletedUser.error) {
+      throw new Error(deletedUser.error);
+    }
+
+    res.status(200).send("사용자 계정 삭제가 완료되었습니다.");
+  }
+  catch(error){
+    next(error);
+  }
+}
+
 
 export { userAuthRouter };
