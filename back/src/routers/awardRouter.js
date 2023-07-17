@@ -2,34 +2,22 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import {Award} from "../db/models/Award"
-import { routeSanitizer } from "../middlewares/routeSanitizer"; 
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-awardRouter.post("/:userId/award", routeSanitizer,login_required,async (req, res)=> {
+awardRouter.put("/:userId/award/register",login_required,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const currentUserId=req.currentUserId;
-      const awardData=req.body;
-      if(!awardData || typeof awardData !== 'object'){
-        throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
-      }
-  
-      if(!currentUserId || currentUserId == null){
-        throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
-      }
-  
-      if(currentUserId !== req.params.userId){
-        throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
-      }      
+      const userId=req.params.userId;
       const newAward=await Award.create({
-        userId:currentUserId,
+        userId:userId,
         title:req.body.title,
         issuer:req.body.issuer,
-        awardDate:req.body.awardDate
+        awardDate:req.body.awardDate,
+        description:req.body.description
       })
       const savedAward = await newAward.save();
       res.send({success:true});
@@ -42,7 +30,7 @@ awardRouter.post("/:userId/award", routeSanitizer,login_required,async (req, res
 );
 
 //Read
-awardRouter.get("/:userId/awards",
+awardRouter.get("/user/:userId/awards",
     async function (req, res) {
       try{
         const userId=req.params.userId;
@@ -58,7 +46,7 @@ awardRouter.get("/:userId/awards",
 )
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
-awardRouter.put("/award/:awardDocId",login_required, routeSanitizer,async(req,res)=>{
+awardRouter.put("/awards/edit/:awardDocId",login_required,async(req,res)=>{
   const awardDocId=req.params.awardDocId;
   const updateData=req.body;
   const currentUserId=req.currentUserId;
@@ -74,30 +62,17 @@ awardRouter.put("/award/:awardDocId",login_required, routeSanitizer,async(req,re
     if(!updateAward){
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).json({success:true});
+    res.status(200).json(updateAward)
 })
 
 
 //Delete
-awardRouter.delete("/awards/:awardDocId",login_required, routeSanitizer,
+awardRouter.delete("/awards/delete/:awardDocId",login_required,
 async (req,res)=>{
   const awardDocId=req.params.awardDocId
-  // const awardData=req.body;
-  // const currentUserId=req.currentUserId;
-  // if(!awardData || typeof awardData !== 'object'){
-  //   throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
-  // }
-
-  // if(!currentUserId || currentUserId == null){
-  //   throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
-  // }
-
-  // if(currentUserId !== req.params.userId){
-  //   throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
-  // }    
   try {   
     const delAwards=await Award.deleteOne({awardDocId})
-    res.status(200).send({success:true});
+    res.status(200).send(delAwards)
   }catch(error){
     res.status(500).json({ error: error.message });
   }

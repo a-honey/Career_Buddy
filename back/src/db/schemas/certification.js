@@ -4,6 +4,7 @@ const CertificateSchema = new Schema(
   {
     userId:{
         type:String,
+        ref:'UserModel',
         required:true
     },
     title: {
