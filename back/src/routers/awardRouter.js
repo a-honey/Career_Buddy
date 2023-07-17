@@ -8,11 +8,11 @@ const awardRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-awardRouter.post("/:userId/award",login_required,routeSanitizer,async (req, res)=> {
+awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const userId=req.params.userId;
+      const userId=req.params.user-id;
       const newAward=await Award.create({
         userId:userId,
         title:req.body.title,
@@ -31,11 +31,11 @@ awardRouter.post("/:userId/award",login_required,routeSanitizer,async (req, res)
 );
 
 //Read
-awardRouter.get("/:userId/awards",
+awardRouter.get("users/:user-id/awards",
     async function (req, res) {
       try{
-        const userId=req.params.userId;
-        //이때의 id는 유저의 id입니다. 잘 불러와질지...
+        const userId=req.params.user-id;
+        //이때의 user-id는 유저의 id입니다.
         const awardList=await Award.findById({userId})
         
         // id를 기반으로 사용자의 자격증 목록을 불러오고자 함
@@ -47,8 +47,8 @@ awardRouter.get("/:userId/awards",
 )
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
-awardRouter.put("/award/:awardDocId",login_required,routeSanitizer,async(req,res)=>{
-  const awardDocId=req.params.awardDocId;
+awardRouter.put("/awards/:doc-id",login_required,routeSanitizer,async(req,res)=>{
+  const awardDocId=req.params.doc-id;
   const updateData=req.body;
   const currentUserId=req.currentUserId;
   if(!updateData || typeof updateData !== 'object'){
@@ -68,9 +68,9 @@ awardRouter.put("/award/:awardDocId",login_required,routeSanitizer,async(req,res
 
 
 //Delete
-awardRouter.delete("/awards/:awardDocId",login_required,routeSanitizer,
+awardRouter.delete("/awards/:doc-id",login_required,routeSanitizer,
 async (req,res)=>{
-  const awardDocId=req.params.awardDocId
+  const awardDocId=req.params.doc-id
   try {   
     const delAwards=await Award.deleteOne({awardDocId})
     res.status(200).send({success:true});
