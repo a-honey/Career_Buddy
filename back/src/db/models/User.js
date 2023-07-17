@@ -25,7 +25,6 @@ class User {
     const filter = { id: user_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
-
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,
       update,

@@ -151,16 +151,20 @@ userAuthRouter.put("/user/:user_id/password",
 login_required,
 async function (req, res, next) {
   try{
+    // 현재 로그인한 id. 833396cc~
+    const currentUserId=req.currentUserId;
     const user_id=req.params.user_id
     const email=req.body.email;
     const inputPassword= req.body.inputPassword;
     const newPassword=req.body.newPassword;
-    const updatedPassword=await userAuthService.setPassword({user_id,email,inputPassword,newPassword})
-    
+    const updatedPassword=await userAuthService.setPassword(
+      {user_id,email,inputPassword,newPassword})
+    if (currentUserId!==user_id){
+      throw new Error("현재 로그인한 사용자가 아닙니다.")
+    }
     if (updatedPassword.errorMessage){
       throw new Error(updatedPassword.errorMessage)
     }
-    console.log("Router updatedPassword.password",updatedPassword.newPassword)
     res.status(200).json(updatedPassword)
   } catch (error) {
     next(error);
