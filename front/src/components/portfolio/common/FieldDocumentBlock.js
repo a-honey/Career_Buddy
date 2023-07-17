@@ -3,6 +3,7 @@ import { FullBtn, FullRedBtn } from "../../common/Btns";
 import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 import { deleteData } from "../../../services/api";
+import { mainColor } from "../../common/color";
 
 const FieldDocumentBlock = ({
   setDatas,
@@ -55,12 +56,13 @@ const FieldDocumentBlock = ({
 export default FieldDocumentBlock;
 
 const Block = styled.div`
-  border: solid 2px black;
+  border: solid 1px ${mainColor};
   border-radius: 8px;
   margin: 10px 20px;
   display: flex;
   position: relative;
-  padding: 5px 10px;
+  padding-top: 15px;
+  box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.8, 0.5);
   .btns {
     display: flex;
     align-items: center;

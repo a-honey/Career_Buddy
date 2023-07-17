@@ -121,7 +121,6 @@ const DocumentItem = ({ data, setDatas }) => {
                 value={content?.institution}
                 onChange={(e) => handleChange(e, "institution")}
               />
-              <div>{data?._id}</div>
               <label>전공</label>
               <input
                 type="text"
@@ -197,23 +196,48 @@ const DocumentItem = ({ data, setDatas }) => {
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <div className="field-main-content">
-          <span className="field-title">교육기관 | </span>
-          {data?.institution} {data?.major}{" "}
-          <span className="field-sub-content">
-            | {data?.degree} {data?.status}
-          </span>
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="field-main before partition">
           <div className="field-content">
-            <span className="field-title">학점 | </span>
-            {data?.grade}
+            <span className="field-title">교육기관 | </span>
+            {data?.institution}
           </div>
-          <div className="field-date">
-            <span className="field-title">기간 | </span>
-            {data?.entryDate} - {data?.gradDate}
+          <div className="field-content">
+            <span className="field-title">전공명 | </span>
+            {data?.major}
           </div>
         </div>
+        <div className="field-sub partition">
+          <div className="field-sub-content">
+            <span className="field-title">학위 | </span>
+            {data?.degree}
+          </div>
+          <div className="field-sub-content">
+            <span className="field-title">학력 상태 | </span>
+            {data?.status}
+          </div>
+          <div className="field-last partition">
+            <div className="field-sub-content">
+              <span className="field-title">학점 | </span>
+              {data?.grade}
+            </div>
+          </div>
+        </div>
+        <div className="field-last partition">
+          <div className="field-conent date">
+            <span className="field-title">기간 | </span>
+            <span className="num">
+              {data?.entryDate} - {data?.gradDate}
+            </span>
+          </div>
+        </div>
+        {data.description && (
+          <div className="field-last partition">
+            <div className="field-sub-content">
+              <span className="field-title">비고 | </span>
+              {data.description}
+            </div>
+          </div>
+        )}
       </FieldDocumentBlock>
     );
   }

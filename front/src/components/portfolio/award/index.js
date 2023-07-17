@@ -112,13 +112,13 @@ const DocumentItem = ({ data, setDatas }) => {
               <input
                 type="text"
                 placeholder="수상명"
-                value={content?.title}
+                value={content.title}
                 onChange={(e) => handleChange(e, "title")}
               />
-              <label>issuer</label>
+              <label>발급기관</label>
               <input
                 type="text"
-                placeholder="issuer"
+                placeholder="발급기관"
                 value={content?.issuer}
                 onChange={(e) => handleChange(e, "issuer")}
               />
@@ -128,14 +128,14 @@ const DocumentItem = ({ data, setDatas }) => {
               <input
                 type="date"
                 placeholder="수상일"
-                value={content?.awardDate}
+                value={content.awardDate}
                 onChange={(e) => handleChange(e, "awardDate")}
               />
               <label>비고</label>
               <input
                 type="text"
                 placeholder="설명"
-                value={content?.description}
+                value={content.description}
                 onChange={(e) => handleChange(e, "description")}
               />
             </div>
@@ -164,16 +164,30 @@ const DocumentItem = ({ data, setDatas }) => {
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <div className="field-main-content">
-          <span className="field-title">수상명 | </span>
-          {data?.title} {data?.issuer}{" "}
+        <div className="field-main before partition">
+          <div className="field-content">
+            <span className="field-title">수상명 | </span>
+            {data?.title}
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className="field-date">
+        <div className="field-sub partition">
+          <div className="field-sub-content">
             <span className="field-title">수상일 | </span>
             {data?.awardDate}
           </div>
+          <div className="field-sub-content">
+            <span className="field-title">발급기관 | </span>
+            {data?.issuer}
+          </div>
         </div>
+        {data.description && (
+          <div className="field-last partition">
+            <div className="field-sub-content">
+              <span className="field-title">비고 | </span>
+              {data.description}
+            </div>
+          </div>
+        )}
       </FieldDocumentBlock>
     );
   }

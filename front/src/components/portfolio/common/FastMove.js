@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { mainColor } from "../../common/color";
+import { hoverColor, mainColor } from "../../common/color";
 
 const FastMove = ({ scrollElement }) => {
   const [isShowList, setIsShowList] = useState(false);
@@ -16,13 +16,15 @@ const FastMove = ({ scrollElement }) => {
 
   return (
     <FastMoveBlock>
-      <ShowBtn onClick={() => setIsShowList(!isShowList)}>Move</ShowBtn>
+      <Btn className="move" onClick={() => setIsShowList(!isShowList)}>
+        Quick
+      </Btn>
       {isShowList && (
-        <BtnBlock>
+        <>
           <Btn onClick={() => handleClick(1)}>education</Btn>
           <Btn onClick={() => handleClick(2)}>awards</Btn>
           <Btn onClick={() => handleClick(3)}>education</Btn>
-        </BtnBlock>
+        </>
       )}
     </FastMoveBlock>
   );
@@ -32,37 +34,33 @@ export default FastMove;
 const FastMoveBlock = styled.div`
   position: fixed;
   top: 100px;
-  right: 70px;
+  right: 120px;
   width: 100px;
-  z-index: 9999;
+  z-index: 1000;
   display: flex;
+  align-items: center;
   flex-direction: column;
+  .move {
+    width: 150px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    &:hover {
+      background-color: ${mainColor};
+    }
+  }
 `;
 
-const ShowBtn = styled.button`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+const Btn = styled.button`
+  width: 120px;
+  padding: 5px 10px;
   background-color: ${mainColor};
   color: #ffffff;
   font-size: 20px;
   font-weight: 700;
-`;
+  box-shadow: 0 2px 4px rgba(1, 1.5, 1, 1);
+  margin-bottom: 20px;
 
-const BtnBlock = styled.button`
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  margin: 10px auto;
-  justify-content: space-between;
-  align-items: center;
-  height: 150px;
-`;
-const Btn = styled.button`
-  background-color: ${mainColor};
-  text-align: center;
-  border-radius: 10px;
-  color: #ffffff;
-  font-weight: 700;
-  padding: 5px 10px;
+  &:hover {
+    background-color: ${hoverColor};
+  }
 `;
