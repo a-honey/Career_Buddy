@@ -1,13 +1,14 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {Certification} from "../db/models/Certificate"
-// import {CertificateModel} from "../schemas/certification"
+import {Certification} from "../db/models/CertificateModel"
+import {routeSanitizer} from "../middlewares/routeSanitizer"
+
 const certificateRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-certificateRouter.put("/:userId/certificate",login_required,async (req, res)=> {
+certificateRouter.post("/:userId/certificate",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
@@ -48,7 +49,7 @@ certificateRouter.get("/:userId/certificates",
 )
 
 //Update
-certificateRouter.put("/certificate/:certDocId",login_required,async(req,res)=>{
+certificateRouter.put("/certificate/:certDocId",login_required,routeSanitizer,async(req,res)=>{
   const certDocId=req.params.certDocId;
   const updateData=req.body;
 
@@ -57,17 +58,17 @@ certificateRouter.put("/certificate/:certDocId",login_required,async(req,res)=>{
     if(!updateCertificate){
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).json(updateCertificate)
+    res.status(200).send({success:true});
 })
 
 
 //Delete
-certificateRouter.delete("/certificates/:certDocId",login_required, routeSanitizer,
+certificateRouter.delete("/certificates/:certDocId",login_required,routeSanitizer, routeSanitizer,
 async (req,res)=>{
   const certDocId=req.params.certDocId
   try {   
     const delCertificate=await Certification.deleteOne({certDocId})
-    res.status(200)
+    res.status(200).send({success:true});
   }catch(error){
     res.status(500).json({ error: error.message });
   }

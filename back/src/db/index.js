@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
-import {Certificate} from "./models/Certificate"
-
 const DB_URL =
   process.env.MONGODB_URL ||
   "MongoDB 서버 주소가 설정되지 않았습니다.\n./db/index.ts 파일을 확인해 주세요.";
@@ -16,4 +14,4 @@ db.on("error", (error) =>
   console.error("MongoDB 연결에 실패하였습니다...\n" + DB_URL + "\n" + error)
 );
 
-export { User,Certificate };
+export { User };

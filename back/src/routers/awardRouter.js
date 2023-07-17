@@ -1,13 +1,14 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {Award} from "../db/models/Award"
+import {Award} from "../db/models/AwardModel"
+import {routeSanitizer} from "../middlewares/routeSanitizer"
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-awardRouter.put("/:userId/award/register",login_required,async (req, res)=> {
+awardRouter.post("/:userId/award",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
@@ -30,7 +31,7 @@ awardRouter.put("/:userId/award/register",login_required,async (req, res)=> {
 );
 
 //Read
-awardRouter.get("/user/:userId/awards",
+awardRouter.get("/:userId/awards",
     async function (req, res) {
       try{
         const userId=req.params.userId;
@@ -46,7 +47,7 @@ awardRouter.get("/user/:userId/awards",
 )
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
-awardRouter.put("/awards/edit/:awardDocId",login_required,async(req,res)=>{
+awardRouter.put("/award/:awardDocId",login_required,routeSanitizer,async(req,res)=>{
   const awardDocId=req.params.awardDocId;
   const updateData=req.body;
   const currentUserId=req.currentUserId;
@@ -62,17 +63,17 @@ awardRouter.put("/awards/edit/:awardDocId",login_required,async(req,res)=>{
     if(!updateAward){
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).json(updateAward)
+    res.status(200).send({success:true});
 })
 
 
 //Delete
-awardRouter.delete("/awards/delete/:awardDocId",login_required,
+awardRouter.delete("/awards/:awardDocId",login_required,routeSanitizer,
 async (req,res)=>{
   const awardDocId=req.params.awardDocId
   try {   
     const delAwards=await Award.deleteOne({awardDocId})
-    res.status(200).send(delAwards)
+    res.status(200).send({success:true});
   }catch(error){
     res.status(500).json({ error: error.message });
   }
