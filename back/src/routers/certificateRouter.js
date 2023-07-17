@@ -1,9 +1,8 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {Certification} from "../db/models/Certificate"
+import {Certification} from "../db/models/CertificateModel"
 import { routeSanitizer } from "../middlewares/routeSanitizer"; 
-// import {CertificateModel} from "../schemas/certification"
 const certificateRouter = Router();
 const mongoose = require('mongoose');
 
@@ -46,7 +45,7 @@ certificateRouter.post("/:userId/certificate",login_required, routeSanitizer,asy
 );
 
 //Read
-certificateRouter.get("/:userId/certifications",
+certificateRouter.get("/:userId/certificates",
     async function (req, res) {
       try{
         const userId=req.params.userId;
@@ -86,7 +85,7 @@ certificateRouter.put("/certificate/:certDocId",login_required, routeSanitizer,a
 
 
 //Delete
-certificateRouter.delete("/certifications/:certDocId",login_required, routeSanitizer,
+certificateRouter.delete("/certificates/:certDocId",login_required, routeSanitizer,
 async (req,res)=>{
   const certDocId=req.params.certDocId
   // const currentUserId=req.currentUserId;
