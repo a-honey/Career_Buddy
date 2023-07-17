@@ -1,4 +1,4 @@
-import { CertificateModel } from "../schemas/certification.js";
+import { CertificateModel } from "../schemas/certificationSchema.js";
 class Certification {
 
   // Create
