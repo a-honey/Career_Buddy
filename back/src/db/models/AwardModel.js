@@ -1,4 +1,4 @@
-import { AwardModel } from "../schemas/award";
+import { AwardModel } from "../schemas/awardSchema";
 class Award {
   // Create
   // certDocId 사용하지 않음
@@ -15,9 +15,8 @@ class Award {
 
   // Read
   static async findById({userId}) {
-    
     const filter = { userId: userId};
-    const awards = await AwardModel.find({filter});
+    const awards = await AwardModel.find(filter);
     return awards;
   }
 

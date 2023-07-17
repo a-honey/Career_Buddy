@@ -1,4 +1,4 @@
-import { CertificateModel } from "../schemas/certification.js";
+import { CertificateModel } from "../schemas/certificateSchema.js";
 class Certification {
 
   // Create
@@ -16,7 +16,7 @@ class Certification {
   static async findById({userId}) {
     
     const filter = { userId: userId};
-    const certificates = await CertificateModel.find({filter});
+    const certificates = await CertificateModel.find(filter);
     return certificates;
   }
 
