@@ -4,9 +4,11 @@ import * as Api from "../../../api";
 import PortfolioList from "../PortfolioList";
 import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router";
+import Loading from "../../common/Loading";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   const [user, setUser] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
   const userState = useContext(UserStateContext);
   const navigate = useNavigate();
 
@@ -21,7 +23,12 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
     Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
+    setIsFetching(false);
   }, [portfolioOwnerId]);
+
+  if (isFetching) {
+    return <Loading />;
+  }
 
   return (
     <div style={{ display: "flex" }}>

@@ -5,21 +5,28 @@ import FieldListBlock from "../common/FieldListBlock";
 import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
+import Loading from "../../common/Loading";
 
 //api로 Model의 전체 데이터를 요청
 const Award = ({ user }) => {
   const userId = user?.id;
   const [datas, setDatas] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     getDatas(userId, "award")
       .then((res) => {
         setDatas(res.data);
+        setIsFetching(false);
       })
       .catch((err) => {
         alert(`AWARD 데이터 가져오기 실패: ${err}`);
       });
   }, [setDatas, userId]);
+
+  if (isFetching) {
+    return <Loading />;
+  }
 
   return <FieldContainer datas={datas} setDatas={setDatas} userId={userId} />;
 };
@@ -66,10 +73,12 @@ const DocumentItem = ({ data, setDatas }) => {
       await updateData(data?._id, "award", content);
 
       setDatas((datas) => {
-        const olddatas = datas.filter(
-          (origindata) => origindata._id !== data?._id
-        );
-        return [...olddatas, content];
+        return datas.map((origindata) => {
+          if (origindata._id === data?._id) {
+            return content;
+          }
+          return origindata;
+        });
       });
 
       setIsDocumentEditing(false);
@@ -151,7 +160,7 @@ const DocumentItem = ({ data, setDatas }) => {
       <FieldDocumentBlock
         setDatas={setDatas}
         documentId={data?._id}
-        fieldName={"education"}
+        fieldName={"award"}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >

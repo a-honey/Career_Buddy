@@ -5,21 +5,28 @@ import FieldListBlock from "../common/FieldListBlock";
 import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
+import Loading from "../../common/Loading";
 
 //api로 Model의 전체 데이터를 요청
 const Education = ({ user }) => {
   const userId = user?.id;
   const [educations, setEducations] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     getDatas(userId, "education")
       .then((res) => {
         setEducations(res.data);
+        setIsFetching(false);
       })
       .catch((err) => {
         alert(`EDUCATION 데이터 가져오기 실패: ${err}`);
       });
   }, [setEducations, userId]);
+
+  if (isFetching) {
+    return <Loading />;
+  }
 
   return (
     <FieldContainer
