@@ -97,7 +97,7 @@ class EducationService {
 
       // validation이 통과되면 document를 삭제합니다.
       const removedEducation = await Education.delete(eduId);
-      return;
+      return "학력사항 삭제 완료";
     }
     catch(error) {
       throw new Error(error);

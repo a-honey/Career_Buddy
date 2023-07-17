@@ -150,13 +150,17 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 });
 
 // 회원 탈퇴를 수행합니다.
-userAuthRouter.delete("/user/deletion"), login_required, async function (req, res, next) {
+userAuthRouter.delete("/user/deletion", login_required, async function (req, res, next) {
   try {
-    const currentUserId = req.currentUserId ?? null;
-    const userEmail = req.body.email ?? null;
-    const userPassword = req.body.password ?? null;
+    if (is.emptyObject(req.body)) {
+      throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
+    }
 
-    const deletedUser = await userAuthService.deleteUser(currentUserId, userEmail, userPassword);
+    const currentUserId = req.currentUserId ?? null;
+    const inputEmail = req.body.inputEmail ?? null;
+    const inputPassword = req.body.inputPassword ?? null;
+
+    const deletedUser = await userAuthService.deleteUser({ currentUserId, inputEmail, inputPassword });
 
     if (deletedUser.error) {
       throw new Error(deletedUser.error);
@@ -167,7 +171,7 @@ userAuthRouter.delete("/user/deletion"), login_required, async function (req, re
   catch(error){
     next(error);
   }
-}
+});
 
 
 export { userAuthRouter };
