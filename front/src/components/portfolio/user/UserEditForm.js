@@ -78,14 +78,6 @@ function UserEditForm({ user, setUser }) {
       <FullBtn type="submit" className="me-3">
         확인
       </FullBtn>
-      <EmptyBtn
-        variant="secondary"
-        onClick={() => {
-          turnEditing();
-        }}
-      >
-        취소
-      </EmptyBtn>
     </form>
   );
 }

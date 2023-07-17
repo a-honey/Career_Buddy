@@ -5,6 +5,7 @@ import PortfolioList from "../PortfolioList";
 import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router";
 import Loading from "../../common/Loading";
+import { FullRedBtn } from "../../common/Btns";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   const [user, setUser] = useState(null);
@@ -30,10 +31,21 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
     return <Loading />;
   }
 
+  function handleClick() {
+    //회원탈퇴api요청
+  }
+
   return (
-    <div style={{ display: "flex" }}>
-      <UserCard user={user} setUser={setUser} isEditable={isEditable} />
-      <PortfolioList user={user} />
+    <div>
+      <div style={{ display: "flex" }}>
+        <UserCard user={user} setUser={setUser} isEditable={isEditable} />
+        <PortfolioList user={user} />
+      </div>
+      {isEditable && (
+        <FullRedBtn onClick={handleClick} style={{ marginLeft: "100px" }}>
+          회원탈퇴
+        </FullRedBtn>
+      )}
     </div>
   );
 }

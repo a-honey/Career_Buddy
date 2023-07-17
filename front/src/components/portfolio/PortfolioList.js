@@ -30,4 +30,5 @@ const PortfolioListBlock = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 80px;
 `;

@@ -10,6 +10,11 @@ const DocumentAddBtn = ({ setDatas, editId }) => {
       <EmptyBtn
         className="addingBtn"
         onClick={() => setIsAdding((isAdding) => !isAdding)}
+        style={{
+          marginTop: "30px",
+          marginLeft: "45px",
+          width: "90%",
+        }}
       >
         +
       </EmptyBtn>
