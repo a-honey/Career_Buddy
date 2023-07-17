@@ -72,10 +72,12 @@ const DocumentItem = ({ data, setDatas }) => {
       await updateData(data?._id, "education", content);
 
       setDatas((datas) => {
-        const olddatas = datas.filter(
-          (origindata) => origindata._id !== data?._id
-        );
-        return [...olddatas, content];
+        return datas.map((origindata) => {
+          if (origindata._id === data?._id) {
+            return content;
+          }
+          return origindata;
+        });
       });
 
       setIsDocumentEditing(false);
