@@ -62,17 +62,13 @@ awardRouter.put("/award/:awardDocId",login_required, routeSanitizer,async(req,re
   const awardDocId=req.params.awardDocId;
   const updateData=req.body;
   const currentUserId=req.currentUserId;
-  // if(!updateData || typeof updateData !== 'object'){
-  //   throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
-  // }
+  if(!updateData || typeof updateData !== 'object'){
+    throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
+  }
 
-  // if(!currentUserId || currentUserId == null){
-  //   throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
-  // }
-
-  // if(currentUserId !== req.params.userId){
-  //   throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
-  // }    
+  if(!currentUserId || currentUserId == null){
+    throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
+  }
   const updateAward=await Award.updateOne(
     {awardDocId:awardDocId},updateData)
     if(!updateAward){
