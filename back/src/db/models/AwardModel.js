@@ -15,9 +15,8 @@ class Award {
 
   // Read
   static async findById({userId}) {
-    
     const filter = { userId: userId};
-    const awards = await AwardModel.find({filter});
+    const awards = await AwardModel.find(filter);
     return awards;
   }
 
