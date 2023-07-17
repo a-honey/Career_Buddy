@@ -1,31 +1,32 @@
-import { getDatas, updateData } from "../../../services/api";
-import { useContext, useEffect, useState } from "react";
-import { EditContext } from "../../../contexts/EditContext";
+import { getDatas } from "../../../services/api";
+import { useEffect, useState } from "react";
 import FieldListBlock from "../common/FieldListBlock";
-import DocumentAddBtn from "./DocumentAddBtn";
-import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 
 //api로 Model의 전체 데이터를 요청
-const Education = ({ user }) => {
+const Education = ({ user, isEditing }) => {
   const userId = user?.id;
-  const [educations, setEducations] = useState([]);
+  const fieldName = "education";
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     getDatas(userId, "education")
       .then((res) => {
-        setEducations(res.data);
+        setDatas(res.data);
       })
       .catch((err) => {
         alert(`EDUCATION 데이터 가져오기 실패: ${err}`);
       });
-  }, [setEducations, userId]);
+  }, [setDatas, userId]);
 
   return (
-    <FieldContainer
-      datas={educations}
-      setDatas={setEducations}
+    <FieldListBlock
+      datas={datas}
+      isEditing={isEditing}
+      ShowItem={ShowItem}
+      setDatas={setDatas}
       userId={userId}
+      fieldName={fieldName}
     />
   );
 };
@@ -33,28 +34,18 @@ const Education = ({ user }) => {
 export default Education;
 
 //Model에서 받아온 전체 데이터를 map
-const FieldContainer = ({ datas, setDatas, userId }) => {
-  const { isEditing } = useContext(EditContext);
 
-  return (
-    <FieldListBlock>
-      <h1 className="fieldName">Education</h1>
-      {datas.map((data) => (
-        <DocumentItem key={data._id} data={data} setDatas={setDatas} />
-      ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
-    </FieldListBlock>
-  );
-};
-
-const DocumentItem = ({ data, setDatas }) => {
-  //해당 Model이 현재 편집상태인지 확인
-  const { isEditing } = useContext(EditContext);
-  //해당 document가 현재 편집상태인지 확인
-  const [isDocumentEditing, setIsDocumentEditing] = useState(false);
-
+const ShowItem = ({
+  data,
+  fieldName,
+  isDocumentEditing,
+  setIsDocumentEditing,
+  UpdateDocument,
+  PostDocument,
+}) => {
   //해당 Document field의 content를 State로 관리
   const [content, setContent] = useState(data);
+  const [isAdding, setIsAdding] = useState(false);
 
   //field의 value onChange 시 content 변경
   function handleChange(e, fieldName) {
@@ -65,22 +56,22 @@ const DocumentItem = ({ data, setDatas }) => {
   }
 
   // 수정 버튼 클릭시 해당 filedName으로 업데이트(put)요청 보내기
-  async function handlePutSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      await updateData(data?._id, "education", content);
+    if (isAdding) {
+      const requiredFields = ["institution", "status", "entryDate"];
 
-      setDatas((datas) => {
-        const olddatas = datas.filter(
-          (origindata) => origindata._id !== data?._id
-        );
-        return [...olddatas, content];
-      });
+      for (const fieldName of requiredFields) {
+        if (content[fieldName].trim() === "") {
+          alert(`${fieldName} 입력란이 비어있습니다.`);
+          return;
+        }
+      }
 
-      setIsDocumentEditing(false);
-    } catch (err) {
-      alert(`EDUCATION 데이터 PUT 요청 실패: ${err}`);
+      PostDocument(fieldName, content, setIsAdding);
+    } else {
+      UpdateDocument(data._id, fieldName, content);
     }
   }
 
@@ -93,77 +84,81 @@ const DocumentItem = ({ data, setDatas }) => {
   }
 
   // 해당 field 저장한 State 출력하기
-  if (isDocumentEditing && isEditing) {
+
+  //isEditing이고, isDocumentEditing일 때(단, isDocumentEditing은 isEditing일 때만 보여지기 때문에, isEditing을 신경쓸 필요 없음 => isDocuemntEditing이 true이면? isEditing이다.) FieldDocumentBlock의 showItem으로 넘어가야함
+  //isDocumentEditing이면 form을 보여줌 아니면 맨하단 셋팅된 data를 보여줌
+  if (isDocumentEditing) {
     return (
-      <FieldDocumentBlock
-        setDatas={setDatas}
-        fieldName={"education"}
-        documentId={data?._id}
-        isDocumentEditing={isDocumentEditing}
-        setIsDocumentEditing={setIsDocumentEditing}
-      >
-        <form onSubmit={handlePutSubmit}>
-          <div className="input-edit-content">
-            <div className="education-main">
-              <label>교육기관</label>
-              <input
-                type="text"
-                placeholder="교육기관"
-                value={content?.institution}
-                onChange={(e) => handleChange(e, "institution")}
-              />
-              <div>{data?._id}</div>
-              <label>전공</label>
-              <input
-                type="text"
-                placeholder="전공"
-                value={content?.major}
-                onChange={(e) => handleChange(e, "major")}
-              />
-              <label>학위</label>
-              <select
-                value={content.degree || "학사"}
-                onChange={(e) => handleChange(e, "degree")}
-              >
-                <option value="학사">학사</option>
-                <option value="석사">석사</option>
-                <option value="박사">박사</option>
-              </select>
-              <label>상태</label>
-              <select
-                value={content.status || "졸업"}
-                onChange={(e) => handleChange(e, "status")}
-              >
-                <option value="재학">재학</option>
-                <option value="휴학">휴학</option>
-                <option value="졸업">졸업</option>
-                <option value="졸업예정">졸업예정</option>
-              </select>
-            </div>
-            <div className="education-sub">
-              <label>입학년월</label>
-              <input
-                type="date"
-                placeholder="입학년월"
-                value={content?.entryDate}
-                onChange={(e) => handleChange(e, "entryDate")}
-              />
-              <label>졸업년월</label>
-              <input
-                type="date"
-                placeholder="졸업년월"
-                value={content?.gradDate}
-                onChange={(e) => handleChange(e, "gradDate")}
-              />
-              <label>학점</label>
-              <input
-                type="text"
-                placeholder="학점"
-                value={content?.grade}
-                onChange={(e) => handleChange(e, "grade")}
-              />
-            </div>
+      <form onSubmit={handleSubmit}>
+        <div className="input-edit-content">
+          <div className="education-main">
+            <label>교육기관</label>
+            <input
+              type="text"
+              placeholder="교육기관"
+              value={content?.institution}
+              onChange={(e) => handleChange(e, "institution")}
+            />
+            <div>{data?._id}</div>
+            <label>전공</label>
+            <input
+              type="text"
+              placeholder="전공"
+              value={content?.major}
+              onChange={(e) => handleChange(e, "major")}
+            />
+            <label>학위</label>
+            <select
+              value={content.degree || "학사"}
+              onChange={(e) => handleChange(e, "degree")}
+            >
+              <option value="학사">학사</option>
+              <option value="석사">석사</option>
+              <option value="박사">박사</option>
+            </select>
+            <label>상태</label>
+            <select
+              value={content.status || "졸업"}
+              onChange={(e) => handleChange(e, "status")}
+            >
+              <option value="재학">재학</option>
+              <option value="휴학">휴학</option>
+              <option value="졸업">졸업</option>
+              <option value="졸업예정">졸업예정</option>
+            </select>
           </div>
+          <div className="education-sub">
+            <label>입학년월</label>
+            <input
+              type="date"
+              placeholder="입학년월"
+              value={content?.entryDate}
+              onChange={(e) => handleChange(e, "entryDate")}
+            />
+            <label>졸업년월</label>
+            <input
+              type="date"
+              placeholder="졸업년월"
+              value={content?.gradDate}
+              onChange={(e) => handleChange(e, "gradDate")}
+            />
+            <label>학점</label>
+            <input
+              type="text"
+              placeholder="학점"
+              value={content?.grade}
+              onChange={(e) => handleChange(e, "grade")}
+            />
+          </div>
+        </div>
+        {isAdding ? (
+          <div className="input-edit-btns">
+            <FullBtn type="submit">추가</FullBtn>
+            <EmptyBtn type="button" onClick={() => setIsAdding(false)}>
+              취소
+            </EmptyBtn>
+          </div>
+        ) : (
           <div className="input-edit-btns">
             <FullBtn type="submit">수정</FullBtn>
             <EmptyBtn onClick={handleGetDocument}>초기화</EmptyBtn>
@@ -175,19 +170,14 @@ const DocumentItem = ({ data, setDatas }) => {
               취소
             </FullBtn>
           </div>
-        </form>
-      </FieldDocumentBlock>
+        )}
+      </form>
     );
   } else {
     return (
-      // IsEditing 상태 아닐때 응답받은 Field Document 보여주기
-      <FieldDocumentBlock
-        setDatas={setDatas}
-        documentId={data?._id}
-        fieldName={"education"}
-        isDocumentEditing={isDocumentEditing}
-        setIsDocumentEditing={setIsDocumentEditing}
-      >
+      // IsEditing 상태 아닐때, FieldDocumentBlock의 ShowItem으로 넘어갈 값
+      // IsEditing 상태 일 때, 아래 ShowItem과 DocumentAddBtn이 보여짐
+      <>
         <div className="field-main-content">
           <span className="field-title">교육기관 | </span>
           {data?.institution} {data?.major}{" "}
@@ -205,7 +195,17 @@ const DocumentItem = ({ data, setDatas }) => {
             {data?.entryDate} - {data?.gradDate}
           </div>
         </div>
-      </FieldDocumentBlock>
+        <div>
+          {isAdding && (
+            <EmptyBtn
+              className="addingBtn"
+              onClick={() => setIsAdding((isAdding) => !isAdding)}
+            >
+              +
+            </EmptyBtn>
+          )}
+        </div>
+      </>
     );
   }
 };
