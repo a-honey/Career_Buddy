@@ -7,7 +7,7 @@ import { styled } from "styled-components";
 const PortfolioList = ({ user, isEditing }) => {
   return (
     <PortfolioListBlock>
-      <Education user={user} isEditing={isEditing} />
+      <Education user={user} />
     </PortfolioListBlock>
   );
 };

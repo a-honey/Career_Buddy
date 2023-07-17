@@ -1,101 +1,44 @@
 import { styled } from "styled-components";
 import { mainColor } from "../../common/color";
-import { FullBtn, FullRedBtn } from "../../common/Btns";
+import { EmptyBtn, FullBtn, FullRedBtn } from "../../common/Btns";
 import { useContext, useState } from "react";
-import { UserStateContext } from "../../../App";
-import { addData, deleteData, updateData } from "../../../services/api";
+import { EditContext } from "../../../contexts/EditContext";
+import { deleteDocument } from "../../../services/documentApi";
 
-const FieldListBlock = ({
-  isEditing,
-  datas,
+export const FieldListBlock = ({
+  Children,
   fieldName,
-  setDatas,
-  userId,
-  ShowItem,
-  DocumentAddBtn,
+  isEditing,
+  setIsAdding,
 }) => {
   return (
     <ListBlock>
       <h1 className="fieldName">{fieldName}</h1>
-      {datas.map((data) => (
-        <FieldDocumentBlock
-          key={data._id}
-          data={data}
-          setDatas={setDatas}
-          isEditing={isEditing}
-          fieldName={fieldName}
-          ShowItem={ShowItem}
-        />
-      ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
+      <div>{Children}</div>
+      {isEditing && (
+        <EmptyBtn
+          className="addingBtn"
+          onClick={() => setIsAdding((isAdding) => !isAdding)}
+        >
+          +
+        </EmptyBtn>
+      )}
     </ListBlock>
   );
 };
 
-const FieldDocumentBlock = ({
-  setDatas,
-  isEditing,
-  fieldName,
-  documentId,
-  ShowItem,
-  data,
-}) => {
-  const userState = useContext(UserStateContext);
+const FieldDocumentBlock = ({ setDatas, fieldName, Children, data }) => {
+  const { isEditing } = useContext(EditContext);
   const [isDocumentEditing, setIsDocumentEditing] = useState(false);
 
-  async function PostDocument(fieldName, content, setIsAdding) {
-    try {
-      await addData(userState.user.id, fieldName, content);
-      setDatas((datas) => [...datas, content]);
-      setIsAdding(false);
-    } catch (err) {
-      alert(err);
-    }
-  }
-  // isEditing이 true 이다 => Userstate가 본인이다.
-  async function UpdateDocument(dataId, fieldName, content) {
-    try {
-      await updateData(documentId, fieldName, content);
-
-      setDatas((datas) => {
-        const olddatas = datas.filter(
-          (origindata) => origindata._id !== documentId
-        );
-        return [...olddatas, content];
-      });
-
-      setIsDocumentEditing(false);
-    } catch (err) {
-      alert(`EDUCATION 데이터 PUT 요청 실패: ${err}`);
-    }
-  }
-
-  const DeleteDocument = async (e) => {
+  function handleClick(e) {
     e.preventDefault();
 
-    try {
-      await deleteData(documentId, fieldName);
-      setDatas((datas) => {
-        const deleteddatas = datas.filter(
-          (origin) => origin._id !== documentId
-        );
-        return deleteddatas;
-      });
-    } catch (err) {
-      alert("데이터 삭제 실패");
-    }
-  };
-  //isDocu
+    deleteDocument(data.id, fieldName, setDatas);
+  }
   return (
-    <Block key={documentId}>
-      <ShowItem
-        data={data}
-        fieldName={fieldName}
-        isDocumentEditing={isDocumentEditing}
-        setIsDocumentEditing={setIsDocumentEditing}
-        UpdateDocument={UpdateDocument}
-        PostDocument={PostDocument}
-      />
+    <Block>
+      {Children}
       {isEditing && (
         <div className="btns">
           {isDocumentEditing || (
@@ -107,7 +50,7 @@ const FieldDocumentBlock = ({
               >
                 수정
               </FullBtn>
-              <FullRedBtn onClick={DeleteDocument}>삭제</FullRedBtn>
+              <FullRedBtn onClick={handleClick}>삭제</FullRedBtn>
             </>
           )}
         </div>
@@ -116,7 +59,7 @@ const FieldDocumentBlock = ({
   );
 };
 
-export default FieldListBlock;
+export default FieldDocumentBlock;
 
 const ListBlock = styled.div`
   display: flex;
