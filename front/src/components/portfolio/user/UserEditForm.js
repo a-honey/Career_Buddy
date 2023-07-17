@@ -3,7 +3,7 @@ import * as Api from "../../../api";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { EditContext } from "../../../contexts/EditContext";
 
-function UserEditForm({ user, setUser, setIsDocumentEditing }) {
+function UserEditForm({ user, setUser }) {
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
@@ -14,7 +14,7 @@ function UserEditForm({ user, setUser, setIsDocumentEditing }) {
   const [insta, setInsta] = useState(user?.github?.insta);
   const [blog, setBlog] = useState(user?.github?.blog);
 
-  const { setIsEditing } = useContext(EditContext);
+  const { turnEditing } = useContext(EditContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +30,9 @@ function UserEditForm({ user, setUser, setIsDocumentEditing }) {
     const updatedUser = res.data;
     // 해당 유저 정보로 user을 세팅함.
     setUser(updatedUser);
+
     // isEditing을 false로 세팅함.
-    setIsDocumentEditing(false);
+    turnEditing();
   };
 
   return (
@@ -75,14 +76,15 @@ function UserEditForm({ user, setUser, setIsDocumentEditing }) {
         onChange={(e) => setBlog(e.target.value)}
       />
       <FullBtn type="submit" className="me-3">
-        프로필 수정
+        확인
       </FullBtn>
       <EmptyBtn
+        variant="secondary"
         onClick={() => {
-          setIsEditing(false);
+          turnEditing();
         }}
       >
-        편집 종료
+        취소
       </EmptyBtn>
     </form>
   );

@@ -1,22 +1,11 @@
 import { styled } from "styled-components";
-import { EmptyBtn, FullBtn } from "../../common/Btns";
-import { useContext, useState } from "react";
+import { FullBtn } from "../../common/Btns";
+import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 import UserEditForm from "./UserEditForm";
 
 function UserCard({ user, setUser, isEditable, isNetwork }) {
   const { isEditing, setIsEditing } = useContext(EditContext);
-  const [isDocumentEditing, setIsDocumentEditing] = useState(false);
-
-  if (isDocumentEditing) {
-    return (
-      <UserEditForm
-        user={user}
-        setUser={setUser}
-        setIsDocumentEditing={setIsDocumentEditing}
-      />
-    );
-  }
   return (
     <UserCardBlock>
       <div className="img-container">
@@ -26,14 +15,13 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
         />
       </div>
-      <UserItem
-        user={user}
-        isNetwork={isNetwork}
-        isEditing={isEditing}
-        setIsDocumentEditing={setIsDocumentEditing}
-      />
+      {isEditing ? (
+        <UserEditForm user={user} setUser={setUser} />
+      ) : (
+        <UserItem user={user} isNetwork={isNetwork} />
+      )}
       {isEditable &&
-        !isEditing && ( // 로그인 user가 포트폴리오 user라면 편집 버튼 생성(편집상태는 X)
+        !isEditing && ( // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
           <FullBtn
             onClick={() => {
               setIsEditing(true);
@@ -48,8 +36,7 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
 
 export default UserCard;
 
-const UserItem = ({ user, isNetwork, setIsDocumentEditing }) => {
-  const { isEditing, setIsEditing } = useContext(EditContext);
+const UserItem = ({ user, isNetwork }) => {
   return (
     <UserInfoBlock>
       <div>{user?.name}</div>
@@ -112,24 +99,6 @@ const UserItem = ({ user, isNetwork, setIsDocumentEditing }) => {
             <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
           </svg>
         </a>
-      )}
-      {isEditing && (
-        <div>
-          <FullBtn
-            onClick={() => {
-              setIsDocumentEditing(true);
-            }}
-          >
-            프로필 수정
-          </FullBtn>
-          <EmptyBtn
-            onClick={() => {
-              setIsEditing(false);
-            }}
-          >
-            편집 종료
-          </EmptyBtn>
-        </div>
       )}
     </UserInfoBlock>
   );
