@@ -146,4 +146,26 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
+// 임시로 지정한 URL
+userAuthRouter.put("/user/:user_id/password",
+login_required,
+async function (req, res, next) {
+  try{
+    const user_id=req.params.user_id
+    const email=req.body.email;
+    const inputPassword= req.body.inputPassword;
+    const newPassword=req.body.newPassword;
+    const updatedPassword=await userAuthService.setPassword({user_id,email,inputPassword,newPassword})
+    
+    if (updatedPassword.errorMessage){
+      throw new Error(updatedPassword.errorMessage)
+    }
+    console.log("Router updatedPassword.password",updatedPassword.newPassword)
+    res.status(200).json(updatedPassword)
+  } catch (error) {
+    next(error);
+  }
+
+})
+
 export { userAuthRouter };

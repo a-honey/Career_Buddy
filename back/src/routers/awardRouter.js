@@ -37,7 +37,7 @@ awardRouter.get("/:userId/awards",
         const userId=req.params.userId;
         //이때의 id는 유저의 id입니다. 잘 불러와질지...
         const awardList=await Award.findById({userId})
-
+        
         // id를 기반으로 사용자의 자격증 목록을 불러오고자 함
         res.status(200).json(awardList)
         } catch (error) {

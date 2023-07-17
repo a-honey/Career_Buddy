@@ -15,13 +15,12 @@ class Award {
 
   // Read
   static async findById({userId}) {
-    const filter = { userId: userId};
+    const filter = {userId: userId};
     const awards = await AwardModel.find(filter);
     return awards;
   }
 
   // Update
-  //////////////////////////////////////////////문제의 구간
   static async updateOne({awardDocId},newValue) {
     const filter = { _id: awardDocId};
     // _id에 certDocId를 받아옴
@@ -37,7 +36,6 @@ class Award {
     );
     return updatedAward;
   }
-//////////////////////////////////////////////문제의 구간
 
   //Delete
   static async deleteOne({awardDocId}) { 
