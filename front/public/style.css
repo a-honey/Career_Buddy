@@ -92,3 +92,11 @@ h1.fieldContent(제목)
 
 
 */
+
+.withdrawal-label {
+  color: rgb(50, 50, 50);
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-block;
+  margin-right: 15px;
+}
