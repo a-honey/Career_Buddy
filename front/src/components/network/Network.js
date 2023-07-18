@@ -9,7 +9,7 @@ import Loading from "../common/Loading";
 function Network() {
   // useState 훅을 통해 users 상태를 생성함, 응답의 users와 구분.
   const [stateUsers, setUsers] = useState([]);
-  const [stateTotalPages, setTotalPages] = useState(0);
+  const [stateTotalPages, setTotalPages] = useState(1);
   const [stateCurrentPage, setCurrentPage] = useState(1);
 
   const [isFetching, setIsFetching] = useState(true);
@@ -20,7 +20,7 @@ function Network() {
     // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
     userPagenation(stateCurrentPage)
       .then((res) => {
-        const { users, totalPages, currentPage } = res.data;
+        const { users, totalPages, currentPage } = res;
 
         setUsers(users);
         setTotalPages(totalPages);

@@ -38,7 +38,6 @@ async function userPagenation(page) {
   try {
     console.log(`${serverUrl}userlist?page=${page}`);
     const response = await axios.get(`${serverUrl}userlist?page=${page}`);
-    alert(response);
     return response.data;
   } catch (error) {
     throw new Error(
