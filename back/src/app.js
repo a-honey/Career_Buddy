@@ -4,9 +4,15 @@ import { query } from 'express-validator';
 import { userAuthRouter } from "./routers/userRouter";
 import { educationRouter } from "./routers/educationRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
-import {certificateRouter} from "./routers/certificateRouter"
+import {certificateRouter} from "./routers/certificateRouter";
+import { projectRouter } from "./routers/projectRouter";
 import { awardRouter } from "./routers/awardRouter";
+import bodyParser from 'body-parser';
+
 const app = express();
+
+// Parse JSON request bodies
+app.use(bodyParser.json());
 
 // CORS 에러 방지
 app.use(cors());
@@ -25,8 +31,9 @@ app.get("/", (req, res) => {
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
 app.use(userAuthRouter);
 app.use(educationRouter);
-app.use(awardRouter)
-app.use(certificateRouter)
+app.use(awardRouter);
+app.use(certificateRouter);
+app.use(projectRouter);
 
 
 app.use(express.urlencoded({
