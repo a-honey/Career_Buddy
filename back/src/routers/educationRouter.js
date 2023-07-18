@@ -162,5 +162,5 @@ educationRouter.delete("/educations/:doc-id", routeSanitizer, login_required, as
     next(error);
   }
 });
-
+ 
 export { educationRouter };

@@ -103,7 +103,7 @@ class EducationService {
       throw new Error(error);
     }
   }
-
+ 
 }
 
 export { EducationService };
