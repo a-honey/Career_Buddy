@@ -80,4 +80,13 @@ async (req,res)=>{
   }
 }
 )
+
+//파일 업로드
+awardRouter.post('/awards/upload',upload.single('file'),(req,res)=>{
+  console.log("req.file = ",req.file)
+  console.log("req.body =",req.body)
+  console.log('업로드 완료')
+  res.send('이미지 업로드')
+})
+
 export { awardRouter };
