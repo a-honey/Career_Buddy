@@ -143,6 +143,10 @@ class userAuthService {
       if(!inputPassword) {
         throw new Error("현재 로그인한 사용자의 비밀번호를 입력하세요.");
       }
+
+      if(!currentUserId) {
+        throw new Error("현재 로그인한 사용자를 알 수 없으므로 탈퇴를 진행할 수 없습니다.");
+      }
       
       // 현재 로그인한 사용자의 currentUserId로 사용자 계정 document를 찾습니다.
       // [버그] User 모델의 User.findById가 전혀 작동하지 않고 있습니다. mongoose 자체 메서드인 findOne을 대신 사용합니다.

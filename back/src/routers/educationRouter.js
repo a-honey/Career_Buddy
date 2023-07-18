@@ -17,7 +17,7 @@ const educationRouter = Router();
 
 // [CRUD] CREATE
 // 프론트엔드로부터 전달받은 학력사항 입력값을 사용자의 새로운 학력정보로 저장합니다.
-educationRouter.post("/:user_id/education", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.post("users/:user-id/education", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const newEduData = req.body;
     const currentUserId = req.currentUserId;
@@ -56,7 +56,7 @@ educationRouter.post("/:user_id/education", routeSanitizer, login_required, asyn
 
 // [CRUD] READ
 // 프론트엔드로부터 전달받은 userId를 사용해서 해당 사용자의 학력정보를 모두 가져옵니다.
-educationRouter.get("/:user_id/education", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.get("users/:user-id/educations", routeSanitizer, login_required, async (req, res, next) => {
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
@@ -82,7 +82,7 @@ educationRouter.get("/:user_id/education", routeSanitizer, login_required, async
 // [CRUD] READ
 // [보안] 이 요청은 로그인 여부와 권한과 상관없이 누구나 보낼 수 있습니다. 프론트엔드에서 사용시 주의하세요.
 // 프론트엔드로부터 전달받은 eduId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
-educationRouter.get("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.get("/educations/:doc-id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
@@ -107,7 +107,7 @@ educationRouter.get("/education/:edu_id", routeSanitizer, login_required, async 
 
 // [CRUD] UPDATE
 // 프론트엔드로부터 전달받은 최신 학력사항 입력값으로 기존 학력정보를 업데이트합니다.
-educationRouter.put("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.put("/educations/:doc-id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
@@ -144,7 +144,7 @@ educationRouter.put("/education/:edu_id", routeSanitizer, login_required, async 
 
 // [CRUD] DELETE
 // 프론트엔드로부터 전달받은 eduId를 사용해서 학력정보를 찾아 삭제합니다.
-educationRouter.delete("/education/:edu_id", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.delete("/educations/:doc-id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
     const eduId = req.params.edu_id;
