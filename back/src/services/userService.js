@@ -71,9 +71,31 @@ class userAuthService {
     return loginUser;
   }
 
-  static async getUsers() {
-    const users = await User.findAll();
-    return users;
+  // Server-side offset pagination이 반영된 서비스입니다.
+  static async getUsers(page, limit) {
+    try{
+      // 전체 사용자 계정 수를 파악합니다.
+      // User가 아닌 UserModel의 mongoose 내장 메서드들을 사용합니다.
+      const totalCount = await UserModel.find({}).count();
+
+      // 지정된 조건으로 사용자 계정 정보를 일정 단위로 끊어서 가져옵니다.
+      // User가 아닌 UserModel의 mongoose 내장 메서드들을 사용합니다.
+      const users = await UserModel.find({})
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
+
+      const paginatedUsers = {
+        users,
+        totalPages: Math.ceil(totalCount / limit),
+        currentPage: page
+      }
+
+      return paginatedUsers;
+    }
+    catch(error){
+      throw new Error(error);
+    }
   }
 
   static async setUser({ user_id, toUpdate }) {
