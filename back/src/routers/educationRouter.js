@@ -60,7 +60,7 @@ educationRouter.get("users/:user-id/educations", routeSanitizer, login_required,
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
-    const userId = req.params.user_id;
+    const userId = req.params["user-id"];
     
     // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
     // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
@@ -86,7 +86,7 @@ educationRouter.get("/educations/:doc-id", routeSanitizer, login_required, async
   try {
     // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
     // const currentUserId = req.currentUserId;
-    const eduId = req.params.edu_id;
+    const eduId = req.params["doc-id"];
 
     // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
     // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
@@ -110,7 +110,7 @@ educationRouter.get("/educations/:doc-id", routeSanitizer, login_required, async
 educationRouter.put("/educations/:doc-id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
-    const eduId = req.params.edu_id;
+    const eduId = req.params["doc-id"];
     const updatedEduData = req.body;
 
     // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
@@ -147,7 +147,7 @@ educationRouter.put("/educations/:doc-id", routeSanitizer, login_required, async
 educationRouter.delete("/educations/:doc-id", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const currentUserId = req.currentUserId;
-    const eduId = req.params.edu_id;
+    const eduId = req.params["doc-id"];
 
     const deletedEducation = await EducationService.removeMyEducation(currentUserId, eduId);
 

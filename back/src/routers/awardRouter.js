@@ -12,7 +12,7 @@ awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (re
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const userId=req.params.user-id;
+      const userId=req.params["user-id"];
       const newAward=await Award.create({
         userId:userId,
         title:req.body.title,
@@ -33,7 +33,7 @@ awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (re
 awardRouter.get("users/:user-id/awards",
     async function (req, res) {
       try{
-        const userId=req.params.user-id;
+        const userId=req.params["user-id"];
         //이때의 user-id는 유저의 id입니다.
         const awardList=await Award.findById({userId})
         
@@ -47,7 +47,7 @@ awardRouter.get("users/:user-id/awards",
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
 awardRouter.put("/awards/:doc-id",login_required,routeSanitizer,async(req,res)=>{
-  const awardDocId=req.params.doc-id;
+  const awardDocId=req.params["doc-id"];
   const updateData=req.body;
   const currentUserId=req.currentUserId;
   if(!updateData || typeof updateData !== 'object'){
@@ -71,7 +71,7 @@ awardRouter.put("/awards/:doc-id",login_required,routeSanitizer,async(req,res)=>
 //Delete
 awardRouter.delete("/awards/:doc-id",login_required,routeSanitizer,
 async (req,res)=>{
-  const awardDocId=req.params.doc-id
+  const awardDocId=req.params["doc-id"];
   try {   
     const delAwards=await Award.deleteOne({awardDocId})
     res.status(200).send({success:true});
