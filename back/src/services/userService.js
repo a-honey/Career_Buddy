@@ -2,6 +2,12 @@ import { User, UserModel } from "../db"; // from을 폴더(db) 로 설정 시, �
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+import * as nodemailer from 'nodemailer';
+import { google } from 'googleapis';
+const randomstring = require("randomstring");
+require('dotenv').config();
+
+const OAuth2 = google.auth.OAuth2;
 
 class userAuthService {
   static async addUser({ name, email, password, github }) {
@@ -249,6 +255,106 @@ class userAuthService {
       // const deletedUser = await User.delete(currentUserId);
       const deletedUser = await UserModel.findOneAndDelete({ id: currentUserId });
       return "계정 삭제 완료";
+    }
+    catch(error){
+      throw new Error(error);
+    }
+  }
+
+  
+  // 잊어버린 비밀번호를 초기화하는 기능을 구현합니다.
+  static async resetPassword({ inputEmail, inputProof }){
+    try{
+      if(!inputEmail) {
+        throw new Error("현재 로그인한 사용자의 이메일을 입력하세요.");
+      }
+
+      if(!inputProof) {
+        throw new Error("본인임을 증명할 수 있는 계정 정보 항목 중 하나를 입력하세요.");
+      }
+
+      // GMail API를 사용하기 위한 클라이언트를 설정합니다.
+      const createTransporter = async () => {
+        const oauth2Client = new OAuth2(
+          process.env.CLIENT_ID,
+          process.env.CLIENT_SECRET,
+          "https://developers.google.com/oauthplayground"
+        );
+      
+        oauth2Client.setCredentials({
+          refresh_token: process.env.REFRESH_TOKEN
+        });
+      
+        const accessToken = await new Promise((resolve, reject) => {
+          oauth2Client.getAccessToken((err, token) => {
+            if (err) {
+              console.log(err);
+              reject();
+            }
+            resolve(token);
+          });
+        });
+      
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            type: "OAuth2",
+            user: process.env.EMAIL,
+            accessToken,
+            clientId: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            refreshToken: process.env.REFRESH_TOKEN
+          }
+        });
+
+        return transporter;
+      };
+
+      // 만약 unauthorized client 오류가 발생하면 다음 코드를 사용합니다.
+      /*
+      tls: {
+        rejectUnauthorized: false
+      }
+      */
+
+      // 이메일을 전송하는 함수를 구현합니다.
+      const sendEmail = async (emailOptions) => {
+        let emailTransporter = await createTransporter();
+        await emailTransporter.sendMail(emailOptions);
+      };
+
+      const newPassword = randomstring.generate();
+
+      const targetDocument = await UserModel.findOne({ email: inputEmail });
+
+      if(!targetDocument) {
+        throw new Error("입력하신 이메일에 해당하는 계정 정보를 찾을 수 없습니다.");
+      }      
+
+      const targetDocumentId = targetDocument['id'];
+
+      const referenceDocument = Object.values(targetDocument)[2];
+      const evidences = Object.values(referenceDocument)
+
+      // 본인임을 인증할 수 있는 정보가 실제 문서에 포함되어 있는지를 검증합니다. 
+      if(!evidences.includes(inputProof)) {
+        throw new Error("본인임을 인증하는 입력값에 해당하는 계정 정보를 찾을 수 없습니다.");        
+      }
+
+      const user_id = targetDocumentId;
+      const fieldToUpdate = "password";
+      const newValue = newPassword;
+      const updatedTargetDocument = await User.update({ user_id, fieldToUpdate, newValue });
+
+      // 이메일을 실제로 전송합니다.
+      sendEmail({
+        subject: "요청하신 비밀번호 초기화가 완료되었습니다.",
+        text: `안녕하세요 회원님! 비밀번호가 초기화되었습니다. ${newPassword} 비밀번호를 사용해서 다시 로그인하세요.`,
+        to: inputEmail,
+        from: process.env.EMAIL
+      });
+      
+      return "비밀번호 초기화 완료";
     }
     catch(error){
       throw new Error(error);

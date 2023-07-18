@@ -189,7 +189,7 @@ async function (req, res, next) {
 
 
 // 회원 탈퇴를 수행합니다.
-userAuthRouter.delete("/user/deletion", login_required, async function (req, res, next) {
+userAuthRouter.delete("/user/deletion", routeSanitizer, login_required, async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
@@ -211,6 +211,32 @@ userAuthRouter.delete("/user/deletion", login_required, async function (req, res
     next(error);
   }
 });
+
+
+// 비밀번호 초기화를 수행합니다.
+userAuthRouter.put("/user/resetpassword", routeSanitizer, async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
+    }
+
+    const inputEmail = req.body.inputEmail ?? null;
+    const inputProof = req.body.inputProof ?? null;
+
+    const renewedPassword = await userAuthService.resetPassword({ inputEmail, inputProof });
+
+    if (renewedPassword.error) {
+      throw new Error(renewedPassword.error);
+    }
+
+    res.status(200).send("사용자의 비밀번호 초기화가 완료되었습니다.");
+  }
+  catch(error){
+    next(error);
+  }
+});
+
+
 
 
 export { userAuthRouter };
