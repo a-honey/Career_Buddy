@@ -1,40 +1,41 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { Award } from "../db/models/Award";
-import { routeSanitizer } from "../middlewares/routeSanitizer";
+import {Award} from "../db/models/Award"
+import {routeSanitizer} from "../middlewares/routeSanitizer"
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
-const mongoose = require("mongoose");
-
+const mongoose = require('mongoose');
+const upload=require('../middlewares/multerMiddleware')
 // Create
-awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (req, res)=> {
+awardRouter.post("/users/:userid/awards",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const userId=req.params["user-id"];
+      const userid=req.params.userid;
       const newAward=await Award.create({
-        userId:userId,
+        userId:userid,
         title:req.body.title,
         issuer:req.body.issuer,
         awardDate:req.body.awardDate,
         description:req.body.description
       })
       const savedAward = await newAward.save();
-      res.send({ success: true });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.send({success:true});
     }
-    // 전달 완료!
+    catch (error) {
+    res.status(500).json({ error: error.message });
   }
+  // 전달 완료!
+}
 );
 
 //Read
-awardRouter.get("users/:user-id/awards",
+awardRouter.get("/users/:userid/awards",
     async function (req, res) {
       try{
-        const userId=req.params["user-id"];
-        //이때의 user-id는 유저의 id입니다.
+        const userId=req.params.userid;
+        //이때의 id는 유저의 id입니다. 잘 불러와질지...
         const awardList=await Award.findById({userId})
         
         // id를 기반으로 사용자의 자격증 목록을 불러오고자 함
@@ -46,47 +47,53 @@ awardRouter.get("users/:user-id/awards",
 )
 
 // 에러는 아니지만 값이 변하지 않고 updatedAt 시간만 바뀌는 Update 부분
-awardRouter.put("/awards/:doc-id",login_required,routeSanitizer,async(req,res)=>{
-  const awardDocId=req.params["doc-id"];
+awardRouter.put("/awards/:documentid",login_required,routeSanitizer,async(req,res)=>{
+  const awardDocId=req.params.documentid;
   const updateData=req.body;
   const currentUserId=req.currentUserId;
   if(!updateData || typeof updateData !== 'object'){
     throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
   }
 
-    if (!currentUserId || currentUserId == null) {
-      throw new Error("현재 로그인한 사용자를 알 수 없습니다.");
-    }
-    const updateAward = await Award.updateOne(
-      { awardDocId: awardDocId },
-      updateData
-    );
-    if (!updateAward) {
+  if(!currentUserId || currentUserId == null){
+    throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
+  }
+  const updateAward=await Award.updateOne(
+    {awardDocId:awardDocId},updateData)
+    if(!updateAward){
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).send({ success: true });
-  }
-);
+    res.status(200).send({success:true});
+})
+
 
 //Delete
-awardRouter.delete("/awards/:doc-id",login_required,routeSanitizer,
+awardRouter.delete("/awards/:documentid",login_required,routeSanitizer,
 async (req,res)=>{
-  const awardDocId=req.params["doc-id"];
+  const awardDocId=req.params.documentid
   try {   
     const delAwards=await Award.deleteOne({awardDocId})
     res.status(200).send({success:true});
   }catch(error){
     res.status(500).json({ error: error.message });
   }
-}
-)
+
+})
 
 //파일 업로드
-awardRouter.post('/awards/upload',upload.single('file'),(req,res)=>{
-  console.log("req.file = ",req.file)
-  console.log("req.body =",req.body)
-  console.log('업로드 완료')
-  res.send('이미지 업로드')
+awardRouter.post('/awards/:documentid/file',upload.single('file'),async(req,res)=>{
+  try{
+    // doc-id에 file을 추가해주고자 함.
+    // 스키마를 수정해야 하나?
+    const docId=req.params.doc-id
+
+    console.log("req.file = ",req.file)
+    console.log("req.body =",req.body)
+    console.log('업로드 완료')
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+  
 })
 
 export { awardRouter };
