@@ -158,7 +158,9 @@ async function (req, res, next) {
     const inputPassword= req.body.inputPassword;
     const newPassword=req.body.newPassword;
     const updatedPassword=await userAuthService.setPassword(
-      {user_id,email,inputPassword,newPassword})
+      {user_id,email,inputPassword,newPassword}
+    )
+    // 현재 로그인한 사용자의 id와 url로 전달받은 user_id가 다를 경우 -확인 완료
     if (currentUserId!==user_id){
       throw new Error("현재 로그인한 사용자가 아닙니다.")
     }
