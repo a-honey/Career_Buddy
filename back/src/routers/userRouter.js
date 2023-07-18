@@ -61,9 +61,18 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 
 userAuthRouter.get("/userlist", async function (req, res, next) {
   try {
-    // 전체 사용자 목록을 얻음
-    const users = await userAuthService.getUsers();
-    res.status(200).send(users);
+    // server-side offset pagination을 위한 page와 limit의 초기값을 지정해주고, 쿼리 입력값을 반영해줍니다.
+    const { page = 1, limit = 10 } = req.query;
+    
+    // 전체 사용자 목록을 얻음   
+    const paginatedUsers = await userAuthService.getUsers(page, limit);
+
+    if (paginatedUsers.errorMessage) {
+      throw new Error(paginatedUsers.errorMessage);
+    }
+
+    res.status(200).send(paginatedUsers);
+
   } catch (error) {
     next(error);
   }
