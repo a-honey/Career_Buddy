@@ -3,6 +3,7 @@ import { FullBtn } from "../../common/Btns";
 import { useContext } from "react";
 import { EditContext } from "../../../contexts/EditContext";
 import UserEditForm from "./UserEditForm";
+import { Link } from "react-router-dom";
 
 function UserCard({ user, setUser, isEditable, isNetwork }) {
   const { isEditing, setIsEditing } = useContext(EditContext);
@@ -20,8 +21,9 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
       ) : (
         <UserItem user={user} isNetwork={isNetwork} />
       )}
-      {isEditable &&
-        !isEditing && ( // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
+      {isEditable && !isEditing && (
+        // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
+        <>
           <FullBtn
             onClick={() => {
               setIsEditing(true);
@@ -29,7 +31,11 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
           >
             편집
           </FullBtn>
-        )}
+          <Link className="link" to="/search">
+            비밀번호 변경
+          </Link>
+        </>
+      )}
     </UserCardBlock>
   );
 }
@@ -129,6 +135,9 @@ const UserCardBlock = styled.div`
   }
   a {
     margin-left: 30px;
+  }
+  .link {
+    background-color: yellow;
   }
 `;
 

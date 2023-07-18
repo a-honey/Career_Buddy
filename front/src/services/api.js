@@ -41,7 +41,7 @@ const addData = async (userId, FieldName, newData) => {
   const bodyData = JSON.stringify(newData);
 
   console.log(
-    `%cPOST 요청: ${serverUrl}/users/${userId}/${FieldName}s`,
+    `%cPOST 요청:${serverUrl}/users/${userId}/${FieldName}s`,
     "color: #296aba;"
   );
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");

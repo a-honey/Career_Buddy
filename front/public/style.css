@@ -9,6 +9,7 @@ body {
   min-width: 700px;
 }
 
+a.link,
 a.snsUrl {
   color: inherit;
   text-decoration: none;

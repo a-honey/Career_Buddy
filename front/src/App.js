@@ -9,6 +9,7 @@ import NetworkPage from "./pages/NetworkPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import RegisterPage from "./pages/RegisterPage";
 import { EditContextProvider } from "./contexts/EditContext";
+import SearchPage from "./pages/SearchPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -63,6 +64,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/users/:userId" element={<PortfolioPage />} />
               <Route path="/network" element={<NetworkPage />} />
+              <Route path="/search" element={<SearchPage />} />
               <Route path="*" element={<PortfolioPage />} />
             </Routes>
           </Router>

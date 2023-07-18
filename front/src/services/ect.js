@@ -19,4 +19,19 @@ async function userDelete(userEmail, userPw) {
   return res.data;
 }
 
-export { userDelete };
+async function userPasswordChange(user_id, sendData) {
+  console.log(`${serverUrl}/user/deletion`);
+  const res = await axios.delete(`${serverUrl}/user/${user_id}`, {
+    data: {
+      inputEmail: sendData.inputEmail,
+      inputPassword: sendData.inputPassword,
+    },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+    },
+  });
+  return res.data;
+}
+
+export { userDelete, userPasswordChange };
