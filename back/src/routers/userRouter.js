@@ -149,7 +149,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
-<<<<<<< HEAD
+
 // 임시로 지정한 URL
 userAuthRouter.put("/user/:user_id/password",
 login_required,
@@ -177,7 +177,8 @@ async function (req, res, next) {
   }
 
 })
-=======
+
+
 // 회원 탈퇴를 수행합니다.
 userAuthRouter.delete("/user/deletion", login_required, async function (req, res, next) {
   try {
@@ -202,6 +203,5 @@ userAuthRouter.delete("/user/deletion", login_required, async function (req, res
   }
 });
 
->>>>>>> education
 
 export { userAuthRouter };
