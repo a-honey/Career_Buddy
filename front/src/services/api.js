@@ -5,13 +5,14 @@ const serverUrl =
   "http://" + window.location.hostname + ":" + backendPortNumber;
 
 // 각 필드 대장 컴포넌트에서 userId의 FieldName 데이터 요청하기
+// [get]  users/:user-id/educations
 const getDatas = async (userId, FieldName) => {
   console.log(
-    `%cGET 요청: ${serverUrl}/${userId}/${FieldName}s`,
+    `%cGET 요청: ${serverUrl}/users/${userId}/${FieldName}s`,
     "color: #a25cd1;"
   );
 
-  return axios.get(`${serverUrl}/${userId}/${FieldName}s`, {
+  return axios.get(`${serverUrl}/users/${userId}/${FieldName}s`, {
     // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
@@ -35,16 +36,17 @@ const getData = async (documentId, FieldName) => {
 */
 
 // FieldName에 newData 추가하기
+// users/:user-id/educations
 const addData = async (userId, FieldName, newData) => {
   const bodyData = JSON.stringify(newData);
 
   console.log(
-    `%cPOST 요청: ${serverUrl}/${userId}/${FieldName}s`,
+    `%cPOST 요청: ${serverUrl}/users/${userId}/${FieldName}s`,
     "color: #296aba;"
   );
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
-  return axios.post(`${serverUrl}/${userId}/${FieldName}s`, bodyData, {
+  return axios.post(`${serverUrl}/users/${userId}/${FieldName}s`, bodyData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,

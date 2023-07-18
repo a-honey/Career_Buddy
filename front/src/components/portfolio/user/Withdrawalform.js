@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { EmptyBtn, FullRedBtn } from "../../common/Btns";
-import { userDelete } from "../../../services/user";
 import { useState } from "react";
+import { userDelete } from "../../../services/ect";
 
 const Withdrawal = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -11,6 +11,7 @@ const Withdrawal = () => {
     try {
       await userDelete(userEmail, userPw);
       alert("탈퇴하십니까?");
+      // 연동 후 네트워크의 users와 연결되는지 확인하고 수정
     } catch (err) {
       alert(err);
     }

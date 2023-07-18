@@ -6,10 +6,12 @@ import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router";
 import Loading from "../../common/Loading";
 import { FullRedBtn } from "../../common/Btns";
+import Withdrawal from "./Withdrawalform";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   const [user, setUser] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
   const userState = useContext(UserStateContext);
   const navigate = useNavigate();
 
@@ -31,10 +33,6 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
     return <Loading />;
   }
 
-  function handleClick() {
-    //회원탈퇴api요청
-  }
-
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -42,10 +40,14 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
         <PortfolioList user={user} />
       </div>
       {isEditable && (
-        <FullRedBtn onClick={handleClick} style={{ marginLeft: "100px" }}>
+        <FullRedBtn
+          onClick={() => setIsExiting(true)}
+          style={{ marginLeft: "100px" }}
+        >
           회원탈퇴
         </FullRedBtn>
       )}
+      {isExiting && <Withdrawal setIsExiting={setIsExiting} />}
     </div>
   );
 }
