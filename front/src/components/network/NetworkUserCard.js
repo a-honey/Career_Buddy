@@ -1,13 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { FullBtn } from "../../common/Btns";
-import { useContext } from "react";
-import { EditContext } from "../../../contexts/EditContext";
-import UserEditForm from "./UserEditForm";
+import { mainColor } from "../common/color";
+import { FullBtn } from "../common/Btns";
 
-function UserCard({ user, setUser, isEditable, isNetwork }) {
-  const { isEditing, setIsEditing } = useContext(EditContext);
+const NetworkUserCard = ({ user, userState }) => {
+  const navigate = useNavigate();
+
+  const iconSize = "20";
+
   return (
-    <UserCardBlock>
+    <CardBlock>
       <div className="img-container">
         <img
           className="mb-3"
@@ -15,33 +17,7 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
         />
       </div>
-      {isEditing ? (
-        <UserEditForm user={user} setUser={setUser} />
-      ) : (
-        <UserItem user={user} isNetwork={isNetwork} />
-      )}
-      {isEditable &&
-        !isEditing && ( // 로그인 user가 포트폴리오 user라면 편집 버튼 생성
-          <FullBtn
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            편집
-          </FullBtn>
-        )}
-    </UserCardBlock>
-  );
-}
-
-export default UserCard;
-
-const UserItem = ({ user, isNetwork }) => {
-  const iconSize = "40";
-
-  return (
-    <UserInfoBlock>
-      <div className="user-name">{user?.name}</div>
+      <h1 className="user-name">{user.name}</h1>
       <div className="user-description">{user?.description}</div>
       <div className="user-icons">
         {user?.github?.github && (
@@ -102,50 +78,69 @@ const UserItem = ({ user, isNetwork }) => {
           </a>
         )}
       </div>
-    </UserInfoBlock>
+      <FullBtn
+        style={{
+          fontSize: "15px",
+          padding: "3px 5px",
+          position: "absolute",
+          bottom: "10px",
+        }}
+        className="mt-3"
+        href="#"
+        //비회원 자세한 포트폴리오 보기 금지
+        onClick={() => {
+          if (!userState.user) {
+            alert("회원가입을 해주세요.");
+          }
+          if (userState.user.id === user.id) {
+            navigate("/");
+          } else {
+            navigate(`/users/${user.id}`);
+          }
+        }}
+      >
+        포트폴리오
+      </FullBtn>
+    </CardBlock>
   );
 };
 
-const UserCardBlock = styled.div`
-  width: 500px;
+export default NetworkUserCard;
+
+const CardBlock = styled.div`
   display: flex;
-  padding-right: 20px;
   flex-direction: column;
   align-items: center;
-  margin: 30px 0;
-  padding-top: 50px;
+  padding: 20px 20px;
+  border: solid 1px ${mainColor};
+  box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.8, 0.5);
+  border-radius: 20px;
+  position: relative;
   .img-container {
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(1.5, 1, 1, 1);
+    width: 200px;
+    img {
+      display: inline-block;
+      width: 100%;
+    }
   }
-  img {
-    width: 100%;
-    height: 100%;
-    display: inline-block;
-  }
-  a {
-    margin-left: 30px;
-  }
-`;
 
-const UserInfoBlock = styled.div`
-  display: flex;
-  width: 90%;
-  flex-direction: column;
   .user-name {
-    font-size: 30px;
+    font-size: 23px;
     font-weight: 700;
+    margin-bottom: 15px;
   }
   .user-description {
-    font-size: 20px;
-    margin-bottom: 30px;
+    font-size: 18px;
+    width: 200px;
+    height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
   }
   .user-icons {
     padding: 10px;
-    margin-bottom: 20px;
+    display: flex;
+    width: 170px;
+    justify-content: space-between;
+    margin-bottom: 25px;
   }
 `;

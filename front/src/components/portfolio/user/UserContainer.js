@@ -4,9 +4,12 @@ import * as Api from "../../../api";
 import PortfolioList from "../PortfolioList";
 import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router";
+import Loading from "../../common/Loading";
+import { FullRedBtn } from "../../common/Btns";
 
 function UserContainer({ portfolioOwnerId, isEditable }) {
   const [user, setUser] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
   const userState = useContext(UserStateContext);
   const navigate = useNavigate();
 
@@ -21,12 +24,28 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
     Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
+    setIsFetching(false);
   }, [portfolioOwnerId]);
 
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  function handleClick() {
+    //회원탈퇴api요청
+  }
+
   return (
-    <div style={{ display: "flex" }}>
-      <UserCard user={user} setUser={setUser} isEditable={isEditable} />
-      <PortfolioList user={user} />
+    <div>
+      <div style={{ display: "flex" }}>
+        <UserCard user={user} setUser={setUser} isEditable={isEditable} />
+        <PortfolioList user={user} />
+      </div>
+      {isEditable && (
+        <FullRedBtn onClick={handleClick} style={{ marginLeft: "100px" }}>
+          회원탈퇴
+        </FullRedBtn>
+      )}
     </div>
   );
 }

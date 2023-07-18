@@ -5,26 +5,29 @@ import { UserStateContext } from "../../App";
 import * as Api from "../../api";
 
 import UserContainer from "./user/UserContainer";
+import Loading from "../common/Loading";
 
 function Portfolio() {
   const navigate = useNavigate();
   const params = useParams();
-  // useState 훅을 통해 portfolioOwner 상태를 생성함.
+  // portfolio의 주인을 담을 state를 생성
   const [portfolioOwner, setPortfolioOwner] = useState(null);
-  // fetchPortfolioOwner 함수가 완료된 이후에만 (isFetchCompleted가 true여야) 컴포넌트가 구현되도록 함.
-  // 아래 코드를 보면, isFetchCompleted가 false이면 "loading..."만 반환되어서, 화면에 이 로딩 문구만 뜨게 됨.
-  const [isFetchCompleted, setIsFetchCompleted] = useState(false);
+  // portfolio의 주인을 담는 state가 진행 중임을 담을 state를 생성
+  const [isFetching, setIsFetching] = useState(true);
+
   const userState = useContext(UserStateContext);
 
-  const fetchPortfolioOwner = async (ownerId) => {
-    // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
+  const handleFetchOwner = async (ownerId) => {
+    // ownerId의 user 데이터를 fetch함
     const res = await Api.get("users", ownerId);
     // 사용자 정보는 response의 data임.
     const ownerData = res.data;
     // portfolioOwner을 해당 사용자 정보로 세팅함.
     setPortfolioOwner(ownerData);
-    // fetchPortfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
-    setIsFetchCompleted(true);
+    // fetching 종료
+    setTimeout(() => {
+      setIsFetching(false);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -35,20 +38,21 @@ function Portfolio() {
     }
 
     if (params.userId) {
-      // 만약 현재 URL이 "/users/:userId" 라면, 이 userId를 유저 id로 설정함.
+      // userId가 존재할 경우 유저id를 ownerId로 설정함.
       const ownerId = params.userId;
-      // 해당 유저 id로 fetchPortfolioOwner 함수를 실행함.
-      fetchPortfolioOwner(ownerId);
+      // 해당 유저 id로 handleFetchOwner 함수를 실행함.
+      handleFetchOwner(ownerId);
     } else {
-      // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
+      // 본인의 포트폴리오일 경우 전역 상태의 user.id를 유저 id로 설정함.
       const ownerId = userState.user.id;
-      // 해당 유저 id로 fetchPortfolioOwner 함수를 실행함.
-      fetchPortfolioOwner(ownerId);
+      // 해당 유저 id로 handleFetchOwner 함수를 실행함.
+      handleFetchOwner(ownerId);
     }
   }, [params, userState, navigate]);
 
-  if (!isFetchCompleted) {
-    return "loading...";
+  //fetching이 완료되면 if 문 종료
+  if (isFetching) {
+    return <Loading />;
   }
 
   return (

@@ -1,11 +1,11 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {Award} from "../db/models/Award"
-import {routeSanitizer} from "../middlewares/routeSanitizer"
+import { Award } from "../db/models/Award";
+import { routeSanitizer } from "../middlewares/routeSanitizer";
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Create
 awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (req, res)=> {
@@ -21,13 +21,12 @@ awardRouter.post("users/:user-id/awards",login_required,routeSanitizer,async (re
         description:req.body.description
       })
       const savedAward = await newAward.save();
-      res.send({success:true});
+      res.send({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    catch (error) {
-    res.status(500).json({ error: error.message });
+    // 전달 완료!
   }
-  // 전달 완료!
-}
 );
 
 //Read
@@ -55,17 +54,19 @@ awardRouter.put("/awards/:doc-id",login_required,routeSanitizer,async(req,res)=>
     throw new Error("입력된 수상 정보가 없거나 올바르지 않습니다.")
   }
 
-  if(!currentUserId || currentUserId == null){
-    throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
-  }
-  const updateAward=await Award.updateOne(
-    {awardDocId:awardDocId},updateData)
-    if(!updateAward){
+    if (!currentUserId || currentUserId == null) {
+      throw new Error("현재 로그인한 사용자를 알 수 없습니다.");
+    }
+    const updateAward = await Award.updateOne(
+      { awardDocId: awardDocId },
+      updateData
+    );
+    if (!updateAward) {
       return res.status(500).json({ error: error.message });
     }
-    res.status(200).send({success:true});
-})
-
+    res.status(200).send({ success: true });
+  }
+);
 
 //Delete
 awardRouter.delete("/awards/:doc-id",login_required,routeSanitizer,
@@ -78,8 +79,4 @@ async (req,res)=>{
     res.status(500).json({ error: error.message });
   }
 
-})
-
-
-
-export { awardRouter}
+export { awardRouter };

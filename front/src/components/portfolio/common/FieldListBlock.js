@@ -14,7 +14,9 @@ const ListBlock = styled.div`
   border-radius: 15px;
   margin: 30px;
   position: relative;
+  padding-top: 50px;
   .fieldName {
+    margin-bottom: 20px;
     font-size: 30px;
     font-weight: 700;
     text-transform: uppercase;

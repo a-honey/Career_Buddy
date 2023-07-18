@@ -10,6 +10,11 @@ const DocumentAddBtn = ({ setDatas, editId }) => {
       <EmptyBtn
         className="addingBtn"
         onClick={() => setIsAdding((isAdding) => !isAdding)}
+        style={{
+          marginTop: "30px",
+          marginLeft: "45px",
+          width: "90%",
+        }}
       >
         +
       </EmptyBtn>
@@ -61,7 +66,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
 
     try {
       await addData(editId, "education", content);
-      setDatas((datas) => [...datas, content]);
+      setDatas((datas) => [content, ...datas]);
       setIsAdding(false);
     } catch (err) {
       alert(err);
