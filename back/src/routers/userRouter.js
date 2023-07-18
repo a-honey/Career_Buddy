@@ -1,7 +1,10 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
+import { routeSanitizer } from "../middlewares/routeSanitizer";
+
 import { userAuthService } from "../services/userService";
+
 
 const userAuthRouter = Router();
 
@@ -146,6 +149,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
+<<<<<<< HEAD
 // 임시로 지정한 URL
 userAuthRouter.put("/user/:user_id/password",
 login_required,
@@ -173,5 +177,31 @@ async function (req, res, next) {
   }
 
 })
+=======
+// 회원 탈퇴를 수행합니다.
+userAuthRouter.delete("/user/deletion", login_required, async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
+    }
+
+    const currentUserId = req.currentUserId ?? null;
+    const inputEmail = req.body.inputEmail ?? null;
+    const inputPassword = req.body.inputPassword ?? null;
+
+    const deletedUser = await userAuthService.deleteUser({ currentUserId, inputEmail, inputPassword });
+
+    if (deletedUser.error) {
+      throw new Error(deletedUser.error);
+    }
+
+    res.status(200).send("사용자 계정 삭제가 완료되었습니다.");
+  }
+  catch(error){
+    next(error);
+  }
+});
+
+>>>>>>> education
 
 export { userAuthRouter };

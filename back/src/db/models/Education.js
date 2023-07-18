@@ -83,5 +83,5 @@ class Education {
   }
 
 }
-  
+
 export { Education };

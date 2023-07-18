@@ -1,4 +1,4 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, UserModel } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -181,6 +181,58 @@ class userAuthService {
     user=await User.update({user_id,fieldToUpdate,newValue})
     return user
   }
+
+  
+  // 로그인한 사용자가 신청한 회원 탈퇴 작업을 수행하는 기능을 구현합니다.
+  static async deleteUser({ currentUserId, inputEmail, inputPassword }){
+    try{
+      if(!inputEmail) {
+        throw new Error("현재 로그인한 사용자의 이메일을 입력하세요.");
+      }
+
+      if(!inputPassword) {
+        throw new Error("현재 로그인한 사용자의 비밀번호를 입력하세요.");
+      }
+
+      if(!currentUserId) {
+        throw new Error("현재 로그인한 사용자를 알 수 없으므로 탈퇴를 진행할 수 없습니다.");
+      }
+      
+      // 현재 로그인한 사용자의 currentUserId로 사용자 계정 document를 찾습니다.
+      // [버그] User 모델의 User.findById가 전혀 작동하지 않고 있습니다. mongoose 자체 메서드인 findOne을 대신 사용합니다.
+      // const targetDocument = await User.findById(currentUserId);
+      const targetDocument = await UserModel.findOne({ id: currentUserId });
+
+      if(!targetDocument){
+        throw new Error("현재 로그인한 사용자의 정보로는 계정 정보를 찾을 수 없거나, 이미 삭제된 계정입니다.");
+      }
+      
+      // [보안] 삭제를 요청한 사용자와, 계정 document의 소유자가 일치하는지를 validate 합니다.
+      if(currentUserId !== targetDocument.id){
+        throw new Error("현재 로그인한 사용자는 사용자 계정 정보를 삭제할 권한이 없습니다.");
+      }
+
+      // [보안] 입력된 비밀번호와 실제 사용자 계정 document에 들어있는 hash를 비교합니다.
+      const isPasswordCorrect = await bcrypt.compare(
+        inputPassword,
+        targetDocument.password
+      );
+
+      if (!isPasswordCorrect) {
+        throw new Error("비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.");
+      }
+
+      // validation이 통과되었다면 사용자 계정 document를 삭제합니다.
+      // [버그] User 모델의 User.delete가 전혀 작동하지 않고 있습니다. mongoose 자체 메서드인 findOneAndDelete를 대신 사용합니다.
+      // const deletedUser = await User.delete(currentUserId);
+      const deletedUser = await UserModel.findOneAndDelete({ id: currentUserId });
+      return "계정 삭제 완료";
+    }
+    catch(error){
+      throw new Error(error);
+    }
+  }
+
 }
 
 export { userAuthService };

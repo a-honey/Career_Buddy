@@ -21,12 +21,15 @@ const EducationSchema = new Schema(
       type: String,
       required: true,
     },
+    // regex를 기반으로 YYYY-MM-DD 형식을 규정합니다.
     entryDate: {
       type: String,
+      match: /^\d{4}-\d{2}-\d{2}$/,
       required: true,
     },
     gradDate: {  
       type: String,
+      match: /^\d{4}-\d{2}-\d{2}$/,
       required: false,
     },
     grade: {
