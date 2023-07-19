@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import { addData } from "../../../services/api";
+import AddBlock from "../common/AddBlock";
 
 const DocumentAddBtn = ({ setDatas, editId }) => {
   // isEditing 상태가 되면 각 education 필드에 add 버튼 생성
@@ -72,54 +73,56 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
   }
 
   return (
-    <form onSubmit={handleAddSubmit} className="input-edit">
-      <div className="input-edit-content">
-        <div className="education-main">
-          <label>프로젝트명</label>
-          <input
-            type="text"
-            placeholder="프로젝트명"
-            value={content?.title}
-            onChange={(e) => handleChange(e, "institution")}
-          />
-          <label>소속 단체</label>
-          <input
-            type="text"
-            placeholder="단체 프로젝트일 경우 입력해주세요"
-            value={content?.organization}
-            onChange={(e) => handleChange(e, "institution")}
-          />
+    <AddBlock>
+      <form onSubmit={handleAddSubmit} className="input-edit">
+        <div className="input-edit-content">
+          <div className="education-main">
+            <label>프로젝트명</label>
+            <input
+              type="text"
+              placeholder="프로젝트명"
+              value={content?.title}
+              onChange={(e) => handleChange(e, "institution")}
+            />
+            <label>소속 단체</label>
+            <input
+              type="text"
+              placeholder="단체 프로젝트일 경우 입력해주세요"
+              value={content?.organization}
+              onChange={(e) => handleChange(e, "institution")}
+            />
+          </div>
+          <div className="education-sub">
+            <label>시작일</label>
+            <input
+              type="date"
+              placeholder="시작일"
+              value={content?.startDate}
+              onChange={(e) => handleChange(e, "entryDate")}
+            />
+            <label>종료일</label>
+            <input
+              type="date"
+              placeholder="종료일"
+              value={content?.endDate}
+              onChange={(e) => handleChange(e, "gradDate")}
+            />
+            <label>비고</label>
+            <input
+              type="text"
+              placeholder="비고"
+              value={content?.description}
+              onChange={(e) => handleChange(e, "grade")}
+            />
+          </div>
         </div>
-        <div className="education-sub">
-          <label>시작일</label>
-          <input
-            type="date"
-            placeholder="시작일"
-            value={content?.startDate}
-            onChange={(e) => handleChange(e, "entryDate")}
-          />
-          <label>종료일</label>
-          <input
-            type="date"
-            placeholder="종료일"
-            value={content?.endDate}
-            onChange={(e) => handleChange(e, "gradDate")}
-          />
-          <label>비고</label>
-          <input
-            type="text"
-            placeholder="비고"
-            value={content?.description}
-            onChange={(e) => handleChange(e, "grade")}
-          />
+        <div className="input-edit-btns">
+          <FullBtn type="submit">추가</FullBtn>
+          <EmptyBtn type="button" onClick={() => setIsAdding(false)}>
+            취소
+          </EmptyBtn>
         </div>
-      </div>
-      <div className="input-edit-btns">
-        <FullBtn type="submit">추가</FullBtn>
-        <EmptyBtn type="button" onClick={() => setIsAdding(false)}>
-          취소
-        </EmptyBtn>
-      </div>
-    </form>
+      </form>
+    </AddBlock>
   );
 };
