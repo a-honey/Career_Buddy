@@ -2,9 +2,40 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { routeSanitizer } from "../middlewares/routeSanitizer";
-
 import { userAuthService } from "../services/userService";
+import { UserModel } from "../db";
 
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+const randomstring = require("randomstring");
+
+// multer를 설정합니다.
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // path 모듈을 활용해 절대 경로를 기반으로 추가적인 상대 경로를 조합해주어야 합니다.
+    // 현재 working directory는 /back/src/routers/ 입니다.
+    // working directory의 절대 경로에다가 ../uploads/ 라는 상대 경로를 추가해줍니다.
+    cb(null, path.join(__dirname, '../uploads'))
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + randomstring.generate() + ".jpg")
+  }
+})
+
+// [보안] 업로드된 파일의 MIME type을 감지해서 JPEG 형식의 이미지 파일만 받아들입니다. 테스트 완료.
+let upload = multer({ 
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    const filetypes = /jpg|jpeg/;
+    const mimetype = filetypes.test(file.mimetype);
+    if (mimetype) {
+      return cb(null, true);
+    } else {
+      cb('JPG 파일만 업로드 가능합니다.');
+    }
+  },
+ });
 
 const userAuthRouter = Router();
 
@@ -233,6 +264,45 @@ userAuthRouter.put("/user/resetpassword", routeSanitizer, async function (req, r
     }
 
     res.status(200).send("사용자의 비밀번호 초기화가 완료되었습니다.");
+  }
+  catch(error){
+    next(error);
+  }
+});
+
+
+// 현재 로그인한 사용자가 입력한 프로필 사진을 데이터베이스 업로드하고, 해당 사진을 base64 문자열과 MIME type으로 프론트엔드에 보내줍니다.
+userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_required, async function (req, res, next) {
+  try {
+    const currentUserId = req.currentUserId;
+
+    if(!currentUserId){
+      throw new Error("현재 로그인한 사용자를 알 수 없습니다.");
+    }
+
+    // path 모듈을 활용해 절대 경로를 기반으로 추가적인 상대 경로를 조합해주어야 합니다.
+    // 현재 working directory는 /back/src/routers/ 입니다.
+    // working directory의 절대 경로에다가 ../uploads/ 라는 상대 경로를 추가해줍니다.
+    // multer의 storage와 같은 경로를 사용해야 합니다.
+
+    const fileObject = {
+      file: {
+        data: fs.readFileSync(path.join(__dirname, '../uploads/') + req.file.filename),
+        contentType: 'image/jpg',
+      }
+    }
+  
+    console.log(fileObject)
+    
+    const uploadedFile = await UserModel.findOneAndUpdate({ id: currentUserId }, { $set: fileObject }, { returnOriginal: false });
+
+    if (uploadedFile.error) {
+      throw new Error(uploadedFile.error);
+    }
+
+    const base64Img = await UserModel.findOne({  });
+
+    res.status(200).json(base64Img);
   }
   catch(error){
     next(error);
