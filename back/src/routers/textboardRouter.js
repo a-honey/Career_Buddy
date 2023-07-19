@@ -14,7 +14,7 @@ const textboardRouter = Router();
 
 // [CRUD] CREATE
 // 로그인한 사용자로부터 전달받은 입력값을 게시판에 새로운 게시글로 저장합니다.
-textboardRouter.post("/users/:userid/post", routeSanitizer, login_required, async (req, res, next) => {
+textboardRouter.post("/users/:userid/posts", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const newPost = req.body;
     const currentUserId = req.currentUserId;
