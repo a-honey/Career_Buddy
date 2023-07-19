@@ -135,6 +135,7 @@ const CardBlock = styled.div`
     height: 25px;
     overflow: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .user-icons {
     padding: 10px;
