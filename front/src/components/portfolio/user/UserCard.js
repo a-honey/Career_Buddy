@@ -9,13 +9,6 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
   const { isEditing, setIsEditing } = useContext(EditContext);
   return (
     <UserCardBlock>
-      <div className="img-container">
-        <img
-          className="mb-3"
-          src="http://placekitten.com/200/200"
-          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-        />
-      </div>
       {isEditing ? (
         <UserEditForm user={user} setUser={setUser} />
       ) : (
@@ -47,13 +40,20 @@ const UserItem = ({ user, isNetwork }) => {
 
   return (
     <UserInfoBlock>
+      <div className="img-container">
+        <img
+          className="mb-3"
+          src={user?.imgUrl || "http://placekitten.com/200/200"}
+          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+        />
+      </div>
       <div className="user-name">{user?.name}</div>
       <div className="user-description">{user?.description}</div>
       <div className="user-icons">
-        {user?.github?.github && (
+        {user?.social?.github && (
           <a
             className="snsUrl"
-            href={user?.github?.github}
+            href={user?.social?.github}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -71,7 +71,7 @@ const UserItem = ({ user, isNetwork }) => {
         )}
         {user?.github?.insta && (
           <a
-            href={user?.github?.insta}
+            href={user?.social?.insta}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"
@@ -90,7 +90,7 @@ const UserItem = ({ user, isNetwork }) => {
         )}
         {user?.github?.blog && (
           <a
-            href={user?.github?.blog}
+            href={user?.social?.blog}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"
