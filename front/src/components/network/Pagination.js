@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { hoverColor, mainColor } from "../common/color";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Pagination = ({ totalPages, currentPage, handlePage }) => {
   // 상황1. 반복문을 돌면서 totalPages만큼 li태그를 만들어라. 그와중에 현재 페이지라면 active 아니면 others
