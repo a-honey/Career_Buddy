@@ -10,7 +10,7 @@ require('dotenv').config();
 const OAuth2 = google.auth.OAuth2;
 
 class userAuthService {
-  static async addUser({ name, email, password, github }) {
+  static async addUser({ name, email, password, social, imgUrl }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
     if (user) {
@@ -24,7 +24,7 @@ class userAuthService {
 
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newUser = { id, name, email, github, password: hashedPassword };
+    const newUser = { id, name, email, social, imgUrl, password: hashedPassword };
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
@@ -62,7 +62,8 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
-    const github = user.github;
+    const social = user.social;
+    const imgUrl = user.imgUrl;
 
     const loginUser = {
       token,
@@ -70,7 +71,8 @@ class userAuthService {
       email,
       name,
       description,
-      github,
+      social,
+      imgUrl,
       errorMessage: null,
     };
 
@@ -139,9 +141,15 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.github) {
-      const fieldToUpdate = "github";
-      const newValue = toUpdate.github;
+    if (toUpdate.social) {
+      const fieldToUpdate = "social";
+      const newValue = toUpdate.social;
+      user = await User.update({ user_id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.imgUrl) {
+      const fieldToUpdate = "imgUrl";
+      const newValue = toUpdate.imgUrl;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
@@ -342,10 +350,23 @@ class userAuthService {
       }
 
       const user_id = targetDocumentId;
-      const fieldToUpdate = "password";
-      const newValue = newPassword;
-      const updatedTargetDocument = await User.update({ user_id, fieldToUpdate, newValue });
 
+      // 사용자의 비밀번호가 초기화되었다는 내용을 함께 담아서 문서를 업데이트합니다.
+      const updatedUserData = {
+        "password" : newPassword,
+        "isPasswordReset" : true,
+      }
+
+      const filter = { id: user_id };
+      const update = { $set: updatedUserData };
+      const option = { returnOriginal: false };
+
+      const updatedTargetDocument = await UserModel.findOneAndUpdate(
+        filter,
+        update,
+        option
+      );
+      
       // 이메일을 실제로 전송합니다.
       sendEmail({
         subject: "요청하신 비밀번호 초기화가 완료되었습니다.",

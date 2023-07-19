@@ -23,10 +23,18 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
-    github: {
+    social: {
       type: Object,
       required: false,
     },
+    imgUrl: {
+      type: String,
+      required: false,
+    },
+    isPasswordReset: {
+      type: Boolean,
+      required: false,
+    }
   },
   {
     timestamps: true,
