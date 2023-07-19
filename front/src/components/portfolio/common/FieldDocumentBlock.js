@@ -26,7 +26,7 @@ const FieldDocumentBlock = ({
         return deleteddatas;
       });
     } catch (err) {
-      alert("데이터 삭제 실패");
+      alert("프론트 데이터 삭제 실패");
     }
   };
 

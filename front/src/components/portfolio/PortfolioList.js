@@ -1,9 +1,9 @@
 import Education from "./education";
 import Award from "./award";
-import Project from "./project";
 import { styled } from "styled-components";
 import FastMove from "./common/FastMove";
 import { useRef } from "react";
+import Certificate from "./certificate";
 
 const PortfolioList = ({ user, isEditing }) => {
   const scrollElement = useRef([]);
@@ -18,7 +18,7 @@ const PortfolioList = ({ user, isEditing }) => {
         <Award user={user} isEditing={isEditing} />
       </div>
       <div ref={(el) => (scrollElement.current[3] = el)}>
-        <Project user={user} isEditing={isEditing} />
+        <Certificate user={user} isEditing={isEditing} />
       </div>
     </PortfolioListBlock>
   );

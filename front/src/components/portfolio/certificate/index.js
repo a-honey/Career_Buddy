@@ -5,42 +5,55 @@ import FieldListBlock from "../common/FieldListBlock";
 import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
+import Loading from "../../common/Loading";
 
 //api로 Model의 전체 데이터를 요청
-const Certificate = ({ ownerId }) => {
+const Certificate = ({ user }) => {
+  const userId = user?.id;
   const [datas, setDatas] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
-    getDatas(ownerId, "certificate")
+    getDatas(userId, "certificate")
       .then((res) => {
         setDatas(res.data);
+        setIsFetching(false);
       })
       .catch((err) => {
-        alert(err);
+        alert(`CERTIFICATE 데이터 가져오기 실패: ${err}`);
       });
-  }, [setDatas, ownerId]);
+  }, [setDatas, userId]);
 
-  return <FieldContainer datas={datas} setDatas={setDatas} ownerId={ownerId} />;
+  if (isFetching) {
+    return <Loading />;
+  }
+
+  return <FieldContainer datas={datas} setDatas={setDatas} userId={userId} />;
 };
 
 export default Certificate;
 
 //Model에서 받아온 전체 데이터를 map
-const FieldContainer = ({ datas, setDatas, ownerId }) => {
+const FieldContainer = ({ datas, setDatas, userId }) => {
   const { isEditing } = useContext(EditContext);
 
   return (
     <FieldListBlock>
       <h1 className="fieldName">Certificate</h1>
       {datas.map((data) => (
-        <DocumentItem key={data._id} data={data} setDatas={setDatas} />
+        <DocumentItem
+          key={data._id}
+          data={data}
+          setDatas={setDatas}
+          userId={userId}
+        />
       ))}
-      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={ownerId} />}
+      {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );
 };
 
-const DocumentItem = ({ data, setDatas }) => {
+const DocumentItem = ({ data, setDatas, userId }) => {
   //해당 Model이 현재 편집상태인지 확인
   const { isEditing } = useContext(EditContext);
   //해당 document가 현재 편집상태인지 확인
@@ -58,22 +71,24 @@ const DocumentItem = ({ data, setDatas }) => {
   }
 
   // 수정 버튼 클릭시 해당 filedName으로 업데이트(put)요청 보내기
-  async function handleSubmit(e) {
+  async function handlePutSubmit(e) {
     e.preventDefault();
 
     try {
-      await updateData(data?._id, "certificate", content);
+      await updateData(data._id, "certificate", content);
 
       setDatas((datas) => {
-        const olddatas = datas.filter(
-          (origindata) => origindata._id !== data?._id
-        );
-        return [...olddatas, content];
+        return datas.map((origindata) => {
+          if (origindata._id === data?._id) {
+            return content;
+          }
+          return origindata;
+        });
       });
 
       setIsDocumentEditing(false);
     } catch (err) {
-      alert(`데이터 PUT 요청 실패: ${err}`);
+      alert(`CERTFICATE 데이터 PUT 요청 실패: ${err}`);
     }
   }
 
@@ -90,22 +105,22 @@ const DocumentItem = ({ data, setDatas }) => {
     return (
       <FieldDocumentBlock
         setDatas={setDatas}
-        fieldName={"certificate"}
-        documentId={data?._id}
+        fieldName="certificate"
+        documentId={data._id}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handlePutSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
               <label>자격증명</label>
               <input
                 type="text"
-                placeholder="자격증명"
+                placeholder="수상명"
                 value={content?.title}
                 onChange={(e) => handleChange(e, "title")}
               />
-              <label>issuer</label>
+              <label>발급기관</label>
               <input
                 type="text"
                 placeholder="issuer"
@@ -114,12 +129,19 @@ const DocumentItem = ({ data, setDatas }) => {
               />
             </div>
             <div className="education-sub">
-              <label>취득일</label>
+              <label>발급일</label>
               <input
                 type="date"
-                placeholder="취득일"
-                value={content?.awardDate}
+                placeholder="수상일"
+                value={content?.certDate}
                 onChange={(e) => handleChange(e, "certDate")}
+              />
+              <label>만료일</label>
+              <input
+                type="date"
+                placeholder="수상일"
+                value={content?.expDate}
+                onChange={(e) => handleChange(e, "expDate")}
               />
               <label>비고</label>
               <input
@@ -149,21 +171,41 @@ const DocumentItem = ({ data, setDatas }) => {
       // IsEditing 상태 아닐때 응답받은 Field Document 보여주기
       <FieldDocumentBlock
         setDatas={setDatas}
-        documentId={data?._id}
-        fieldName={"education"}
+        documentId={data._id}
+        fieldName={"award"}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
-        <div className="field-main-content">
-          <span className="field-title">수상명 | </span>
-          {data?.title} {data?.issuer}{" "}
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div className="field-date">
-            <span className="field-title">수상일 | </span>
-            {data?.awardDate}
+        <div className="field-main before partition">
+          <div className="field-content">
+            <span className="field-title">자격증명 | </span>
+            {data?.title}
+          </div>
+          <div className="field-content">
+            <span className="field-title">발급기관명 | </span>
+            {data?.issuer}
           </div>
         </div>
+        <div className="field-sub partition">
+          <div className="field-sub-content">
+            <span className="field-title">발급일 | </span>
+            {data?.certDate}
+          </div>
+          {data.expDate && (
+            <div className="field-sub-content">
+              <span className="field-title">만료일 | </span>
+              {data.expDate}
+            </div>
+          )}
+        </div>
+        {data.description && (
+          <div className="field-last partition">
+            <div className="field-sub-content">
+              <span className="field-title">비고 | </span>
+              {data.description}
+            </div>
+          </div>
+        )}
       </FieldDocumentBlock>
     );
   }

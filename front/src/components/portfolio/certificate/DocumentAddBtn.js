@@ -10,6 +10,11 @@ const DocumentAddBtn = ({ setDatas, editId }) => {
       <EmptyBtn
         className="addingBtn"
         onClick={() => setIsAdding((isAdding) => !isAdding)}
+        style={{
+          marginTop: "30px",
+          marginLeft: "45px",
+          width: "90%",
+        }}
       >
         +
       </EmptyBtn>
@@ -34,6 +39,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     issuer: "",
     certDate: "",
     expDate: "",
+    certId: "",
     description: "",
   });
 
@@ -73,11 +79,11 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
           <label>자격증명</label>
           <input
             type="text"
-            placeholder="자격증명"
+            placeholder="수상명"
             value={content?.title}
             onChange={(e) => handleChange(e, "title")}
           />
-          <label>issuer</label>
+          <label>발급기관</label>
           <input
             type="text"
             placeholder="issuer"
@@ -86,12 +92,19 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
           />
         </div>
         <div className="education-sub">
-          <label>취득일</label>
+          <label>발급일</label>
           <input
             type="date"
-            placeholder="취득일"
-            value={content?.awardDate}
+            placeholder="수상일"
+            value={content?.certDate}
             onChange={(e) => handleChange(e, "certDate")}
+          />
+          <label>만료일</label>
+          <input
+            type="date"
+            placeholder="수상일"
+            value={content?.expDate}
+            onChange={(e) => handleChange(e, "expDate")}
           />
           <label>비고</label>
           <input
