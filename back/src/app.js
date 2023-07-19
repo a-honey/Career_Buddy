@@ -7,6 +7,7 @@ import { errorMiddleware } from "./middlewares/errorMiddleware";
 import { certificateRouter } from "./routers/certificateRouter";
 import { textboardRouter } from "./routers/textboardRouter";
 import { awardRouter } from "./routers/awardRouter";
+import { projectRouter } from "./routers/projectRouter";
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -33,6 +34,7 @@ app.use(educationRouter);
 app.use(awardRouter);
 app.use(certificateRouter);
 app.use(textboardRouter);
+app.use(projectRouter);
 
 app.use(express.urlencoded({
   extended:true
