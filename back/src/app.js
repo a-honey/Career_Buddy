@@ -37,34 +37,6 @@ app.use(express.json())
 
 
 
-const fileUpload = require('express-fileupload');
-// default options
-app.use(fileUpload());
-
-app.post('/upload', function(req, res) {
-  let sampleFile;
-  let uploadPath;
-
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  sampleFile = req.files.file;
-  uploadPath = __dirname + '/db/uploads/' + sampleFile.name;
-
-  // Use the mv() method to place the file somewhere on your server
-  sampleFile.mv(uploadPath, function(err) {
-    if (err)
-      return res.status(500).send(err);
-
-    res.send('File uploaded!');
-  });
-});
-
-
-
-
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

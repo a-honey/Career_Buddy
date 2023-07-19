@@ -24,6 +24,10 @@ const CertificateSchema = new Schema(
       description: {
         type: String,
         default: "설명이 아직 없습니다. 추가해 주세요.",
+      },
+      file:{
+        name:String,
+        data:Buffer,
       }
 },  {
   timestamps: true,

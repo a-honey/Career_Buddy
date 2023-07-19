@@ -75,6 +75,41 @@ async (req,res)=>{
 
 })
 
+const fileUpload = require('express-fileupload');
+// default options
+certificateRouter.use(fileUpload({
+  limits: { fileSize: 10 * 1024 * 1024 }, // 최대 파일 크기 제한을 설정합니다.
+  abortOnLimit: true, // 파일 크기 제한에 도달하면 요청 중단 여부를 설정합니다
+}));
+certificateRouter.post('/certificates/:documentid/file', async function(req, res) {
+  const uploadedFile = req.files.file;
+  const certDocId=req.params.documentid
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('업로드할 파일이 없습니다.');
+  }
+  const existingFile=await Certification.findByDocId({certDocId})
+  console.log("uploadedFile",uploadedFile,"\n")
+  if(!existingFile){
+    return res.status(404).send('존재하지 않는 데이터에 추가할 수 없습니다.');
+  }
+
+  existingFile.file={
+    name:uploadedFile.name,
+    data:uploadedFile.data
+  }
+  const fileData=existingFile.file.data
+  const fileName=existingFile.file.name
 
 
+  const addFile=await Certification.addFile({certDocId:certDocId},existingFile.file)
+  console.log("existingFile",existingFile,"\n")
+  // console.log("addFile",addFile,"\n")
+
+  if (!addFile) {
+    return res.status(404).send('Certifiate not found.');
+  }
+  return res.send({success:true})
+}
+);
 export { certificateRouter}

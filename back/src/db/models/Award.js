@@ -19,6 +19,11 @@ class Award {
     const awards = await AwardModel.find(filter);
     return awards;
   }
+  static async findByDocId({awardDocId}) {
+    const filter = {_id: awardDocId};
+    const awards = await AwardModel.find(filter);
+    return awards;
+  }
 
   // Update
   static async updateOne({awardDocId},newValue) {
@@ -45,6 +50,22 @@ class Award {
     return deletedAward;
   }
 
+  //File Upload
+  static async addFile({awardDocId},newFile) {
+    const filter = { _id: awardDocId};
+    // _id에 certDocId를 받아옴
+    const update = { $set: {file:newFile} } ;
+    const option = { returnOriginal: false,new:true};
+    // 업데이트 되기 이전의 문서는 반환하지 않음
+  
+    const updatedAward = await AwardModel.findOneAndUpdate(
+      filter,
+      update,
+      option,
+
+    );
+    return updatedAward;
+  }
 }
 
 export { Award };

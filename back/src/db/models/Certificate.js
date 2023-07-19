@@ -19,6 +19,11 @@ class Certification {
     const certificates = await CertificateModel.find(filter);
     return certificates;
   }
+  static async findByDocId({certDocId}) {
+    const filter = {_id: certDocId};
+    const certificates = await CertificateModel.find(filter);
+    return certificates;
+  }
 
   // Update
   static async updateOne({certDocId},newValue) {
@@ -43,6 +48,23 @@ class Certification {
     const deletedCert=await CertificateModel.findOneAndDelete(filter)
     return deletedCert;
   }
+
+    //File Upload
+    static async addFile({certDocId},newFile) {
+      const filter = { _id: certDocId};
+      // _id에 certDocId를 받아옴
+      const update = { $set: {file:newFile} } ;
+      const option = { returnOriginal: false,new:true};
+      // 업데이트 되기 이전의 문서는 반환하지 않음
+    
+      const updatedCert = await CertificateModel.findOneAndUpdate(
+        filter,
+        update,
+        option,
+  
+      );
+      return updatedCert;
+    }
 
 }
 

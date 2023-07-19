@@ -6,8 +6,6 @@ import {routeSanitizer} from "../middlewares/routeSanitizer"
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
 const mongoose = require('mongoose');
-const {file_upload}=require("../middlewares/multerMiddleware")
-
 
 // Create
 awardRouter.post("/users/:userid/awards",login_required,routeSanitizer,async (req, res)=> {
@@ -81,6 +79,67 @@ async (req,res)=>{
   }
 
 })
+
+const fileUpload = require('express-fileupload');
+// const Grid = require('gridfs-stream');
+
+// let gfs;
+// const connection = mongoose.connection;
+
+// connection.once('open', () => {
+// gfs = Grid(connection.db, mongoose.mongo);
+// gfs.collection('uploads');
+// console.log('GridFS collection connected');
+// });
+
+// default options
+awardRouter.use(fileUpload());
+awardRouter.post('/awards/:documentid/file', async function(req, res) {
+  const uploadedFile = req.files.file;
+  const awardDocId=req.params.documentid
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('업로드할 파일이 없습니다.');
+  }
+  const existingFile=await Award.findByDocId({awardDocId})
+  console.log("uploadedFile",uploadedFile,"\n")
+  if(!existingFile){
+    return res.status(404).send('존재하지 않는 데이터에 추가할 수 없습니다.');
+  }
+
+  existingFile.file={
+    name:uploadedFile.name,
+    data:uploadedFile.data
+  }
+  const fileData=existingFile.file.data
+  const fileName=existingFile.file.name
+
+
+  const addFile=await Award.addFile({awardDocId:awardDocId},existingFile.file)
+  console.log("existingFile",existingFile,"\n")
+  // console.log("addFile",addFile,"\n")
+
+  if (!addFile) {
+    return res.status(404).send('Award not found.');
+  }
+  return res.send({success:true})
+}
+);
+// awardRouter.get('/awards/:documentid/preview',(req, res) => {
+//   const fileId = req.params.documentid;
+//   console.log(fileId)
+//   gfs.files.findOne({ _id: fileId }, (err, file) => {
+//     console.log(file)
+//     if (!file || file.length === 0) {
+//       return res.status(404).send('파일이 존재하지 않습니다.');
+//     }
+
+//     const readstream = gfs.createReadStream({ _id: fileId });
+//     readstream.pipe(res);
+//   });
+// });
+
+
 
 
 
