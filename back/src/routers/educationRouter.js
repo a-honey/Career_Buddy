@@ -17,7 +17,7 @@ const educationRouter = Router();
 
 // [CRUD] CREATE
 // 프론트엔드로부터 전달받은 학력사항 입력값을 사용자의 새로운 학력정보로 저장합니다.
-educationRouter.post("/users/:userid/education", routeSanitizer, login_required, async (req, res, next) => {
+educationRouter.post("/users/:userid/educations", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const newEduData = req.body;
     const currentUserId = req.currentUserId;
