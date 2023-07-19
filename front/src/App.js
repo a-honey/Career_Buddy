@@ -9,7 +9,9 @@ import NetworkPage from "./pages/NetworkPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import RegisterPage from "./pages/RegisterPage";
 import { EditContextProvider } from "./contexts/EditContext";
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./pages/PassWordChangePage";
+import PassWordChangePage from "./pages/PassWordChangePage";
+import PassWordResetPage from "./pages/PassWordReset";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -64,7 +66,8 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/users/:userId" element={<PortfolioPage />} />
               <Route path="/network" element={<NetworkPage />} />
-              <Route path="/search" element={<SearchPage />} />
+              <Route path="/search" element={<PassWordChangePage />} />
+              <Route path="/reset" element={<PassWordResetPage />} />
               <Route path="*" element={<PortfolioPage />} />
             </Routes>
           </Router>

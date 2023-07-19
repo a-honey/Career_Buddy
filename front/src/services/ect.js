@@ -46,4 +46,20 @@ async function userPagenation(page) {
   }
 }
 
-export { userDelete, userPasswordChange, userPagenation };
+async function userPasswordReset(inputdata) {
+  const bodyData = JSON.stringify(inputdata);
+  try {
+    console.log(`${serverUrl}user/resetpassword`);
+    await axios.put(`${serverUrl}user/resetpassword`, bodyData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+      },
+    });
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.error || "알 수 없는 에러가 발생했습니다."
+    );
+  }
+}
+export { userDelete, userPasswordChange, userPagenation, userPasswordReset };
