@@ -83,6 +83,7 @@ button {
 .partition {
   display: flex;
   height: 50px;
+  align-items: center;
 }
 
 /*

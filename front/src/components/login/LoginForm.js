@@ -115,9 +115,14 @@ function LoginForm() {
                   </Button>
                 </Col>
                 <Col sm={{ span: 20 }}>
-                  <Button variant="light" onClick={() => navigate("/reset")}>
+                  <div
+                    className="go"
+                    onClick={() => {
+                      navigate("/reset");
+                    }}
+                  >
                     비밀번호가 기억나지 않으세요?
-                  </Button>
+                  </div>
                 </Col>
               </Form.Group>
             </Form>
@@ -132,4 +137,9 @@ export default LoginForm;
 
 const LoginFormBlock = styled.div`
   background-color: white;
+  .go {
+    margin-top: 20px;
+    font-size: 12px;
+    cursor: pointer;
+  }
 `;

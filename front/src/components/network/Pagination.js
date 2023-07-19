@@ -3,34 +3,27 @@ import { hoverColor, mainColor } from "../common/color";
 import { useState } from "react";
 
 const Pagination = ({ totalPages, currentPage, handlePage }) => {
-  // 상황1. 반복문을 돌면서 totalPages만큼 li태그를 만들어라. 그와중에 현재 페이지라면 active 아니면 others
-  // 렌더링이 두번됨. 왜? currentPage가 왜 사라짐? 렌더링하러가나? 왜???
-  // 상황2. 처음 Pagination이 렌더링될때의 currentPage의 값을 activePage에 보관, 이후 currenPage와 단절
-  // 이동하면 그냥 Grid와 별개로 태그를 다시 렌더링(current 같은게 아니라 손민수로 배열을 새로 구성)함.
-  //클릭하면 일어나는 일? pagenation은 그냥 Grid와 별개로 태그를 다시 렌더링(배열을 새로 구성해서)함. grid는 다시 받아서 렌더링을 함 currentPage가 바뀌었으니까. 뭔차이??
-  const [activePage, setActivePage] = useState(currentPage);
-
+  currentPage = Number(currentPage);
   function handleLeftClick() {
     handlePage(currentPage - 1);
-    setActivePage(currentPage - 1);
   }
 
   function handleRightClick() {
     handlePage(currentPage - 1);
-    setActivePage(currentPage - 1);
   }
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
 
     for (let i = 1; i <= totalPages; i++) {
+      console.log(i, currentPage);
+
       pageNumbers.push(
         <li
           key={i}
-          className={activePage === i ? "active" : ""}
+          className={currentPage === i ? "active" : ""}
           onClick={() => {
             handlePage(i);
-            setActivePage(i);
           }}
         >
           {i}
@@ -45,8 +38,8 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
     <PaginationBlock className="pagination">
       <ul className="pagination-list">
         <li
-          className={activePage === 1 ? "disabled" : ""}
-          onClick={activePage === 1 ? handleLeftClick : undefined}
+          className={currentPage === 1 ? "disabled" : ""}
+          onClick={currentPage === 1 ? handleLeftClick : undefined}
         >
           &lt;
         </li>
@@ -55,8 +48,8 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
         {renderPageNumbers()}
 
         <li
-          className={activePage === totalPages ? "disabled" : ""}
-          onClick={activePage === 1 ? handleRightClick : undefined}
+          className={currentPage === totalPages ? "disabled" : ""}
+          onClick={currentPage === 1 ? handleRightClick : undefined}
         >
           &gt;
         </li>
