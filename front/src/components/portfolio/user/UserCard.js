@@ -134,11 +134,12 @@ const UserCardBlock = styled.div`
     height: 100%;
     display: inline-block;
   }
-  a {
+  a.snsUrl {
     margin-left: 30px;
   }
   .link {
-    background-color: yellow;
+    margin-top: 10px;
+    border-bottom: 0.1px solid black;
   }
 `;
 

@@ -20,8 +20,8 @@ async function userDelete(userEmail, userPw) {
 }
 
 async function userPasswordChange(user_id, sendData) {
-  console.log(`${serverUrl}user/deletion`);
-  const res = await axios.delete(`${serverUrl}user/${user_id}`, {
+  console.log(`${serverUrl}user/${user_id}/password`);
+  const res = await axios.delete(`${serverUrl}user/${user_id}/password`, {
     data: {
       inputEmail: sendData.inputEmail,
       inputPassword: sendData.inputPassword,

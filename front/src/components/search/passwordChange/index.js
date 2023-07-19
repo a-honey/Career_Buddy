@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { userPasswordChange } from "../../../services/ect";
 import { DispatchContext, UserStateContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
+import { backColor, hoverColor, mainColor } from "../../common/color";
 
 const PasswordChange = () => {
   const navigate = useNavigate();
@@ -53,17 +54,20 @@ const PasswordChange = () => {
 
   return (
     <WithdrawalBlock onSubmit={handleClick}>
-      <label className="withdrawl-lebel">Email |</label>
+      <h1>비밀번호 변경</h1>
+      <label className="withdrawl-label">Email |</label>
       <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label className="withdrawl-lebel">Password |</label>
+      <label className="withdrawl-label">Password |</label>
       <input value={newPw} onChange={(e) => setNewPw(e.target.value)} />
-      <label className="withdrawl-lebel">Password Confirm |</label>
+      <label className="withdrawl-label">Password Confirm |</label>
       <input
         value={newPwConfirm}
         onChange={(e) => setNewPwConfirm(e.target.value)}
       />
-      <FullRedBtn>비밀번호 변경</FullRedBtn>
-      <EmptyBtn>취소</EmptyBtn>
+      <div className="pwBtns">
+        <FullRedBtn>비밀번호 변경</FullRedBtn>
+        <EmptyBtn>취소</EmptyBtn>
+      </div>
     </WithdrawalBlock>
   );
 };
@@ -72,11 +76,33 @@ export default PasswordChange;
 
 const WithdrawalBlock = styled.form`
   width: 500px;
-  height: 400px;
-  padding: 30px 20px;
+  height: 500px;
+  padding: 30px 50px;
   display: flex;
   flex-direction: column;
-  background-color: pink;
   margin: 60px auto;
   margin-top: 100px;
+  border: solid 1px ${mainColor};
+  border-radius: 8px;
+  h1 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  .withdrawl-label {
+    margin: 0 15px;
+    margin-bottom: 10px;
+  }
+  input {
+    margin-bottom: 10px;
+    margin: 0 30px;
+  }
+  button {
+    margin-top: 10px;
+  }
+  .pwBtns {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
 `;
