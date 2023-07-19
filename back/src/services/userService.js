@@ -349,15 +349,13 @@ class userAuthService {
         throw new Error("본인임을 인증하는 입력값에 해당하는 계정 정보를 찾을 수 없습니다.");        
       }
 
-      const user_id = targetDocumentId;
-
-      // 사용자의 비밀번호가 초기화되었다는 내용을 함께 담아서 문서를 업데이트합니다.
+      // 사용자의 비밀번호가 초기화되었다는 플래그를 함께 담아서 문서를 업데이트합니다.
       const updatedUserData = {
         "password" : newPassword,
         "isPasswordReset" : true,
       }
 
-      const filter = { id: user_id };
+      const filter = { id: targetDocumentId };
       const update = { $set: updatedUserData };
       const option = { returnOriginal: false };
 

@@ -23,7 +23,7 @@ class EducationService {
       
       // [보안] 업데이트를 요청한 사용자와 모든 학력정보 document들의 소유자가 일치하는지를 validation합니다.
       targetDocuments.forEach(element => {
-        if(currentUserId !== element.userId){
+        if(currentUserId !== element["userId"]){
           throw new Error("현재 로그인한 사용자는 해당 정보를 열람할 권한이 없습니다.")
         }
       });
@@ -63,7 +63,7 @@ class EducationService {
       }
 
       // [보안] 업데이트를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 validation합니다.
-      if(currentUserId !== targetDocument.userId){
+      if(currentUserId !== targetDocument["userId"]){
         throw new Error("현재 로그인한 사용자는 해당 정보를 수정할 권한이 없습니다.")
       }
 
@@ -91,8 +91,8 @@ class EducationService {
       }
 
       // [보안] 삭제를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 validate 합니다.
-      if(currentUserId !== targetDocument.userId){
-        throw new Error("현재 로그인한 사용자는 해당 정보를 수정할 권한이 없습니다.")
+      if(currentUserId !== targetDocument["userId"]){
+        throw new Error("현재 로그인한 사용자는 해당 정보를 삭제할 권한이 없습니다.")
       }
 
       // validation이 통과되면 document를 삭제합니다.
