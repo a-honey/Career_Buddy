@@ -21,6 +21,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
     const social = req.body.social;
+    const imgUrl = req.body.imgUrl;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -28,6 +29,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
       email,
       password,
       social,
+      imgUrl,
     });
 
     if (newUser.errorMessage) {
