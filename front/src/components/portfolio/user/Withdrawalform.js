@@ -2,32 +2,47 @@ import { styled } from "styled-components";
 import { EmptyBtn, FullRedBtn } from "../../common/Btns";
 import { useState } from "react";
 import { userDelete } from "../../../services/ect";
+import { mainColor } from "../../common/color";
+import { useNavigate } from "react-router-dom";
 
-const Withdrawal = () => {
+const Withdrawal = ({ setIsExiting }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPw, setUserPw] = useState("");
-
   async function handleClick() {
+    if (!userEmail || !userPw) {
+      alert("탈퇴하시려면 이메일과 비밀번호를 입력해주세요.");
+      setIsExiting(false);
+    }
+
     try {
       await userDelete(userEmail, userPw);
       alert("탈퇴하십니까?");
-      // 연동 후 네트워크의 users와 연결되는지 확인하고 수정
+      userDelete(userEmail, userPw);
+      alert("탈퇴되었습니다.");
     } catch (err) {
-      alert(err);
+      alert(err?.message || err);
     }
   }
 
   return (
     <Modal>
       <WithdrawalBlock onSubmit={handleClick}>
-        <label className="withdrawl-lebel">Email |</label>
+        <h1>회원 탈퇴</h1>
+        <label className="withdrawl-label">Email |</label>
         <input
           value={userEmail}
           onChange={(e) => setUserEmail(e.target.value)}
         />
-        <label className="withdrawl-lebel">Password |</label>
+        <label className="withdrawl-label">Password |</label>
         <input value={userPw} onChange={(e) => setUserPw(e.target.value)} />
-        <EmptyBtn>취소</EmptyBtn>
+        <EmptyBtn
+          type="button"
+          onClick={() => {
+            setIsExiting(false);
+          }}
+        >
+          취소
+        </EmptyBtn>
         <FullRedBtn>탈퇴</FullRedBtn>
       </WithdrawalBlock>
     </Modal>
@@ -50,8 +65,33 @@ const Modal = styled.div`
 `;
 
 const WithdrawalBlock = styled.form`
-  padding: 30px 20px;
+  width: 400px;
+  height: 400px;
+  padding: 30px 50px;
   display: flex;
   flex-direction: column;
-  background-color: pink;
+  margin: 60px auto;
+  margin-top: 100px;
+  border: solid 1px ${mainColor};
+  border-radius: 8px;
+  background-color: white;
+  h1 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  .withdrawl-label {
+    margin-bottom: 10px;
+  }
+  input {
+    margin-bottom: 10px;
+  }
+  button {
+    margin-top: 10px;
+  }
+  .pwBtns {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
 `;

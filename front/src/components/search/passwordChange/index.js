@@ -66,7 +66,14 @@ const PasswordChange = () => {
       />
       <div className="pwBtns">
         <FullRedBtn>비밀번호 변경</FullRedBtn>
-        <EmptyBtn>취소</EmptyBtn>
+        <EmptyBtn
+          type="button"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          취소
+        </EmptyBtn>
       </div>
     </WithdrawalBlock>
   );
