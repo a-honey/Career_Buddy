@@ -1,12 +1,18 @@
 import { Textboard } from "../db/models/Textboard";
+import { TextboardModel } from "../db/schemas/textboard";
 
 // Textboard 클래스에서 정의된 CRUD 메소드들을 활용 및 확장하여, 실제 서비스에서 사용되는 '기능'들을 구체적으로 구현합니다.
 class TextboardService {
 
   // [CRUD] CREATE
   // 사용자가 게시글을 추가하는 기능을 구현합니다.
-  static async addMyPost(newPost) {
+  static async addMyPost(currentUserId, newPost) {
     try {
+      // 현재 로그인한 사용자의 이름을 데이터베이스에서 가져와서 document에 username 필드로 추가해줍니다.
+      const targetDocument = await TextboardModel.find({ id: currentUserId });
+      const username = targetDocument["name"];
+      newPost["username"] = username;
+
       const addedPost = await Textboard.create(newPost);
       return addedPost;
     }
