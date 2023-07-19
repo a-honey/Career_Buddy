@@ -40,12 +40,7 @@ function UserContainer({ portfolioOwnerId, isEditable }) {
         <PortfolioList user={user} />
       </div>
       {isEditable && (
-        <FullRedBtn
-          onClick={() => setIsExiting(true)}
-          style={{ marginLeft: "100px" }}
-        >
-          회원탈퇴
-        </FullRedBtn>
+        <FullRedBtn onClick={() => setIsExiting(true)}>회원탈퇴</FullRedBtn>
       )}
       {isExiting && <Withdrawal setIsExiting={setIsExiting} />}
     </div>

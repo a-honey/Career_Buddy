@@ -75,11 +75,11 @@ const updateData = async (documentId, FieldName, updateData) => {
 // userId의 FieldName 필드에 data 삭제하기
 const deleteData = async (documentId, FieldName) => {
   console.log(
-    `%cDEL 요청: ${serverUrl}/${FieldName}s/${documentId}s`,
+    `%cDEL 요청: ${serverUrl}/${FieldName}s/${documentId}`,
     "color: #00d9ff;"
   );
 
-  axios.delete(`${serverUrl}/${FieldName}s/${documentId}s`, {
+  axios.delete(`${serverUrl}/${FieldName}s/${documentId}`, {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },

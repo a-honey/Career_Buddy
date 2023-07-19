@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import FastMove from "./common/FastMove";
 import { useRef } from "react";
 import Certificate from "./certificate";
+import Project from "./project";
 
 const PortfolioList = ({ user, isEditing }) => {
   const scrollElement = useRef([]);
@@ -19,6 +20,9 @@ const PortfolioList = ({ user, isEditing }) => {
       </div>
       <div ref={(el) => (scrollElement.current[3] = el)}>
         <Certificate user={user} isEditing={isEditing} />
+      </div>
+      <div ref={(el) => (scrollElement.current[4] = el)}>
+        <Project user={user} isEditing={isEditing} />
       </div>
     </PortfolioListBlock>
   );

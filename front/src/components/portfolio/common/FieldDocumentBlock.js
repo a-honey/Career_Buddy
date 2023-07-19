@@ -16,7 +16,7 @@ const FieldDocumentBlock = ({
   const { isEditing } = useContext(EditContext);
   const handleDeleteDocument = async (e) => {
     e.preventDefault();
-
+    alert("진짜 삭제하실건가요?");
     try {
       await deleteData(documentId, fieldName);
       setDatas((datas) => {

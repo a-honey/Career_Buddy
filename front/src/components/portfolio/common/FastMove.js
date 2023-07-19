@@ -21,9 +21,10 @@ const FastMove = ({ scrollElement }) => {
       </Btn>
       {isShowList && (
         <>
-          <Btn onClick={() => handleClick(1)}>education</Btn>
-          <Btn onClick={() => handleClick(2)}>awards</Btn>
-          <Btn onClick={() => handleClick(3)}>certificate</Btn>
+          <Btn onClick={() => handleClick(1)}>Education</Btn>
+          <Btn onClick={() => handleClick(2)}>Awards</Btn>
+          <Btn onClick={() => handleClick(3)}>Certificate</Btn>
+          <Btn onClick={() => handleClick(4)}>Project</Btn>
         </>
       )}
     </FastMoveBlock>
