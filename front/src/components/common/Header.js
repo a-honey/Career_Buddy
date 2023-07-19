@@ -40,6 +40,9 @@ function Header() {
         <li key="network" onClick={() => navigate("/network")}>
           네트워크
         </li>
+        <li key="board" onClick={() => navigate("/board")}>
+          게시판
+        </li>
         {isLogin ? (
           <li
             key="logout"
@@ -85,7 +88,7 @@ const HeaderBlock = styled.div`
   }
   ul {
     display: flex;
-    width: 300px;
+    width: 400px;
     justify-content: space-between;
     line-height: 50px;
     li {

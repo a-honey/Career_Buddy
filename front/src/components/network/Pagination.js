@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { hoverColor, mainColor } from "../common/color";
-import { useState } from "react";
 
 const Pagination = ({ totalPages, currentPage, handlePage }) => {
   currentPage = Number(currentPage);

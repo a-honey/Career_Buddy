@@ -7,7 +7,9 @@ const ListBlock = ({ children }) => {
 export default ListBlock;
 
 const StyledListBlock = styled.div`
-  background-color: yellow;
-  width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
   height: 1000px;
+  position: relative;
 `;

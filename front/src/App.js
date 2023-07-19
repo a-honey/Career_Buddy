@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { EditContextProvider } from "./contexts/EditContext";
 import PassWordChangePage from "./pages/PassWordChangePage";
 import PassWordResetPage from "./pages/PassWordReset";
+import BoardPage from "./pages/BoardPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -67,6 +68,7 @@ function App() {
               <Route path="/network" element={<NetworkPage />} />
               <Route path="/search" element={<PassWordChangePage />} />
               <Route path="/reset" element={<PassWordResetPage />} />
+              <Route path="/board" element={<BoardPage />} />
               <Route path="*" element={<PortfolioPage />} />
             </Routes>
           </Router>
