@@ -8,11 +8,11 @@ const certificateRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-certificateRouter.post("users/:user-id/certificates",login_required,routeSanitizer,async (req, res)=> {
+certificateRouter.post("users/:userid/certificates",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
-      const userId=req.params["user-id"];
+      const userId=req.params.userid;
       const newCertificate=await Certification.create({
         userId:userId,
         title:req.body.title,
@@ -33,10 +33,10 @@ certificateRouter.post("users/:user-id/certificates",login_required,routeSanitiz
 );
 
 //Read
-certificateRouter.get("users/:user-id/certificates",
+certificateRouter.get("users/:userid/certificates",
     async function (req, res) {
       try{
-         const userId=req.params["user-id"]
+         const userId=req.params.userid
         //이때의 id는 유저의 id입니다. 잘 불러와질지...
         const certificateList=await Certification.findById({userId})
 
@@ -49,8 +49,8 @@ certificateRouter.get("users/:user-id/certificates",
 )
 
 //Update
-certificateRouter.put("/certificates/:doc-id",login_required,routeSanitizer,async(req,res)=>{
-  const certDocId=req.params["doc-id"];
+certificateRouter.put("/certificates/:documentid",login_required,routeSanitizer,async(req,res)=>{
+  const certDocId=req.params.documentid;
   const updateData=req.body;
 
   const updateCertificate=await Certification.updateOne(
@@ -63,9 +63,9 @@ certificateRouter.put("/certificates/:doc-id",login_required,routeSanitizer,asyn
 
 
 //Delete
-certificateRouter.delete("/certificates/:doc-id",login_required,routeSanitizer, routeSanitizer,
+certificateRouter.delete("/certificates/:documentid",login_required,routeSanitizer, routeSanitizer,
 async (req,res)=>{
-  const certDocId=req.params["doc-id"]
+  const certDocId=req.params.documentid
   try {   
     const delCertificate=await Certification.deleteOne({certDocId})
     res.status(200).send({success:true});
