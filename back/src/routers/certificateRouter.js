@@ -8,7 +8,7 @@ const certificateRouter = Router();
 const mongoose = require('mongoose');
 
 // Create
-certificateRouter.post("users/:userid/certificates",login_required,routeSanitizer,async (req, res)=> {
+certificateRouter.post("/users/:userid/certificates",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
@@ -33,7 +33,7 @@ certificateRouter.post("users/:userid/certificates",login_required,routeSanitize
 );
 
 //Read
-certificateRouter.get("users/:userid/certificates",
+certificateRouter.get("/users/:userid/certificates",
     async function (req, res) {
       try{
          const userId=req.params.userid

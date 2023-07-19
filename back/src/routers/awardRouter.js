@@ -8,7 +8,7 @@ const awardRouter = Router();
 const mongoose = require("mongoose");
 
 // Create
-awardRouter.post("users/:userid/awards",login_required,routeSanitizer,async (req, res)=> {
+awardRouter.post("/users/:userid/awards",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
   // _id는 자동으로 생성됩니다.
   try {
@@ -30,7 +30,7 @@ awardRouter.post("users/:userid/awards",login_required,routeSanitizer,async (req
 );
 
 //Read
-awardRouter.get("users/:userid/awards",
+awardRouter.get("/users/:userid/awards",
     async function (req, res) {
       try{
         const userId=req.params.userid
