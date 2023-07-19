@@ -79,7 +79,7 @@ const deleteData = async (documentId, FieldName) => {
     "color: #00d9ff;"
   );
 
-  axios.delete(`${serverUrl}/${FieldName}s/${documentId}`, {
+  axios.delete(`${serverUrl}/${FieldName}s/${documentId}s`, {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },

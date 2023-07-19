@@ -21,8 +21,12 @@ const PasswordReset = () => {
 
   async function handleClick() {
     try {
-      if (!email || !name) {
-        alert("다시 한번 확인해주세요.");
+      if (!email) {
+        alert("이메일을 입력해주세요.");
+        return;
+      }
+      if (!email) {
+        alert("이름 혹은 본인 확인 가능한 정보를 입력해주세요.");
         return;
       }
       const sendData = {
@@ -43,7 +47,7 @@ const PasswordReset = () => {
       <h1>비밀번호 찾기</h1>
       <label className="withdrawl-label">Email |</label>
       <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label className="withdrawl-label">Password |</label>
+      <label className="withdrawl-label">Proof |</label>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <div className="pwBtns">
         <FullRedBtn>비밀번호 찾기</FullRedBtn>

@@ -116,7 +116,7 @@ function LoginForm() {
                 </Col>
                 <Col sm={{ span: 20 }}>
                   <Button variant="light" onClick={() => navigate("/reset")}>
-                    비밀번호찾기
+                    비밀번호가 기억나지 않으세요?
                   </Button>
                 </Col>
               </Form.Group>

@@ -23,7 +23,7 @@ const FastMove = ({ scrollElement }) => {
         <>
           <Btn onClick={() => handleClick(1)}>education</Btn>
           <Btn onClick={() => handleClick(2)}>awards</Btn>
-          <Btn onClick={() => handleClick(3)}>education</Btn>
+          <Btn onClick={() => handleClick(3)}>certificate</Btn>
         </>
       )}
     </FastMoveBlock>

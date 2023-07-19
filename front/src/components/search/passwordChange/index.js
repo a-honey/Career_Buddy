@@ -9,6 +9,7 @@ import { mainColor } from "../../common/color";
 const PasswordChange = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [oldPw, setOldPw] = useState("");
   const [newPw, setNewPw] = useState("");
   const [newPwConfirm, setNewPwConfirm] = useState("");
   const [userId, setUserId] = useState(null);
@@ -18,17 +19,32 @@ const PasswordChange = () => {
 
   async function handleClick() {
     try {
-      if (newPw !== newPwConfirm) {
-        alert("비밀번호가 다릅니다.");
+      if (!email || !oldPw || !newPw || newPwConfirm) {
+        alert("입력값을 확인해주세요");
+        setEmail("");
+        setOldPw("");
+        setNewPw("");
+        setNewPwConfirm("");
         return;
-      } else if (!email || !newPw) {
-        alert("다시 한번 확인해주세요.");
+      } else if (newPw !== newPwConfirm) {
+        alert("비밀번호가 다릅니다.");
+        setEmail("");
+        setOldPw("");
+        setNewPw("");
+        setNewPwConfirm("");
+        return;
+      } else if (newPw.length >= 4 && newPw.length <= 12) {
+        alert("새로운 비밀번호는 4글자 이상 12글자 이하로 입력해주세요.");
+        setEmail("");
+        setOldPw("");
+        setNewPw("");
+        setNewPwConfirm("");
         return;
       }
       const sendData = {
         email: email,
-        inputPassword: newPw,
-        newPassword: newPwConfirm,
+        inputPassword: oldPw,
+        newPassword: newPw,
       };
 
       alert("비밀번호 변경하십니까?");
@@ -38,6 +54,7 @@ const PasswordChange = () => {
       alert("변경되었습니다. 다시 로그인해주세요. ");
       sessionStorage.removeItem("userToken");
       dispatch({ type: "LOGOUT" });
+      navigate("/login");
     } catch (err) {
       alert(err);
     }
@@ -57,9 +74,11 @@ const PasswordChange = () => {
       <h1>비밀번호 변경</h1>
       <label className="withdrawl-label">Email |</label>
       <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label className="withdrawl-label">Password |</label>
+      <label className="withdrawl-label">Origin Password |</label>
+      <input value={oldPw} onChange={(e) => setOldPw(e.target.value)} />
+      <label className="withdrawl-label">New Password |</label>
       <input value={newPw} onChange={(e) => setNewPw(e.target.value)} />
-      <label className="withdrawl-label">Password Confirm |</label>
+      <label className="withdrawl-label">New Password Confirm |</label>
       <input
         value={newPwConfirm}
         onChange={(e) => setNewPwConfirm(e.target.value)}
