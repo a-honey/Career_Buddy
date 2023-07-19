@@ -19,15 +19,17 @@ function Portfolio() {
 
   const handleFetchOwner = async (ownerId) => {
     // ownerId의 user 데이터를 fetch함
+    if (!ownerId) {
+      return;
+    }
+
     const res = await Api.get("users", ownerId);
     // 사용자 정보는 response의 data임.
     const ownerData = res.data;
     // portfolioOwner을 해당 사용자 정보로 세팅함.
     setPortfolioOwner(ownerData);
     // fetching 종료
-    setTimeout(() => {
-      setIsFetching(false);
-    }, 1000);
+    setIsFetching(false);
   };
 
   useEffect(() => {
@@ -41,14 +43,18 @@ function Portfolio() {
       // userId가 존재할 경우 유저id를 ownerId로 설정함.
       const ownerId = params.userId;
       // 해당 유저 id로 handleFetchOwner 함수를 실행함.
-      handleFetchOwner(ownerId);
+      if (ownerId !== portfolioOwner?.id) {
+        handleFetchOwner(ownerId);
+      }
     } else {
       // 본인의 포트폴리오일 경우 전역 상태의 user.id를 유저 id로 설정함.
       const ownerId = userState.user.id;
       // 해당 유저 id로 handleFetchOwner 함수를 실행함.
-      handleFetchOwner(ownerId);
+      if (ownerId !== portfolioOwner?.id) {
+        handleFetchOwner(ownerId);
+      }
     }
-  }, [params, userState, navigate]);
+  }, [params, userState, navigate, portfolioOwner]);
 
   //fetching이 완료되면 if 문 종료
   if (isFetching) {

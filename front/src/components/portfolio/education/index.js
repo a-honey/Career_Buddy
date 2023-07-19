@@ -11,20 +11,21 @@ import Loading from "../../common/Loading";
 const Education = ({ user }) => {
   const userId = user?.id;
   const [educations, setEducations] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isNotFetching, setIsNotFetching] = useState(false);
 
   useEffect(() => {
     getDatas(userId, "education")
       .then((res) => {
         setEducations(res.data);
-        setIsFetching(false);
+        setIsNotFetching(true);
       })
       .catch((err) => {
         alert(`EDUCATION 데이터 가져오기 실패: ${err}`);
+        return;
       });
-  }, [setEducations, userId]);
+  }, [setEducations, userId, isNotFetching]);
 
-  if (isFetching) {
+  if (!isNotFetching) {
     return <Loading />;
   }
 

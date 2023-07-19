@@ -66,7 +66,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
 
     try {
       await addData(editId, "education", content);
-      setDatas((datas) => [content, ...datas]);
+      setDatas((datas) => [...datas, content]);
       setIsAdding(false);
     } catch (err) {
       alert(err);

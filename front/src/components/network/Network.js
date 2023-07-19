@@ -12,7 +12,7 @@ function Network() {
   const [stateTotalPages, setTotalPages] = useState(1);
   const [stateCurrentPage, setCurrentPage] = useState(1);
 
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
   const userState = useContext(UserStateContext);
 
@@ -25,7 +25,7 @@ function Network() {
         setUsers(users);
         setTotalPages(totalPages);
         setCurrentPage(currentPage);
-        setIsFetching(false);
+        setIsFetching(true);
       })
       .catch((error) => {
         console.error(error);
@@ -33,7 +33,7 @@ function Network() {
       });
   }, [stateCurrentPage]);
 
-  if (isFetching) {
+  if (!isFetching) {
     return <Loading />;
   }
 

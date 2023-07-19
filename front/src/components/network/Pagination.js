@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { hoverColor, mainColor } from "../common/color";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Pagination = ({ totalPages, currentPage, handlePage }) => {
   // 상황1. 반복문을 돌면서 totalPages만큼 li태그를 만들어라. 그와중에 현재 페이지라면 active 아니면 others
@@ -46,7 +46,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
       <ul className="pagination-list">
         <li
           className={activePage === 1 ? "disabled" : ""}
-          onClick={activePage === 1 ? handleLeftClick : ""}
+          onClick={activePage === 1 ? handleLeftClick : undefined}
         >
           &lt;
         </li>
@@ -56,7 +56,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
 
         <li
           className={activePage === totalPages ? "disabled" : ""}
-          onClick={activePage === 1 ? handleRightClick : ""}
+          onClick={activePage === 1 ? handleRightClick : undefined}
         >
           &gt;
         </li>
