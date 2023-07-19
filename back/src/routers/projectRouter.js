@@ -13,6 +13,7 @@ const projectRouter = Router();
 // 프레젠터 레벨에서는 schema와 data type등 ODM 관점의 input validation을 수행합니다.
 // 서비스 레벨에서는 프로덕트 정책과 관련된 비즈니스 로직 validation을 수행합니다. userService.js를 참조하세요.
 
+//commit ho push ham 2
 
 // [CRUD] CREATE
 // 프론트엔드로부터 전달받은 project사항 입력값을 사용자의 새로운 project정보로 저장합니다.
@@ -20,18 +21,19 @@ projectRouter.post("/users/:userid/project", login_required, async (req, res, ne
 try{
     const newProjectData=req.body;
     const currentUserId=req.currentUserId;
+    //const currentUserId=req.headers.currentuserid;
 
      // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
 
      if(!newProjectData || typeof newProjectData !== 'object'){
-        throw new Error("입력된 학력 정보가 없거나 올바르지 않습니다.")
+        throw new Error("입력된 프로젝트 정보가 없거나 올바르지 않습니다.")
       }
   
       if(!currentUserId || currentUserId == null){
         throw new Error("현재 로그인한 사용자를 알 수 없습니다.")
       }
   
-      if(currentUserId !== req.params.user_id){
+      if(currentUserId !== req.params.userid){
         throw new Error("현재 로그인한 사용자가 보낸 요청이 아닙니다.")
       }
       
@@ -79,11 +81,9 @@ projectRouter.get("/users/:userid/project", login_required, async (req, res, nex
 projectRouter.get("/projects/:docid", login_required, async (req, res, next) => {
     try {
       // 사용자 본인이 아닌 타인의 프로젝트정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
-      // const currentUserId = req.currentUserId;
-      const project_Id = req.params.docid;
+        const project_Id = req.params.docid;
   
       // 사용자 본인이 아니더라도 타인의 프로젝트정보를 열람할 수 있는 상황
-      
       const foundProject = await ProjectService.getthisprojectwithdoc(project_Id);
     
       if (foundProject.error) {
@@ -106,12 +106,13 @@ projectRouter.put("/projects/:docid",login_required,async(req,res,next)=>{
         const project_Id=req.params.docid;
         const newprojectdata=req.body;
         const currentUserId=req.currentUserId;
-
-        if(!newprojectdata || typeof newprojectdata!== object){
+        //const currentUserId=req.headers.currentuserid;
+        
+        if(!newprojectdata || typeof newprojectdata!== 'object'){
             throw new Error("입력된 프로젝트 정보가 없거나 올바르지 않습니다");
         }
 
-        if(!projectId){
+        if(!project_Id){
             throw new Error("사용자의 프로젝트 정보를 특정할 수 없습니다.");
         }
 
@@ -119,7 +120,7 @@ projectRouter.put("/projects/:docid",login_required,async(req,res,next)=>{
             throw new Error("현재 로그인한 사용자를 알 수 없습니다.");
         }
 
-        const updatedProject =await ProjectService.modifyMyProject(cuerrentUserId,project_Id,newprojectdata);
+        const updatedProject =await ProjectService.modifyMyProject(currentUserId,project_Id,newprojectdata);
     
         if(updatedProject.error){
             throw new Error(updatedProject.error);
@@ -138,8 +139,9 @@ projectRouter.put("/projects/:docid",login_required,async(req,res,next)=>{
 projectRouter.delete("/projects/:docid",login_required,async(req,res,next)=>{
     try{
         const projectId=req.params.docid;
-        const currentUserId=req.cuerrentUserId;
-
+        const currentUserId=req.currentUserId;
+       // const currentUserId=req.headers.currentuserid;
+       
 
         const deletedProject=await ProjectService.removeMyProject(currentUserId,projectId);
 
