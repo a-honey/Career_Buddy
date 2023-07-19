@@ -41,7 +41,7 @@ const addData = async (userId, FieldName, newData) => {
   const bodyData = JSON.stringify(newData);
 
   console.log(
-    `%cPOST 요청:${serverUrl}/users/${userId}/${FieldName}s`,
+    `%cPOST 요청:${serverUrl}/users/${userId}/${FieldName}`,
     "color: #296aba;"
   );
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
@@ -74,7 +74,7 @@ const updateData = async (documentId, FieldName, updateData) => {
 
 // userId의 FieldName 필드에 data 삭제하기
 const deleteData = async (documentId, FieldName) => {
-  axios.delete(`${serverUrl}/${FieldName}s/${documentId}s`, {
+  axios.delete(`${serverUrl}/${FieldName}s/${documentId}`, {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },

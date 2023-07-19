@@ -42,18 +42,19 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
 
 export default UserCard;
 
-const UserItem = ({ user, isNetwork }) => {
+const UserItem = ({ user }) => {
   const iconSize = "40";
 
   return (
     <UserInfoBlock>
       <div className="user-name">{user?.name}</div>
+      <div className="user-email">{user?.email}</div>
       <div className="user-description">{user?.description}</div>
       <div className="user-icons">
-        {user?.github?.github && (
+        {user?.social?.github && (
           <a
             className="snsUrl"
-            href={user?.github?.github}
+            href={user.social.github}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -69,9 +70,9 @@ const UserItem = ({ user, isNetwork }) => {
             </svg>
           </a>
         )}
-        {user?.github?.insta && (
+        {user?.social?.insta && (
           <a
-            href={user?.github?.insta}
+            href={user.social.insta}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"
@@ -88,9 +89,9 @@ const UserItem = ({ user, isNetwork }) => {
             </svg>
           </a>
         )}
-        {user?.github?.blog && (
+        {user?.social?.blog && (
           <a
-            href={user?.github?.blog}
+            href={user.social.blog}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"

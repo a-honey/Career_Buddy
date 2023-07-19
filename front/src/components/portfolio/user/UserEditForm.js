@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import * as Api from "../../../api";
-import { EmptyBtn, FullBtn } from "../../common/Btns";
+import { FullBtn } from "../../common/Btns";
 import { EditContext } from "../../../contexts/EditContext";
 
 function UserEditForm({ user, setUser }) {
@@ -24,7 +24,7 @@ function UserEditForm({ user, setUser }) {
       name,
       email,
       description,
-      github: { github, insta, blog },
+      social: { github, insta, blog },
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -40,7 +40,7 @@ function UserEditForm({ user, setUser }) {
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       onSubmit={handleSubmit}
     >
-      <label> 사용자 email</label>
+      <label> 사용자 이메일</label>
       <div>{email}</div>
       <label>이름</label>
       <input
