@@ -14,7 +14,7 @@ const textboardRouter = Router();
 
 // [CRUD] CREATE
 // 로그인한 사용자로부터 전달받은 입력값을 게시판에 새로운 게시글로 저장합니다.
-textboardRouter.post("/users/:userid/post", routeSanitizer, login_required, async (req, res, next) => {
+textboardRouter.post("/users/:userid/posts", routeSanitizer, login_required, async (req, res, next) => {
   try {
     const newPost = req.body;
     const currentUserId = req.currentUserId;
@@ -36,7 +36,7 @@ textboardRouter.post("/users/:userid/post", routeSanitizer, login_required, asyn
     // 검증이 통과되면 현재 로그인된 사용자의 ID를 새로운 필드인 "userId"의 값으로 만들어 newPost 객체에 추가해줍니다.
     newPost["userId"] = currentUserId;
 
-    const createdNewPost = await TextboardService.addMyPost(newPost);
+    const createdNewPost = await TextboardService.addMyPost(currentUserId, newPost);
 
     if (createdNewPost.error) {
       throw new Error(createdNewPost.error);
