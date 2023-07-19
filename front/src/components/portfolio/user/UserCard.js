@@ -9,13 +9,6 @@ function UserCard({ user, setUser, isEditable, isNetwork }) {
   const { isEditing, setIsEditing } = useContext(EditContext);
   return (
     <UserCardBlock>
-      <div className="img-container">
-        <img
-          className="mb-3"
-          src="http://placekitten.com/200/200"
-          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-        />
-      </div>
       {isEditing ? (
         <UserEditForm user={user} setUser={setUser} />
       ) : (
@@ -47,6 +40,13 @@ const UserItem = ({ user }) => {
 
   return (
     <UserInfoBlock>
+      <div className="img-container">
+        <img
+          className="mb-3"
+          src={user?.file?.data || "http://placekitten.com/200/200"}
+          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+        />
+      </div>
       <div className="user-name">{user?.name}</div>
       <div className="user-email">{user?.email}</div>
       <div className="user-description">{user?.description}</div>

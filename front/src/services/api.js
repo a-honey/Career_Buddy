@@ -41,12 +41,12 @@ const addData = async (userId, FieldName, newData) => {
   const bodyData = JSON.stringify(newData);
 
   console.log(
-    `%cPOST 요청:${serverUrl}/users/${userId}/${FieldName}s`,
+    `%cPOST 요청:${serverUrl}/users/${userId}/${FieldName}`,
     "color: #296aba;"
   );
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
-  return axios.post(`${serverUrl}/users/${userId}/${FieldName}s`, bodyData, {
+  return axios.post(`${serverUrl}/users/${userId}/${FieldName}`, bodyData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,

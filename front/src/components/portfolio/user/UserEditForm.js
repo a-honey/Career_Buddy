@@ -13,19 +13,22 @@ function UserEditForm({ user, setUser }) {
   const [github, setGithub] = useState(user?.github?.github);
   const [insta, setInsta] = useState(user?.github?.insta);
   const [blog, setBlog] = useState(user?.github?.blog);
+  const [imgUrl, setImgUrl] = useState(user?.imgUrl);
 
   const { turnEditing } = useContext(EditContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+
+    formData.append("name", JSON.stringify({ name }));
+    formData.append("email", JSON.stringify({ email }));
+    formData.append("description", JSON.stringify({ description }));
+    formData.append("imgUrl", JSON.stringify({ imgUrl }));
+    formData.append("social", JSON.stringify({ github, insta, blog }));
     // "users/유저id" 엔드포인트로 PUT 요청함.
-    const res = await Api.put(`users/${user.id}`, {
-      name,
-      email,
-      description,
-      social: { github, insta, blog },
-    });
+    const res = await Api.put(`users/${user.id}`, formData);
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
     // 해당 유저 정보로 user을 세팅함.
@@ -35,12 +38,56 @@ function UserEditForm({ user, setUser }) {
     turnEditing();
   };
 
+  function handleImgChange(e) {
+    const img = e.target.file || e.target.files[0];
+
+    if (!img) {
+      alert("JPG 혹은 PNG 확장자의 이미지 파일을 넣어주세요.");
+      return;
+    } else if (
+      img.type !== "image/jpeg" &&
+      img.type !== "image/jpg" &&
+      img.type !== "image/png"
+    ) {
+      alert("JPG 혹은 PNG 확장자의 이미지 파일만 등록 가능합니다.");
+      return;
+    }
+    if (img) {
+      try {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(img);
+
+        reader.onload = () => {
+          const previewImg = document.getElementById("previewImg");
+          previewImg.src = reader.result;
+          const imageUrlString = reader.result.toString();
+          setImgUrl(imageUrlString);
+        };
+      } catch (e) {
+        alert(e);
+      }
+    }
+  }
+
   return (
     <form
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       onSubmit={handleSubmit}
     >
-      <label> 사용자 이메일</label>
+      <div className="img-container">
+        <img
+          className="mb-3"
+          id="previewImg"
+          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+        />
+      </div>
+      <input
+        type="file"
+        accept="image/jpg, image/jpeg, image/png"
+        onChange={handleImgChange}
+      />
+      <label> 사용자 email</label>
       <div>{email}</div>
       <label>이름</label>
       <input

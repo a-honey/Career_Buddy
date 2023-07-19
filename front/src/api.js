@@ -21,13 +21,12 @@ async function get(endpoint, params = "", other = "") {
 async function post(endpoint, data) {
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}
-  const bodyData = JSON.stringify(data);
   console.log(`%cPOST 요청: ${serverUrl + endpoint}`, "color: #296aba;");
-  console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
+  console.log(`%cPOST 요청 데이터: ${data}`, "color: #296aba;");
 
-  return axios.post(serverUrl + endpoint, bodyData, {
+  return axios.post(serverUrl + endpoint, data, {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },
   });

@@ -188,6 +188,13 @@ const DocumentItem = ({ data, setDatas }) => {
             </div>
           </div>
         )}
+        {data.file && (
+          <img
+            className="award-file"
+            src={`data:image/png;base64,${data.file.data}`}
+            alt={data.file.name}
+          />
+        )}
       </FieldDocumentBlock>
     );
   }
