@@ -6,7 +6,9 @@ import {routeSanitizer} from "../middlewares/routeSanitizer"
 // import {CertificateModel} from "../schemas/certification"
 const awardRouter = Router();
 const mongoose = require('mongoose');
-const upload=require('../middlewares/multerMiddleware')
+const {file_upload}=require("../middlewares/multerMiddleware")
+
+
 // Create
 awardRouter.post("/users/:userid/awards",login_required,routeSanitizer,async (req, res)=> {
   //이때의 id는 유저의 id입니다. (_id 아님)
@@ -80,20 +82,7 @@ async (req,res)=>{
 
 })
 
-//파일 업로드
-awardRouter.post('/awards/:documentid/file',upload.single('file'),async(req,res)=>{
-  try{
-    // doc-id에 file을 추가해주고자 함.
-    // 스키마를 수정해야 하나?
-    const docId=req.params.doc-id
 
-    console.log("req.file = ",req.file)
-    console.log("req.body =",req.body)
-    console.log('업로드 완료')
-  }catch(error){
-    res.status(500).json({ error: error.message });
-  }
-  
-})
+
 
 export { awardRouter };

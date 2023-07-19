@@ -37,6 +37,7 @@ class Award {
     return updatedAward;
   }
 
+
   //Delete
   static async deleteOne({awardDocId}) { 
     const filter = { _id: awardDocId};
