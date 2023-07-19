@@ -16,7 +16,7 @@ const projectRouter = Router();
 
 // [CRUD] CREATE
 // 프론트엔드로부터 전달받은 project사항 입력값을 사용자의 새로운 project정보로 저장합니다.
-projectRouter.post("users/:user-id/project", login_required, async (req, res, next) => {   
+projectRouter.post("/users/:userid/project", login_required, async (req, res, next) => {   
 try{
     const newProjectData=req.body;
     const currentUserId=req.currentUserId;
@@ -36,8 +36,8 @@ try{
       }
       
       // 검증이 통과되면 현재 로그인된 사용자의 ID를 새로운 필드인 "userId"의 값으로 만들어 newEduData 객체에 추가해줍니다.
-      newProjectData["userId"] = currentUserId;
-  
+      newProjectData["userId"] = req.params.userid;// originally it's currentUserId;
+      
       const createdNewProject = ProjectService.addProject(newProjectData);
       
       if(createdNewProject.error){
@@ -54,15 +54,13 @@ catch(error) {
 
 // [CRUD] READ
 // 프론트엔드로부터 전달받은 userId를 사용해서 해당 사용자의 project정보를 모두 가져옵니다.
-projectRouter.get("users/:user-id/project", login_required, async (req, res, next) => {
+projectRouter.get("/users/:userid/project", login_required, async (req, res, next) => {
     try {
-      // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
-      // const currentUserId = req.currentUserId;
-      const userId = req.params.user_id;
       
-      // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
-      // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
-      const foundUserProjects = await Project.findProjectsByUserId(userId);
+      const userId = req.params.userid;
+      
+      // 사용자 본인일때 열람가능, ProjectService.getMyprojects에서 검증
+      const foundUserProjects = await ProjectService.getMyProjects(userId);
   
       if (foundUserProjects.error) {
         throw new Error(foundUserProjects.error);
@@ -75,17 +73,18 @@ projectRouter.get("users/:user-id/project", login_required, async (req, res, nex
       next(error);
     };
 });
+
 // [CRUD] READ
-// 프론트엔드로부터 전달받은 project_userId를 사용해서 단일 학력정보 항목을 찾아 가져옵니다.
-projectRouter.get("/projects/:doc-id", login_required, async (req, res, next) => {
+// 프론트엔드로부터 전달받은 project_userId를 사용해서 단일 project정보 항목을 찾아 가져옵니다.
+projectRouter.get("/projects/:docid", login_required, async (req, res, next) => {
     try {
-      // 사용자 본인이 아닌 타인의 학력정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
+      // 사용자 본인이 아닌 타인의 프로젝트정보도 열람할 수 있는 상황이므로 req.currentUserId를 사용하지 않습니다.
       // const currentUserId = req.currentUserId;
-      const project_Id = req.params.doc-id;
+      const project_Id = req.params.docid;
   
-      // 사용자 본인이 아니더라도 타인의 학력정보를 열람할 수 있는 상황이므로 getEducation 서비스를 사용하지 않습니다.
-      // const foundUserEducations = await EducationService.getEducation(currentUserId, userId);
-      const foundProject = await Project.findProjectsByUserId(project_Id);
+      // 사용자 본인이 아니더라도 타인의 프로젝트정보를 열람할 수 있는 상황
+      
+      const foundProject = await ProjectService.getthisprojectwithdoc(project_Id);
     
       if (foundProject.error) {
         throw new Error(foundProject.error);
@@ -102,13 +101,13 @@ projectRouter.get("/projects/:doc-id", login_required, async (req, res, next) =>
 });
 
 
-projectRouter.put("projects/:doc-id",login_required,async(req,res,next)=>{
+projectRouter.put("/projects/:docid",login_required,async(req,res,next)=>{
     try{
-        const currentUserId=req.currentUserId;
-        const projectId=req.params.doc-id;
+        const project_Id=req.params.docid;
         const newprojectdata=req.body;
+        const currentUserId=req.currentUserId;
 
-        if(!newprojectdata || typeof newprojectdat!== object){
+        if(!newprojectdata || typeof newprojectdata!== object){
             throw new Error("입력된 프로젝트 정보가 없거나 올바르지 않습니다");
         }
 
@@ -136,10 +135,11 @@ projectRouter.put("projects/:doc-id",login_required,async(req,res,next)=>{
 
 
 
-projectRouter.delete("/projects/:doc-id",login_required,async(req,res,next)=>{
+projectRouter.delete("/projects/:docid",login_required,async(req,res,next)=>{
     try{
+        const projectId=req.params.docid;
         const currentUserId=req.cuerrentUserId;
-        const projectId=req.params.doc-id;
+
 
         const deletedProject=await ProjectService.removeMyProject(currentUserId,projectId);
 

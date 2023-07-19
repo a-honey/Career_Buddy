@@ -25,12 +25,12 @@ class ProjectService{
     }
   // [CRUD] READ
   // service for users to view every project relate features
-  // 사용자가 자신의 모든 학력사항을 보는 기능을 구현합니다.
-  static async getMyProject(currentUserId) {
+  // 사용자가 자신의 모든 프로젝트사항을 보는 기능을 구현합니다.
+  static async getMyProjects(currentUserId) {
     try {
       const targetDocuments = await Project.findProjectsByUserId(currentUserId);
       
-      // [보안] 업데이트를 요청한 사용자와 모든 학력정보 document들의 소유자가 일치하는지를 검증합니다.
+      // [보안] 업데이트를 요청한 사용자와 모든 프로젝트정보 document들의 소유자가 일치하는지를 검증합니다.
       targetDocuments.forEach(element => {
         if(currentUserId !== element.userId){
           throw new Error("현재 로그인한 사용자는 해당 정보를 열람할 권한이 없습니다.")
@@ -46,10 +46,10 @@ class ProjectService{
   }
 
   // [CRUD] READ
-  // 특정 사용자의 모든 학력사항을 불러오는 기능을 구현합니다.
-  static async getUserEducations(userId) {
+  // project document Id로 해당정보를 가져옴
+  static async getthisprojectwithdoc(docid) {
     try {
-      const userProjects = await Project.findProjectsByUserId(userId);
+      const userProjects = await Project.findProjectByProjectId(docid);
       return userProjects;
     }
     catch(error) {
@@ -63,7 +63,7 @@ class ProjectService{
   static async modifyMyProject(currentUserId, project_Id, newProjectData) {
     try {
       // 해당 project_Id로 document 검색을 시도합니다.
-      const targetDocument = await Project.findProjectByUserId({ _id: project_Id })
+      const targetDocument = await Project.findProjectByProjectId(project_Id)
       
       // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
 
@@ -72,7 +72,7 @@ class ProjectService{
         throw new Error("수정할 프로젝트정보를 찾을 수 없습니다.")
       }
 
-      // [보안] 업데이트를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 검증합니다.
+      // [보안] 업데이트를 요청한 사용자와 프로젝트정보 document의 소유자가 일치하는지를 검증합니다.
       if(currentUserId !== targetDocument.userId){
         throw new Error("현재 로그인한 사용자는 해당 정보를 수정할 권한이 없습니다.")
       }
@@ -92,22 +92,22 @@ class ProjectService{
   static async removeMyProject(currentUserId, project_Id) {
     try {
       // 해당 userId로 document 검색을 시도합니다.
-      const targetDocument = await Project.findProjectByUserId(project_Id)
-
+      const targetDocument = await Project.findProjectByProjectId(project_Id)
+      
       // [TO-DO] [REFACTOR] express-validator를 활용해서 validation을 일관된 메커니즘으로 수행하도록 개선해야 합니다.
 
       // 만약 document가 없다면 오류를 생성합니다.
       if(!targetDocument || targetDocument == null){
         throw new Error("삭제할 프로젝트정보를 찾을 수 없습니다.")
       }
-
-      // [보안] 삭제를 요청한 사용자와 학력정보 document의 소유자가 일치하는지를 검증합니다.
+      
+      // [보안] 삭제를 요청한 사용자와 프로젝트정보 document의 소유자가 일치하는지를 검증합니다.
       if(currentUserId !== targetDocument.userId){
         throw new Error("현재 로그인한 사용자는 해당 정보를 수정할 권한이 없습니다.")
       }
 
       // 검증이 통과되면 document를 삭제합니다.
-      const removedProject = await Project.delete(project_userId);
+      const removedProject = await Project.delete(project_Id);
       return "해당 프로젝트 삭제 완료";
     }
     catch(error) {

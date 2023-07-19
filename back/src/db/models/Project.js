@@ -16,20 +16,7 @@ class Project {
             throw new Error(error);
         }
     }
-  //CRUD:READ
-  //find and return new document of corresponding ProjectId(objectId)
-  //ProjectId(ObjectId)을 이용해서 상응하는 document를 찾고 반환한다.
-  static async findProjectByProjectId( Project_Id) {
-    try{
-    const project_document = await ProjectModel.findOne({_id:Project_Id}); // this one gonna look for p_o in the field of organization
-    return project_document;
-    }
-    catch(error){
-        throw new Error(error);
-    }
-  }  
-
-
+ 
   //CRUD:READ
   //find and return new document of corresponding userId from schema
   //project schema userId을 이용해서 상응하는 document를 찾고 반환한다.
@@ -56,21 +43,27 @@ class Project {
     }
   }
   
-
-  //CRUD:READ
-  // find and return all documents of ProjectModel
-  // 전체 dcoument를 찾고 반환한다.
-    static async findAll() {
-      const users = await ProjectModel.find({});
-      return users;
+ //CRUD:READ
+  //find and return new document of corresponding ProjectId(objectId)
+  //ProjectId(ObjectId)을 이용해서 상응하는 document를 찾고 반환한다.
+  static async findProjectByProjectId( Project_Id) {
+    try{
+    const project_document = await ProjectModel.findOne({_id:Project_Id}); // this one gonna look for p_o in the field of organization
+    return project_document;
     }
+    catch(error){
+        throw new Error(error);
+    }
+  }  
+
+ 
   
   //CRUD:UPDATE  
   //find document you want to update with userId
   //and update it with new data inserted from frontend
   //userId을 이용해 원하는 document를 찾고
   //frontend로부터 입력받은 새로운 데이터로 갱신한다.
-    static async update({ project_Id}, {updateobject }) {
+    static async update( project_Id, updateobject ) {
       try{  
       const filter = { _id: project_Id };
       const update = {$set:updateobject};//이것자체가 object
