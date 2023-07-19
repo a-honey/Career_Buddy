@@ -3,7 +3,6 @@ import { EmptyBtn, FullRedBtn } from "../../common/Btns";
 import { useState } from "react";
 import { userDelete } from "../../../services/ect";
 import { mainColor } from "../../common/color";
-import { useNavigate } from "react-router-dom";
 
 const Withdrawal = ({ setIsExiting }) => {
   const [userEmail, setUserEmail] = useState("");

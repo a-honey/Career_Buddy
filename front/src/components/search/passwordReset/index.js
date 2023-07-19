@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
 import { EmptyBtn, FullRedBtn } from "../../common/Btns";
 import { useContext, useEffect, useState } from "react";
-import { userPasswordChange, userPasswordReset } from "../../../services/ect";
-import { DispatchContext, UserStateContext } from "../../../App";
+import { userPasswordReset } from "../../../services/ect";
+import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
-import { backColor, hoverColor, mainColor } from "../../common/color";
+import { mainColor } from "../../common/color";
 
 const PasswordReset = () => {
   const navigate = useNavigate();

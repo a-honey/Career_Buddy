@@ -9,7 +9,6 @@ import NetworkPage from "./pages/NetworkPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import RegisterPage from "./pages/RegisterPage";
 import { EditContextProvider } from "./contexts/EditContext";
-import SearchPage from "./pages/PassWordChangePage";
 import PassWordChangePage from "./pages/PassWordChangePage";
 import PassWordResetPage from "./pages/PassWordReset";
 
