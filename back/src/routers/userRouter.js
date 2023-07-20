@@ -241,9 +241,9 @@ userAuthRouter.delete("/user/deletion", routeSanitizer, login_required, async fu
     const currentUserId = req.currentUserId ?? null;
     const inputEmail = req.body.inputEmail ?? null;
     const inputPassword = req.body.inputPassword ?? null;
-
+    console.log(`Entering the router. ${currentUserId}, ${inputEmail}, ${inputPassword}`);
     const deletedUser = await userAuthService.deleteUser({ currentUserId, inputEmail, inputPassword });
-
+    console.log(`userAuthService result: ${deletedUser}`);
     if (deletedUser.error) {
       throw new Error(deletedUser.error);
     }
@@ -328,8 +328,6 @@ userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_re
     next(error);
   }
 });
-
-
 
 
 export { userAuthRouter };
