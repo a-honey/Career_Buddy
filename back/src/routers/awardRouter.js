@@ -136,12 +136,12 @@ upload.single('file'), login_required, async function (req, res, next) {
     const fileObject = {
       file: {
         data: fs.readFileSync(path.join(__dirname, '../uploads/') + req.file.filename),
-        contentType: 'application/octet-stream',
+        contentType: 'image/jpg',
       }
     }
-    
+    const imgBase64 = new Buffer.from(fileObject["file"]["data"]).toString('base64');
     // mongoose를 사용해서 이미지 데이터 객체를 사용자 계정 document에 포함시켜줍니다.
-    const uploadedFile = await AwardModel.findOneAndUpdate({ _id: docId }, { $set: fileObject },
+    const uploadedFile = await AwardModel.findOneAndUpdate({ _id: docId }, { imgBase64: imgBase64 },
       { returnOriginal: false });
 
     if (uploadedFile.error) {
@@ -162,8 +162,11 @@ upload.single('file'), login_required, async function (req, res, next) {
     
     // Hex 형식으로 Buffer에 들어있는 이미지 데이터를 base64 형식으로 바꿔줍니다.
     const base64Img = new Buffer.from(fileObject["file"]["data"]).toString('base64');
-    console.log(base64Img)
-    res.status(200).json(base64Img);
+    // console.log(base64Img)
+    // console.log(uploadedFile)
+    // console.log('baseImg64',typeof base64Img,"\n")
+    // console.log('uploadedFile',typeof uploadedFile)
+    res.status(200).json({success:true});
   }
   catch(error){
     next(error);

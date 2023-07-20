@@ -132,14 +132,17 @@ certificateRouter.post("/certificates/:docid/fileupload", upload.single('file'),
         contentType: 'image/jpg',
       }
     }
-    
+    const imgBase64 = new Buffer.from(fileObject["file"]["data"]).toString('base64');
+
+
     // mongoose를 사용해서 이미지 데이터 객체를 사용자 계정 document에 포함시켜줍니다.
-    const uploadedFile = await CertificateModel.updateOne({ _id: docId }, { $set: fileObject },
+    const uploadedFile = await CertificateModel.findOneAndUpdate({ _id: docId }, { imgBase64: imgBase64 },
       { returnOriginal: false });
 
     if (uploadedFile.error) {
       throw new Error(uploadedFile.error);
     }
+
 
     // 파일이 정상적으로 DB에 저장이 되었다면 multer storage에 보관되어 있는 임시 파일을 삭제해줍니다.
     // 그렇지 않으면 임시 파일이 uploads 폴더에 계속 쌓이게 됩니다.
@@ -153,10 +156,9 @@ certificateRouter.post("/certificates/:docid/fileupload", upload.single('file'),
       }
     });
     
-    // Hex 형식으로 Buffer에 들어있는 이미지 데이터를 base64 형식으로 바꿔줍니다.
-    const base64Img = new Buffer.from(fileObject["file"]["data"]).toString('base64');
-    console.log(base64Img)
-    res.status(200).json(base64Img);
+
+
+    res.status(200).json(imgBase64);
   }
   catch(error){
     next(error);
