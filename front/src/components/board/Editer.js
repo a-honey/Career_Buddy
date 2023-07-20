@@ -13,7 +13,7 @@ const PostEditer = ({
 }) => {
   const [title, setTitle] = useState(post ? post.title : "");
   const [text, setText] = useState(post ? post.text : "");
-  const [category, setCategory] = useState(post ? post.category : "");
+  const [category, setCategory] = useState(post ? post.category : "자유");
 
   async function handleSubmit() {
     const newdata = { title, text, category };
