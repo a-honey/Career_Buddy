@@ -14,7 +14,7 @@ const Project = ({ user }) => {
   const [isNotFetching, setIsNotFetching] = useState(false);
 
   useEffect(() => {
-    getDatas(userId, "education")
+    getDatas(userId, "project")
       .then((res) => {
         setDatas(res.data);
         setIsNotFetching(true);
@@ -101,7 +101,7 @@ const DocumentItem = ({ data, setDatas }) => {
     return (
       <FieldDocumentBlock
         setDatas={setDatas}
-        fieldName={"project"}
+        fieldName={"title"}
         documentId={data?._id}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
@@ -114,14 +114,14 @@ const DocumentItem = ({ data, setDatas }) => {
                 type="text"
                 placeholder="프로젝트명"
                 value={content?.title}
-                onChange={(e) => handleChange(e, "institution")}
+                onChange={(e) => handleChange(e, "title")}
               />
               <label>소속 단체</label>
               <input
                 type="text"
                 placeholder="단체 프로젝트일 경우 입력해주세요"
                 value={content?.organization}
-                onChange={(e) => handleChange(e, "institution")}
+                onChange={(e) => handleChange(e, "organization")}
               />
             </div>
             <div className="education-sub">
@@ -130,21 +130,21 @@ const DocumentItem = ({ data, setDatas }) => {
                 type="date"
                 placeholder="시작일"
                 value={content?.startDate}
-                onChange={(e) => handleChange(e, "entryDate")}
+                onChange={(e) => handleChange(e, "startDate")}
               />
               <label>종료일</label>
               <input
                 type="date"
                 placeholder="종료일"
                 value={content?.endDate}
-                onChange={(e) => handleChange(e, "gradDate")}
+                onChange={(e) => handleChange(e, "endDate")}
               />
               <label>비고</label>
               <input
                 type="text"
                 placeholder="비고"
                 value={content?.description}
-                onChange={(e) => handleChange(e, "grade")}
+                onChange={(e) => handleChange(e, "description")}
               />
             </div>
           </div>
@@ -168,7 +168,7 @@ const DocumentItem = ({ data, setDatas }) => {
       <FieldDocumentBlock
         setDatas={setDatas}
         documentId={data?._id}
-        fieldName={"education"}
+        fieldName={"project"}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >

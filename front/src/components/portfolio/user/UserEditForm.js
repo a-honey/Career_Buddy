@@ -20,17 +20,12 @@ function UserEditForm({ user, setUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("file", imgFile);
-    console.log(imgFile);
-    console.log(formData);
-    await userImg(user.id, formData);
     const res = await Api.put(`users/${user.id}`, {
       name,
       email,
       description,
       social: { github, blog, insta },
+      imgBase64: toString(imgFile),
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -43,7 +38,7 @@ function UserEditForm({ user, setUser }) {
 
   function handleImgChange(e) {
     const img = e.target.files[0];
-    setImgFile(img);
+
     if (!img) {
       alert("JPG 혹은 PNG 확장자의 이미지 파일을 넣어주세요.");
       return;
@@ -59,12 +54,13 @@ function UserEditForm({ user, setUser }) {
       try {
         const reader = new FileReader();
 
-        reader.readAsDataURL(img);
-
         reader.onload = () => {
           const previewImg = document.getElementById("previewImg");
           previewImg.src = reader.result;
+          setImgFile(reader.result);
         };
+
+        reader.readAsDataURL(img);
       } catch (e) {
         alert(e);
       }
@@ -78,7 +74,11 @@ function UserEditForm({ user, setUser }) {
           className="mb-3"
           id="previewImg"
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-          src={"http://placekitten.com/200/200"}
+          src={
+            user?.imgBase64
+              ? `data:image/png;base64,${user.imgBase64}`
+              : "http://placekitten.com/200/200"
+          }
         />
       </div>
       <form

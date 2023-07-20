@@ -14,8 +14,8 @@ const NetworkUserCard = ({ user, userState }) => {
         <img
           className="mb-3"
           src={
-            user?.file?.data
-              ? `data:image/png;base64,${user.file.data}`
+            user?.imgBase64
+              ? `data:image/png;base64,${user.imgBase64}`
               : "http://placekitten.com/200/200"
           }
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"

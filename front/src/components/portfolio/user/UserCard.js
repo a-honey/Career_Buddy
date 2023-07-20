@@ -44,7 +44,7 @@ const UserItem = ({ user }) => {
         <img
           className="mb-3"
           src={
-            user?.file?.data
+            user?.imgBase64
               ? `data:image/png;base64,${user.imgBase64}`
               : "http://placekitten.com/200/200"
           }
