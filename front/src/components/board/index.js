@@ -145,7 +145,7 @@ const PostItem = ({ post, setPosts, userId }) => {
       {userId === post.userId ? (
         <div className="board-btn">
           <button onClick={() => setIsModal(true)}>수정</button>
-          <button className="del" onClick={() => handleDelete}>
+          <button className="del" onClick={handleDelete}>
             삭제
           </button>
         </div>
