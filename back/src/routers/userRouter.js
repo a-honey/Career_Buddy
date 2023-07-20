@@ -304,8 +304,8 @@ userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_re
 
     // 파일이 정상적으로 DB에 저장이 되었다면 multer storage에 보관되어 있는 임시 파일을 삭제해줍니다.
     // 그렇지 않으면 임시 파일이 uploads 폴더에 계속 쌓이게 됩니다.
-    // fs.unlink는 callback-style API이므로 결과를 적절하게 비동기적으로 핸들링해줍니다.
-    const clearMulterBuffer = fs.unlink(path.join(__dirname, '../uploads/') + req.file.filename, function resultHandler (err) {
+    // 파일 삭제에 사용되는 fs.unlink는 callback-style API이므로 결과를 적절하게 비동기적으로 핸들링해줍니다.
+    const clearMulterStorage = fs.unlink(path.join(__dirname, '../uploads/') + req.file.filename, function resultHandler (err) {
       if (err) {
           console.log("업로드된 임시 파일 삭제에 실패했습니다: ", err);
       } else {
