@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../common/Btns";
-import {
-  boardByDocument,
-  boardUserPost,
-  boardUserPut,
-} from "../../services/board";
+import { boardUserPost, boardUserPut } from "../../services/board";
 
 const PostEditer = ({
   post,

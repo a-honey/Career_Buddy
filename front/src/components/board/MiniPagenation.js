@@ -1,26 +1,27 @@
 import { styled } from "styled-components";
 import { hoverColor, mainColor } from "../common/color";
 
-const Pagination = ({ totalPages, currentPage, handlePage }) => {
-  currentPage = Number(currentPage);
+const MiniPagination = ({ totalPages, currentPage, setCurrent }) => {
   function handleLeftClick() {
-    handlePage(currentPage - 1);
+    setCurrent(currentPage - 1);
   }
 
   function handleRightClick() {
-    handlePage(currentPage + 1);
+    setCurrent(currentPage - 1);
   }
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
 
     for (let i = 1; i <= totalPages; i++) {
+      console.log(i, currentPage);
+
       pageNumbers.push(
         <li
           key={i}
           className={currentPage === i ? "active" : ""}
           onClick={() => {
-            handlePage(i);
+            setCurrent(i);
           }}
         >
           {i}
@@ -36,7 +37,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
       <ul className="pagination-list">
         <li
           className={currentPage === 1 ? "disabled" : ""}
-          onClick={currentPage === 1 ? null : handleLeftClick}
+          onClick={currentPage === 1 ? handleLeftClick : undefined}
         >
           &lt;
         </li>
@@ -46,7 +47,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
 
         <li
           className={currentPage === totalPages ? "disabled" : ""}
-          onClick={currentPage === 1 ? undefined : handleRightClick}
+          onClick={currentPage === 1 ? handleRightClick : undefined}
         >
           &gt;
         </li>
@@ -55,7 +56,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
   );
 };
 
-export default Pagination;
+export default MiniPagination;
 
 const PaginationBlock = styled.div`
   width: 100%;

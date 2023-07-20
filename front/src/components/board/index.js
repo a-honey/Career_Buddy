@@ -54,6 +54,7 @@ const Board = () => {
         return ko;
     }
   };
+
   useEffect(() => {
     const fetchfunction = async () => {
       // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
@@ -140,6 +141,7 @@ const PostItem = ({ post, setPosts, userId }) => {
   const formattedDate = ISOdate.toLocaleDateString("ko-KR", options)
     .replace(/\./g, " -")
     .slice(0, 14);
+
   return (
     <StyledBlock>
       {userId === post.userId ? (
