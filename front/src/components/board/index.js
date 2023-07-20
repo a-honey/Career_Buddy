@@ -9,7 +9,11 @@ import { UserStateContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { hoverColor, mainColor } from "../common/color";
 import PostEditer from "./Editer";
-import { boardByALL, boardByCategory } from "../../services/board";
+import {
+  boardByALL,
+  boardByCategory,
+  boardUserGet,
+} from "../../services/board";
 import Loading from "../common/Loading";
 import NoneData from "../common/NoneData";
 
@@ -54,6 +58,10 @@ const Board = () => {
       // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
       if (category === "ALL") {
         const res = await boardByALL();
+        setPosts(res?.data?.result);
+        setIsFetching(true);
+      } else if (category === "내 게시글 보기") {
+        const res = await boardUserGet(userState.user.id);
         setPosts(res?.data?.result);
         setIsFetching(true);
       } else {
