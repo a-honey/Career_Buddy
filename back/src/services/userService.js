@@ -89,6 +89,7 @@ class userAuthService {
       // 지정된 조건으로 사용자 계정 정보를 일정 단위로 끊어서 가져옵니다.
       // User가 아닌 UserModel의 mongoose 내장 메서드들을 사용합니다.
       const users = await UserModel.find({})
+        .sort({ name: 1 })
         .limit(limit * 1)
         .skip((page - 1) * limit)
         .exec();
