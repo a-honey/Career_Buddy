@@ -54,7 +54,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     e.preventDefault();
     //setDatas에 데이터 추가
 
-    const requiredFields = ["institution", "status", "entryDate"];
+    const requiredFields = ["title", "startDate", "endDate"];
 
     for (const fieldName of requiredFields) {
       if (content[fieldName].trim() === "") {
@@ -64,7 +64,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     }
 
     try {
-      await addData(editId, "education", content);
+      await addData(editId, "project", content);
       setDatas((datas) => [...datas, content]);
       setIsAdding(false);
     } catch (err) {
@@ -82,14 +82,14 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
               type="text"
               placeholder="프로젝트명"
               value={content?.title}
-              onChange={(e) => handleChange(e, "institution")}
+              onChange={(e) => handleChange(e, "title")}
             />
             <label>소속 단체</label>
             <input
               type="text"
               placeholder="단체 프로젝트일 경우 입력해주세요"
               value={content?.organization}
-              onChange={(e) => handleChange(e, "institution")}
+              onChange={(e) => handleChange(e, "organization")}
             />
           </div>
           <div className="education-sub">
@@ -98,21 +98,21 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
               type="date"
               placeholder="시작일"
               value={content?.startDate}
-              onChange={(e) => handleChange(e, "entryDate")}
+              onChange={(e) => handleChange(e, "startDate")}
             />
             <label>종료일</label>
             <input
               type="date"
               placeholder="종료일"
               value={content?.endDate}
-              onChange={(e) => handleChange(e, "gradDate")}
+              onChange={(e) => handleChange(e, "endDate")}
             />
             <label>비고</label>
             <input
               type="text"
               placeholder="비고"
               value={content?.description}
-              onChange={(e) => handleChange(e, "grade")}
+              onChange={(e) => handleChange(e, "description")}
             />
           </div>
         </div>
