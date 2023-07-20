@@ -101,6 +101,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
               <option value="학사">학사</option>
               <option value="석사">석사</option>
               <option value="박사">박사</option>
+              <option value="없음">중퇴</option>
             </select>
             <label>상태</label>
             <select
@@ -109,6 +110,7 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
             >
               <option value="재학">재학</option>
               <option value="휴학">휴학</option>
+              <option value="중퇴">중퇴</option>
               <option value="졸업">졸업</option>
               <option value="졸업예정">졸업예정</option>
             </select>
