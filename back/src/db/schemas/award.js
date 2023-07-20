@@ -22,9 +22,11 @@ const AwardSchema = new Schema(
         type: String,
         default: "설명이 아직 없습니다. 추가해 주세요.",
       },
-      file:{
-        type:String,
-      }
+      imgBase64:{
+        type: String,
+        required: false,
+      },
+  
 },  {
   timestamps: true,
 }
