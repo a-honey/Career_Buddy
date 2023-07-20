@@ -171,7 +171,7 @@ class userAuthService {
 
 
   //폼으로 이메일,입력받은 기존 비밀번호, 새로운 비밀번호를 입력받음
-  static async setPassword({user_id,email,inputPassword,newPassword}){
+  static async setPassword({user_id,email,inputPassword,newPassword,newPasswordConfirm}){
     
     // 이메일로 db에서 일치하는 사용자의 정보를 가져옴
     let user=await User.findByEmail({email})
@@ -209,6 +209,14 @@ class userAuthService {
     // 새로운 비밀번호의 글자수가 5글자 이하, 13글자 이상일 경우 -확인 완료
     if (newPassword.length<6||newPassword.length>12){
       const errorMessage = "비밀번호는 6글자 이상 12글자 이하여야 합니다.";
+      return { errorMessage };
+    }
+    if (!newPasswordConfirm){
+      const errorMessage = "새로운 비밀번호를 확인하기 위해 한번 더 입력해주세요.";
+      return { errorMessage };
+    }
+    if(newPassword!==newPasswordConfirm){
+      const errorMessage="새로운 비밀번호가 확인되지 않았습니다."
       return { errorMessage };
     }
     // 변수를 유저모델과 일치시키니 실행되어 일단 임의로 변수 지정해서 값 넣어줌
