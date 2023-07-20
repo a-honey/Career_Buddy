@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../common/Btns";
 import { boardByDocument, boardUserPost } from "../../services/board";
@@ -11,6 +12,7 @@ const PostEditer = ({
   documentId,
   categoryList,
 }) => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState(post ? post.title : "");
   const [text, setText] = useState(post ? post.text : "");
   const [category, setCategory] = useState(post ? post.category : "free");
@@ -22,6 +24,7 @@ const PostEditer = ({
         await boardUserPost(userId, newdata);
         setPosts((prev) => [...prev, newdata]);
         setIsModal(false);
+        navigate("/board");
       } catch (err) {
         alert(err.message);
       }
@@ -38,6 +41,7 @@ const PostEditer = ({
           });
         });
         setIsModal(false);
+        navigate("/board");
       } catch (err) {
         alert(err.message);
       }

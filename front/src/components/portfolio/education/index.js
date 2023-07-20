@@ -6,6 +6,7 @@ import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import Loading from "../../common/Loading";
+import NoneData from "../../common/NoneData";
 
 //api로 Model의 전체 데이터를 요청
 const Education = ({ user }) => {
@@ -141,6 +142,7 @@ const DocumentItem = ({ data, setDatas }) => {
                 <option value="학사">학사</option>
                 <option value="석사">석사</option>
                 <option value="박사">박사</option>
+                <option value="없음">없음</option>
               </select>
               <label>상태</label>
               <select
@@ -149,6 +151,7 @@ const DocumentItem = ({ data, setDatas }) => {
               >
                 <option value="재학">재학</option>
                 <option value="휴학">휴학</option>
+                <option value="중퇴">중퇴</option>
                 <option value="졸업">졸업</option>
                 <option value="졸업예정">졸업예정</option>
               </select>

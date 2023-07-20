@@ -3,14 +3,20 @@ import { EmptyBtn, FullRedBtn } from "../../common/Btns";
 import { useState } from "react";
 import { userDelete } from "../../../services/ect";
 import { mainColor } from "../../common/color";
+import { useNavigate } from "react-router-dom";
 
 const Withdrawal = ({ setIsExiting }) => {
+  const navigator = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userPw, setUserPw] = useState("");
+
   async function handleClick() {
     if (!userEmail || !userPw) {
       alert("탈퇴하시려면 이메일과 비밀번호를 입력해주세요.");
-      setIsExiting(false);
+      setIsExiting(true);
+      setUserEmail("");
+      setIsExiting("");
+      return;
     }
 
     try {
@@ -18,6 +24,9 @@ const Withdrawal = ({ setIsExiting }) => {
       alert("탈퇴하십니까?");
       userDelete(userEmail, userPw);
       alert("탈퇴되었습니다.");
+      sessionStorage.removeItem("userToken");
+      dispatch({ type: "LOGOUT" });
+      navigator("/login");
     } catch (err) {
       alert(err?.message || err);
     }
