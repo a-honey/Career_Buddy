@@ -14,10 +14,10 @@ class ProjectService{
   // [CRUD] CREATE
   // service for users to add their own project
   // 사용자가 자신의 project을 추가하는 기능을 구현합니다.  
-  static async addProject(newEduData) {
+  static async addProject(newProjectData) {
       try {
-        const addedEducation = await Project.create(newEduData);
-        return addedEducation;
+        const addedProject = await Project.create(newProjectData);
+        return addedProject;
         }
       catch(error) {
           throw new Error(error);
