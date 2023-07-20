@@ -301,8 +301,11 @@ userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_re
       }
     }
     
+    // Hex 형식으로 Buffer에 들어있는 이미지 데이터를 base64 형식으로 바꿔줍니다.
+    const imgBase64 = new Buffer.from(fileObject["file"]["data"]).toString('base64');
+
     // mongoose를 사용해서 이미지 데이터 객체를 사용자 계정 document에 포함시켜줍니다.
-    const uploadedFile = await UserModel.findOneAndUpdate({ id: currentUserId }, { $set: fileObject }, { returnOriginal: false });
+    const uploadedFile = await UserModel.findOneAndUpdate({ id: currentUserId }, { imgBase64: imgBase64 }, { returnOriginal: false });
 
     if (uploadedFile.error) {
       throw new Error(uploadedFile.error);
@@ -319,10 +322,7 @@ userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_re
       }
     });
     
-    // Hex 형식으로 Buffer에 들어있는 이미지 데이터를 base64 형식으로 바꿔줍니다.
-    const base64Img = new Buffer.from(fileObject["file"]["data"]).toString('base64');
-    console.log(base64Img)
-    res.status(200).json(base64Img);
+    res.status(200).json(imgBase64);
   }
   catch(error){
     next(error);

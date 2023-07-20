@@ -31,9 +31,9 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
-    file:{
-      contentType: String,
-      data: Buffer,
+    imgBase64:{
+      type: String,
+      required: false,
     },
     isPasswordReset: {
       type: Boolean,
