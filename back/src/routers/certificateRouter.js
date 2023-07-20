@@ -77,10 +77,7 @@ async (req,res)=>{
 
 const fileUpload = require('express-fileupload');
 // default options
-certificateRouter.use(fileUpload({
-  limits: { fileSize: 10 * 1024 * 1024 }, // 최대 파일 크기 제한을 설정합니다.
-  abortOnLimit: true, // 파일 크기 제한에 도달하면 요청 중단 여부를 설정합니다
-}));
+certificateRouter.use(fileUpload());
 certificateRouter.post('/certificates/:documentid/file', async function(req, res) {
   const uploadedFile = req.files.file;
   const certDocId=req.params.documentid
