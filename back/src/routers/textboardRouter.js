@@ -102,7 +102,7 @@ textboardRouter.get("/textboard/:documentid", routeSanitizer, async (req, res, n
 
 // [CRUD] READ
 // 프론트엔드로부터 전달받은 category를 사용해서 특정 카테고리의 게시글들을 찾아 가져옵니다.
-textboardRouter.get("/textboard/:category", routeSanitizer, async (req, res, next) => {
+textboardRouter.get("/textboard/categories/:category", routeSanitizer, async (req, res, next) => {
   try {
     const category = req.params["category"];
     

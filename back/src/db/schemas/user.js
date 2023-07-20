@@ -31,6 +31,10 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
+    file:{
+      contentType: String,
+      data: Buffer,
+    },
     isPasswordReset: {
       type: Boolean,
       required: false,
