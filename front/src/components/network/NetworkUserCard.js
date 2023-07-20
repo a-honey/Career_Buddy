@@ -10,17 +10,15 @@ const NetworkUserCard = ({ user, userState }) => {
 
   return (
     <CardBlock>
-      <div className="img-container">
-        <img
-          className="mb-3"
-          src={
-            user?.file?.data
-              ? `data:image/png;base64,${user?.file?.data}`
-              : "http://placekitten.com/200/200"
-          }
-          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-        />
-      </div>
+      <img
+        className="mb-3"
+        src={
+          user?.file?.data?.data
+            ? `data:image/png;base64,${user.file.data.data}`
+            : "http://placekitten.com/200/200"
+        }
+        alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+      />
       <h1 className="user-name">{user.name}</h1>
       <div className="user-description">{user?.description}</div>
       <div className="user-icons">

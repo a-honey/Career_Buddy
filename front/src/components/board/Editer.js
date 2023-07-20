@@ -1,23 +1,65 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../common/Btns";
+import { boardByDocument, boardUserPost } from "../../services/board";
 
-const PostEditer = ({ post, setPosts, setIsModal }) => {
-  const [title, setTitle] = useState(post?.title || null);
-  const [text, setText] = useState(post?.text || null);
+const PostEditer = ({
+  post,
+  setPosts,
+  setIsModal,
+  userId,
+  documentId,
+  categoryList,
+}) => {
+  const [title, setTitle] = useState(post ? post.title : "");
+  const [text, setText] = useState(post ? post.text : "");
+  const [category, setCategory] = useState(post ? post.category : "");
 
   async function handleSubmit() {
-    //post api
-    setPosts((prev) => [...prev]);
+    const newdata = { title, text, category };
+    if (userId) {
+      try {
+        await boardUserPost(userId, newdata);
+        setPosts((prev) => [...prev, newdata]);
+        setIsModal(false);
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+    if (documentId) {
+      try {
+        await boardByDocument(documentId, newdata);
+        setPosts((posts) => {
+          return posts.map((prev) => {
+            if (prev._id === post._id) {
+              return newdata;
+            }
+            return prev;
+          });
+        });
+        setIsModal(false);
+      } catch (err) {
+        alert(err.message);
+      }
+    }
   }
   return (
     <Modal>
       <EditorBlock>
         <form onSubmit={handleSubmit}>
-          <label className="field-title">제목</label>
-          <input value={title} onClick={(e) => setTitle(e.target.value)} />
-          <label className="field-title">내용</label>
-          <textarea value={text} onClick={(e) => setText(e.target.value)} />
+          <label className="editer-label">제목</label>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} />
+          <label className="editer-label">카테고리</label>
+          <select
+            value={category || "자유"}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {categoryList.map((name) => (
+              <option value={name}>{name}</option>
+            ))}
+          </select>
+          <label className="editer-label">내용</label>
+          <textarea value={text} onChange={(e) => setText(e.target.value)} />
           <div className="board-post-btn">
             <EmptyBtn type="button" onClick={() => setIsModal(false)}>
               취소
@@ -46,7 +88,7 @@ const Modal = styled.div`
 
 const EditorBlock = styled.div`
   width: 700px;
-  height: 500px;
+  height: 00px;
   background-color: #ffffff;
   border-radius: 20px;
   padding: 30px;
@@ -55,8 +97,13 @@ const EditorBlock = styled.div`
     display: flex;
     flex-direction: column;
   }
-  input {
+  input,
+  select {
     margin: 20px 70px;
+  }
+  .editer-label {
+    margin: 0px 60px;
+    padding: 0px;
   }
 
   textarea {
