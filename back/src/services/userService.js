@@ -242,7 +242,7 @@ class userAuthService {
       if(!currentUserId) {
         throw new Error("현재 로그인한 사용자를 알 수 없으므로 탈퇴를 진행할 수 없습니다.");
       }
-      
+      console.log(`Running on deleteUser. ${currentUserId}, ${inputEmail}, ${inputPassword}`);
       // 현재 로그인한 사용자의 currentUserId로 사용자 계정 document를 찾습니다.
       // [버그] User 모델의 User.findById가 전혀 작동하지 않고 있습니다. mongoose 자체 메서드인 findOne을 대신 사용합니다.
       // const targetDocument = await User.findById(currentUserId);
@@ -251,7 +251,7 @@ class userAuthService {
       if(!targetDocument){
         throw new Error("현재 로그인한 사용자의 정보로는 계정 정보를 찾을 수 없거나, 이미 삭제된 계정입니다.");
       }
-      
+      console.log(`targetDocument: ${targetDocument}`)
       // [보안] 삭제를 요청한 사용자와, 계정 document의 소유자가 일치하는지를 validate 합니다.
       if(currentUserId !== targetDocument.id){
         throw new Error("현재 로그인한 사용자는 사용자 계정 정보를 삭제할 권한이 없습니다.");
