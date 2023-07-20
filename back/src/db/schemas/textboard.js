@@ -17,14 +17,6 @@ const TextboardSchema = new Schema(
       type: String,
       required: true,
     },
-    createdTime: {
-      type: String,
-      required: true,
-    },
-    modifiedTime: {
-      type: String,
-      required: true,
-    },
     category: {
       type: String,
       required: true,
