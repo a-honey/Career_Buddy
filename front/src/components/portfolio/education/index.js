@@ -47,9 +47,13 @@ const FieldContainer = ({ datas, setDatas, userId }) => {
   return (
     <FieldListBlock>
       <h1 className="fieldName">Education</h1>
-      {datas.map((data) => (
-        <DocumentItem key={data?._id} data={data} setDatas={setDatas} />
-      ))}
+      {datas.length > 0 ? (
+        datas.map((data) => (
+          <DocumentItem key={data?._id} data={data} setDatas={setDatas} />
+        ))
+      ) : (
+        <NoneData />
+      )}
       {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );

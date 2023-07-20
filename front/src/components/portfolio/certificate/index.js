@@ -6,6 +6,7 @@ import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import Loading from "../../common/Loading";
+import NoneData from "../../common/NoneData";
 
 //api로 Model의 전체 데이터를 요청
 const Certificate = ({ user }) => {
@@ -40,14 +41,18 @@ const FieldContainer = ({ datas, setDatas, userId }) => {
   return (
     <FieldListBlock>
       <h1 className="fieldName">Certificate</h1>
-      {datas.map((data) => (
-        <DocumentItem
-          key={data._id}
-          data={data}
-          setDatas={setDatas}
-          userId={userId}
-        />
-      ))}
+      {datas.length > 0 ? (
+        datas.map((data) => (
+          <DocumentItem
+            key={data._id}
+            data={data}
+            setDatas={setDatas}
+            userId={userId}
+          />
+        ))
+      ) : (
+        <NoneData />
+      )}
       {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );

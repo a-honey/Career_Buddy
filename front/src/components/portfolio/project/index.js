@@ -6,6 +6,7 @@ import DocumentAddBtn from "./DocumentAddBtn";
 import FieldDocumentBlock from "../common/FieldDocumentBlock";
 import { EmptyBtn, FullBtn } from "../../common/Btns";
 import Loading from "../../common/Loading";
+import NoneData from "../../common/NoneData";
 
 //api로 Model의 전체 데이터를 요청
 const Project = ({ user }) => {
@@ -41,9 +42,13 @@ const FieldContainer = ({ datas, setDatas, userId }) => {
   return (
     <FieldListBlock>
       <h1 className="fieldName">Project</h1>
-      {datas.map((data) => (
-        <DocumentItem key={data?._id} data={data} setDatas={setDatas} />
-      ))}
+      {datas.length > 0 ? (
+        datas.map((data) => (
+          <DocumentItem key={data?._id} data={data} setDatas={setDatas} />
+        ))
+      ) : (
+        <NoneData />
+      )}
       {isEditing && <DocumentAddBtn setDatas={setDatas} editId={userId} />}
     </FieldListBlock>
   );
