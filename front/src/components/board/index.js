@@ -86,6 +86,7 @@ const Board = () => {
           setIsModal={setIsModal}
           setPosts={setPosts}
           userId={userState.user.id}
+          state="글쓰기"
         />
       ) : (
         <WriteBlock onClick={() => setIsModal(true)}>Write</WriteBlock>
@@ -116,7 +117,6 @@ export default Board;
 
 const PostItem = ({ post, setPosts, userId }) => {
   const [isModal, setIsModal] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
   const ISOdate = new Date(post.createdAt);
   const options = {
     weekday: "long",
@@ -156,14 +156,7 @@ const PostItem = ({ post, setPosts, userId }) => {
           setPosts={setPosts}
           setIsModal={setIsModal}
           documentId={post._id}
-        />
-      )}
-      {isEdit && (
-        <PostEditer
-          post={post}
-          setPosts={setPosts}
-          setIsModal={setIsEdit}
-          documentId={post._id}
+          state="수정"
         />
       )}
       <h1>{post.title}</h1>

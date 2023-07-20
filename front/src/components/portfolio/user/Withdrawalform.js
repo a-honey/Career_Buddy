@@ -1,12 +1,15 @@
 import { styled } from "styled-components";
 import { EmptyBtn, FullRedBtn } from "../../common/Btns";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { userDelete } from "../../../services/ect";
 import { mainColor } from "../../common/color";
 import { useNavigate } from "react-router-dom";
+import { DispatchContext } from "../../../App";
 
 const Withdrawal = ({ setIsExiting }) => {
   const navigator = useNavigate();
+  const dispatch = useContext(DispatchContext);
+
   const [userEmail, setUserEmail] = useState("");
   const [userPw, setUserPw] = useState("");
 

@@ -74,6 +74,21 @@ const boardByALL = async () => {
   });
 };
 
+const boardUserPut = async (documentId, data) => {
+  const bodyData = JSON.stringify(data);
+  console.log(
+    `%cPOST 요청: ${serverUrl}/textboard/${documentId}`,
+    "color: #a25cd1;"
+  );
+
+  return axios.put(`${serverUrl}/textboard/${documentId}`, bodyData, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+    },
+  });
+};
+
 //
 const boardDelete = async (documentId) => {
   console.log(
@@ -95,4 +110,5 @@ export {
   boardByCategory,
   boardByALL,
   boardDelete,
+  boardUserPut,
 };

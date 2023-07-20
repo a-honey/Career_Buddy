@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../common/Btns";
-import { boardByDocument, boardUserPost } from "../../services/board";
+import {
+  boardByDocument,
+  boardUserPost,
+  boardUserPut,
+} from "../../services/board";
 
 const PostEditer = ({
   post,
@@ -10,7 +14,7 @@ const PostEditer = ({
   setIsModal,
   userId,
   documentId,
-  categoryList,
+  state,
 }) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(post ? post.title : "");
@@ -19,19 +23,18 @@ const PostEditer = ({
 
   async function handleSubmit() {
     const newdata = { title, text, category };
-    if (userId) {
+    if (state === "글쓰기") {
       try {
         await boardUserPost(userId, newdata);
         setPosts((prev) => [...prev, newdata]);
         setIsModal(false);
-        navigate("/board");
       } catch (err) {
         alert(err.message);
       }
     }
-    if (documentId) {
+    if (state === "수정") {
       try {
-        await boardByDocument(documentId, newdata);
+        await boardUserPut(documentId, newdata);
         setPosts((posts) => {
           return posts.map((prev) => {
             if (prev._id === post._id) {
