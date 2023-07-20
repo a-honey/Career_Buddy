@@ -7,9 +7,8 @@ const ListBlock = ({ children }) => {
 export default ListBlock;
 
 const StyledListBlock = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
   width: 100%;
+  margin: 0 auto;
   height: 1000px;
   position: relative;
 `;

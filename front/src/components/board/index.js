@@ -7,13 +7,15 @@ import Category from "./Category";
 import { styled } from "styled-components";
 import { UserStateContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import * as Api from "../../api";
 import { hoverColor, mainColor } from "../common/color";
 import PostEditer from "./Editer";
+import { boardByALL, boardByCategory } from "../../services/board";
+import Loading from "../common/Loading";
+import { FullBtn } from "../common/Btns";
 
 const Board = () => {
   const [isFetching, setIsFetching] = useState(false);
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState("ALL");
   const [posts, setPosts] = useState([]);
   const [isModal, setIsModal] = useState(false);
 
@@ -33,18 +35,34 @@ const Board = () => {
   ];
 
   useEffect(() => {
-    // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
-    if (category === "ALL") {
-      isFetching(true);
-      const res = Api.get("users", userState.user.id, "/posts");
-      setPosts(res.data);
-    }
-  }, [setPosts, isFetching, userState.user.id, category]);
+    const fetchfunction = async () => {
+      // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
+      if (category === "ALL") {
+        const res = await boardByALL();
+        setPosts(res?.data?.result);
+        setIsFetching(true);
+      } else {
+        const res = await boardByCategory(category);
+        setPosts(res.data);
+        setIsFetching(true);
+      }
+    };
+    fetchfunction();
+  }, [category]);
+
+  if (!setIsFetching) {
+    return <Loading />;
+  }
 
   return (
     <ListBlock>
       {isModal ? (
-        <PostEditer setIsModal={setIsModal} />
+        <PostEditer
+          categoryList={categoryList}
+          setIsModal={setIsModal}
+          setPosts={setPosts}
+          userId={userState.user.id}
+        />
       ) : (
         <WriteBlock onClick={() => setIsModal(true)}>Write</WriteBlock>
       )}
@@ -53,33 +71,82 @@ const Board = () => {
         setCategory={setCategory}
         categoryList={categoryList}
       />
-      {posts.map((post) => (
-        <PostItem post={post} />
-      ))}
+      <Block>
+        {posts.map((post) => (
+          <PostItem
+            userId={userState.user.id}
+            post={post}
+            setPosts={setPosts}
+          />
+        ))}
+      </Block>
     </ListBlock>
   );
 };
 
 export default Board;
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, setPosts, userId }) => {
+  const [isModal, setIsModal] = useState(false);
+
   return (
     <StyledBlock>
+      {userId === post.userId ? (
+        <EditerBtn onClick={() => setIsModal(true)}>수정</EditerBtn>
+      ) : null}
+      {isModal && (
+        <PostEditer
+          post={post}
+          setPosts={setPosts}
+          setIsModal={setIsModal}
+          documentId={post._id}
+        />
+      )}
       <h1>{post.title}</h1>
       <div>
-        {post.username}
-        {post.createdTime}
+        <span>{post.username}</span>
+        <span>{post.createdTime.slice(0, 10)}</span>
       </div>
       <p>{post.text}</p>
-      <div>{post.category}</div>
+      <CategoryBlock>{post.category}</CategoryBlock>
     </StyledBlock>
   );
 };
 
+const Block = styled.div`
+  width: 70%;
+  min-height: 500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 20px;
+  padding: 40px 20px 0 20px;
+`;
 const StyledBlock = styled.div`
-  background-color: pink;
+  border: 1px solid ${hoverColor};
   width: 200px;
   height: 400px;
+  position: relative;
+  border-radius: 20px;
+  padding: 20px 10px;
+  h1 {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  div {
+    display: 100%;
+    display: flex;
+    justify-content: right;
+    :first-child {
+      margin-right: 10px;
+    }
+    span {
+      display: inline-block;
+      color: rgb(110, 110, 110);
+      font-weight: 600;
+      font-size: 15px;
+    }
+  }
 `;
 
 const WriteBlock = styled.button`
@@ -93,4 +160,26 @@ const WriteBlock = styled.button`
     background-color: ${hoverColor};
     color: white;
   }
+`;
+
+const EditerBtn = styled.button`
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: ${mainColor};
+  top: 10px;
+  right: 10px;
+`;
+
+const CategoryBlock = styled.div`
+  position: absolute;
+  padding: 10px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: ${hoverColor};
+  bottom: 20px;
+  right: 10px;
+  text-align: center;
 `;
