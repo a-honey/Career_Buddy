@@ -88,7 +88,7 @@ const Modal = styled.div`
 
 const EditorBlock = styled.div`
   width: 700px;
-  height: 600px;
+  height: 00px;
   background-color: #ffffff;
   border-radius: 20px;
   padding: 30px;

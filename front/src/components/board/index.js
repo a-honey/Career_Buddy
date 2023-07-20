@@ -1,7 +1,7 @@
 //카테고리를 input으로 받아서 state에 담아서 변경될때마다 새로운 렌더링
 //Category에 현재 카테고리 전달. 보여줄것: username, title, createdTime, modifiedTime, category text
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import ListBlock from "./common/ListBlock";
 import Category from "./Category";
 import { styled } from "styled-components";
@@ -11,7 +11,7 @@ import { hoverColor, mainColor } from "../common/color";
 import PostEditer from "./Editer";
 import { boardByALL, boardByCategory } from "../../services/board";
 import Loading from "../common/Loading";
-import { FullBtn } from "../common/Btns";
+import NoneData from "../common/NoneData";
 
 const Board = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -26,14 +26,29 @@ const Board = () => {
     navigator("/login");
   }
 
-  const categoryList = [
-    "ALL",
-    "이직/취업",
-    "커리어 꿀팁",
-    "자유",
-    "내 게시글 보기",
-  ];
+  const categoryList = useMemo(() => {
+    const categoryList = [
+      "ALL",
+      "이직/취업",
+      "커리어 꿀팁",
+      "자유",
+      "내 게시글 보기",
+    ];
+    return categoryList;
+  }, []);
 
+  const koToEn = (ko) => {
+    switch (ko) {
+      case "이직/취업":
+        return "industry";
+      case "커리어 꿀팁":
+        return "tips";
+      case "자유":
+        return "free";
+      default:
+        return ko;
+    }
+  };
   useEffect(() => {
     const fetchfunction = async () => {
       // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
@@ -42,15 +57,15 @@ const Board = () => {
         setPosts(res?.data?.result);
         setIsFetching(true);
       } else {
-        const res = await boardByCategory(category);
+        const res = await boardByCategory(koToEn(category));
         setPosts(res.data);
         setIsFetching(true);
       }
     };
     fetchfunction();
-  }, [category]);
+  }, [category, categoryList]);
 
-  if (!setIsFetching) {
+  if (!isFetching) {
     return <Loading />;
   }
 
@@ -71,15 +86,19 @@ const Board = () => {
         setCategory={setCategory}
         categoryList={categoryList}
       />
-      <Block>
-        {posts.map((post) => (
-          <PostItem
-            userId={userState.user.id}
-            post={post}
-            setPosts={setPosts}
-          />
-        ))}
-      </Block>
+      {posts.length > 0 ? (
+        <Block>
+          {posts.map((post) => (
+            <PostItem
+              userId={userState.user.id}
+              post={post}
+              setPosts={setPosts}
+            />
+          ))}
+        </Block>
+      ) : (
+        <NoneData />
+      )}
     </ListBlock>
   );
 };
@@ -89,6 +108,17 @@ export default Board;
 const PostItem = ({ post, setPosts, userId }) => {
   const [isModal, setIsModal] = useState(false);
 
+  const ISOdate = new Date(post.createdAt);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
+
+  const formattedDate = ISOdate.toLocaleDateString("ko-KR", options)
+    .replace(/\./g, " -")
+    .slice(0, 14);
   return (
     <StyledBlock>
       {userId === post.userId ? (
@@ -105,7 +135,7 @@ const PostItem = ({ post, setPosts, userId }) => {
       <h1>{post.title}</h1>
       <div>
         <span>{post.username}</span>
-        <span>{post.createdTime.slice(0, 10)}</span>
+        <span>{formattedDate}</span>
       </div>
       <p>{post.text}</p>
       <CategoryBlock>{post.category}</CategoryBlock>
