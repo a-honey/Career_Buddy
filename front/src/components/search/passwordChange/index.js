@@ -19,7 +19,7 @@ const PasswordChange = () => {
 
   async function handleClick() {
     try {
-      if (!email || !oldPw || !newPw || newPwConfirm) {
+      if (!email || !oldPw || !newPw || !newPwConfirm) {
         alert("입력값을 확인해주세요");
         setEmail("");
         setOldPw("");
@@ -33,8 +33,8 @@ const PasswordChange = () => {
         setNewPw("");
         setNewPwConfirm("");
         return;
-      } else if (newPw.length >= 4 && newPw.length <= 12) {
-        alert("새로운 비밀번호는 4글자 이상 12글자 이하로 입력해주세요.");
+      } else if (newPw.length < 6 && newPw.length > 12) {
+        alert("새로운 비밀번호는 6글자 이상 12글자 이하로 입력해주세요.");
         setEmail("");
         setOldPw("");
         setNewPw("");
@@ -45,6 +45,7 @@ const PasswordChange = () => {
         email: email,
         inputPassword: oldPw,
         newPassword: newPw,
+        newPasswordConfirm: newPwConfirm,
       };
 
       alert("비밀번호 변경하십니까?");
@@ -56,7 +57,7 @@ const PasswordChange = () => {
       dispatch({ type: "LOGOUT" });
       navigate("/login");
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
   }
 

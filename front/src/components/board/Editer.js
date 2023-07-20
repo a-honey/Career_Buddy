@@ -13,7 +13,7 @@ const PostEditer = ({
 }) => {
   const [title, setTitle] = useState(post ? post.title : "");
   const [text, setText] = useState(post ? post.text : "");
-  const [category, setCategory] = useState(post ? post.category : "자유");
+  const [category, setCategory] = useState(post ? post.category : "free");
 
   async function handleSubmit() {
     const newdata = { title, text, category };
@@ -51,12 +51,12 @@ const PostEditer = ({
           <input value={title} onChange={(e) => setTitle(e.target.value)} />
           <label className="editer-label">카테고리</label>
           <select
-            value={category || "자유"}
+            value={category || "free"}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {categoryList.map((name) => (
-              <option value={name}>{name}</option>
-            ))}
+            <option value={"free"}>자유</option>
+            <option value={"industry"}>이직/취업</option>
+            <option value={"tips"}>커리어 꿀팁</option>
           </select>
           <label className="editer-label">내용</label>
           <textarea value={text} onChange={(e) => setText(e.target.value)} />
