@@ -12,6 +12,7 @@ import PostEditer from "./Editer";
 import {
   boardByALL,
   boardByCategory,
+  boardDelete,
   boardUserGet,
 } from "../../services/board";
 import Loading from "../common/Loading";
@@ -71,7 +72,7 @@ const Board = () => {
       }
     };
     fetchfunction();
-  }, [category, categoryList]);
+  }, [category, categoryList, userState.user.id]);
 
   if (!isFetching) {
     return <Loading />;
@@ -124,13 +125,28 @@ const PostItem = ({ post, setPosts, userId }) => {
     day: "2-digit",
   };
 
+  async function handleDelete() {
+    alert("진짜 삭제하실건가요?");
+    try {
+      await boardDelete(post._id);
+      setPosts((datas) => {
+        const deleteddatas = datas.filter((origin) => origin._id !== post._id);
+        return deleteddatas;
+      });
+    } catch (err) {
+      alert("프론트 데이터 삭제 실패");
+    }
+  }
   const formattedDate = ISOdate.toLocaleDateString("ko-KR", options)
     .replace(/\./g, " -")
     .slice(0, 14);
   return (
     <StyledBlock>
       {userId === post.userId ? (
-        <EditerBtn onClick={() => setIsModal(true)}>수정</EditerBtn>
+        <>
+          <EditerBtn onClick={() => setIsModal(true)}>수정</EditerBtn>
+          <DeleteBtn onClick={() => handleDelete}>수정</DeleteBtn>
+        </>
       ) : null}
       {isModal && (
         <PostEditer
@@ -201,6 +217,16 @@ const WriteBlock = styled.button`
 `;
 
 const EditerBtn = styled.button`
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: ${mainColor};
+  top: 10px;
+  right: 10px;
+`;
+const DeleteBtn = styled.button`
   position: absolute;
   width: 100px;
   height: 20px;
