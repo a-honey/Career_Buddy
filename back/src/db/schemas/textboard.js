@@ -10,8 +10,9 @@ const TextboardSchema = new Schema(
       required: true,
     },
     username: {
+      // username은 현재 로그인한 사용자의 id를 기반으로 백엔드에서 별도로 찾아서 추가하므로 프론트엔드에서 입력받지 않습니다.
       type: String,
-      required: true,
+      required: false,
     },
     title: {
       type: String,
