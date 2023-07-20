@@ -61,8 +61,9 @@ const Block = styled.div`
   margin: 10px 20px;
   display: flex;
   position: relative;
-  padding-top: 15px;
+  padding: 15px 0;
   box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.8, 0.5);
+  width: 900px;
   .btns {
     display: flex;
     align-items: center;

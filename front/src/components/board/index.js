@@ -63,11 +63,11 @@ const Board = () => {
         setIsFetching(true);
       } else if (category === "내 게시글 보기") {
         const res = await boardUserGet(userState.user.id);
-        setPosts(res?.data?.result);
+        setPosts(res.data.result);
         setIsFetching(true);
       } else {
         const res = await boardByCategory(koToEn(category));
-        setPosts(res.data);
+        setPosts(res.data.result);
         setIsFetching(true);
       }
     };
@@ -116,7 +116,7 @@ export default Board;
 
 const PostItem = ({ post, setPosts, userId }) => {
   const [isModal, setIsModal] = useState(false);
-
+  const [isEdit, setIsEdit] = useState(false);
   const ISOdate = new Date(post.createdAt);
   const options = {
     weekday: "long",
@@ -143,16 +143,26 @@ const PostItem = ({ post, setPosts, userId }) => {
   return (
     <StyledBlock>
       {userId === post.userId ? (
-        <>
-          <EditerBtn onClick={() => setIsModal(true)}>수정</EditerBtn>
-          <DeleteBtn onClick={() => handleDelete}>수정</DeleteBtn>
-        </>
+        <div className="board-btn">
+          <button onClick={() => setIsModal(true)}>수정</button>
+          <button className="del" onClick={() => handleDelete}>
+            삭제
+          </button>
+        </div>
       ) : null}
       {isModal && (
         <PostEditer
           post={post}
           setPosts={setPosts}
           setIsModal={setIsModal}
+          documentId={post._id}
+        />
+      )}
+      {isEdit && (
+        <PostEditer
+          post={post}
+          setPosts={setPosts}
+          setIsModal={setIsEdit}
           documentId={post._id}
         />
       )}
@@ -168,7 +178,7 @@ const PostItem = ({ post, setPosts, userId }) => {
 };
 
 const Block = styled.div`
-  width: 70%;
+  width: 1200px;
   min-height: 500px;
   margin: 0 auto;
   display: grid;
@@ -182,8 +192,9 @@ const StyledBlock = styled.div`
   height: 400px;
   position: relative;
   border-radius: 20px;
-  padding: 20px 10px;
+  padding: 20px;
   h1 {
+    margin-top: 30px;
     font-size: 25px;
     margin-bottom: 20px;
   }
@@ -201,6 +212,20 @@ const StyledBlock = styled.div`
       font-size: 15px;
     }
   }
+  .board-btn {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    button {
+      padding: 5px;
+      border-radius: 10px;
+      color: balck;
+      font-size: 10px;
+      background-color: #ffffff;
+      border: 1px solid ${mainColor};
+    }
+  }
 `;
 
 const WriteBlock = styled.button`
@@ -214,27 +239,6 @@ const WriteBlock = styled.button`
     background-color: ${hoverColor};
     color: white;
   }
-`;
-
-const EditerBtn = styled.button`
-  position: absolute;
-  width: 100px;
-  height: 20px;
-  border-radius: 10px;
-  color: #ffffff;
-  background-color: ${mainColor};
-  top: 10px;
-  right: 10px;
-`;
-const DeleteBtn = styled.button`
-  position: absolute;
-  width: 100px;
-  height: 20px;
-  border-radius: 10px;
-  color: #ffffff;
-  background-color: ${mainColor};
-  top: 10px;
-  right: 10px;
 `;
 
 const CategoryBlock = styled.div`

@@ -63,4 +63,25 @@ async function userPasswordReset(inputdata) {
     );
   }
 }
-export { userDelete, userPasswordChange, userPagenation, userPasswordReset };
+
+async function userImg(user_id, inputdata) {
+  console.log(`${serverUrl}user/${user_id}/fileupload`);
+  const res = await axios.post(
+    `${serverUrl}user/${user_id}/fileupload`,
+    inputdata,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+      },
+    }
+  );
+  return res.data;
+}
+export {
+  userDelete,
+  userPasswordChange,
+  userImg,
+  userPagenation,
+  userPasswordReset,
+};

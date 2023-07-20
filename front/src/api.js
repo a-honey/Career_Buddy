@@ -41,7 +41,7 @@ async function put(endpoint, data) {
 
   return axios.put(serverUrl + endpoint, bodyData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },
   });

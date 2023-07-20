@@ -87,14 +87,17 @@ const Modal = styled.div`
 `;
 
 const EditorBlock = styled.div`
-  width: 700px;
-  height: 600px;
   background-color: #ffffff;
   border-radius: 20px;
   padding: 30px;
-  position: relative;
+  margin: 0 auto;
+  right: 30%;
+  left: 30%;
+  padding-bottom: 100px;
+  position: fixed;
   form {
     display: flex;
+    width: 100%;
     flex-direction: column;
   }
   input,

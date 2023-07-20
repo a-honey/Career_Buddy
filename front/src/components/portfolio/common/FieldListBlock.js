@@ -10,6 +10,8 @@ export default FieldListBlock;
 const ListBlock = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 5px 20px;
   border-radius: 15px;
   margin: 30px;
@@ -27,8 +29,8 @@ const ListBlock = styled.div`
       background-color: ${mainColor};
       height: 5px;
       position: absolute;
-      left: 0;
-      width: 150px;
+      left: -20px;
+      right: -20px;
       bottom: 0;
     }
   }
