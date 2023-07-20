@@ -57,6 +57,12 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const social = req.body.social;
     const imgUrl = req.body.imgUrl;
 
+    // 이메일 중복 여부 체크하기
+    const foundAccount = await UserModel.findOne({ email: email });
+    if(foundAccount){
+      throw new Error("입력하신 이메일에 해당되는 계정이 이미 존재합니다.");
+    }
+
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
       name,
