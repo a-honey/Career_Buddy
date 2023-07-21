@@ -283,7 +283,7 @@ userAuthRouter.put("/user/resetpassword", routeSanitizer, async function (req, r
 
 
 // 현재 로그인한 사용자가 입력한 프로필 사진을 데이터베이스 업로드하고, 해당 사진의 base64 문자열과 MIME type으로 프론트엔드에 보내줍니다.
-userAuthRouter.post("/user/:user_id/fileupload", upload.single('file'), login_required, async function (req, res, next) {
+userAuthRouter.post("/user/:user_id/fileupload", login_required, upload.single('file'), async function (req, res, next) {
   try {
     const currentUserId = req.currentUserId;
 
