@@ -5,15 +5,15 @@ import { routeSanitizer } from "../middlewares/routeSanitizer";
 import { userAuthService } from "../services/userService";
 import { UserModel } from "../db";
 
+// multer가 파일시스템을 다루기 위해서 필요합니다.
 const path = require('path');
-
-// multer storage에 있는 파일을 지우는데 사용하기 위해 fs.unlink를 promisify() 합니다.
-// Node 10.23.1 버전부터는 아래의 형식을 지원합니다.
 const fs = require('fs');
 const multer = require('multer');
+
+// 업로드된 파일명을 랜덤한 문자열로 새로 설정하는데 사용됩니다.
 const randomstring = require("randomstring");
 
-// multer를 설정합니다.
+// multer storage를 설정합니다.
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // [주의] path 모듈을 활용해 절대 경로를 기반으로 추가적인 상대 경로를 조합해주어야 합니다.
@@ -26,6 +26,7 @@ let storage = multer.diskStorage({
   }
 })
 
+// multer upload를 설정합니다.
 // [보안] 업로드된 파일의 MIME type을 감지해서 JPEG 형식의 이미지 파일만 받아들입니다. 테스트 완료.
 let upload = multer({ 
   storage: storage,
@@ -242,9 +243,9 @@ userAuthRouter.delete("/user/deletion", routeSanitizer, login_required, async fu
     const currentUserId = req.currentUserId ?? null;
     const inputEmail = req.body.inputEmail ?? null;
     const inputPassword = req.body.inputPassword ?? null;
-    console.log(`Entering the router. ${currentUserId}, ${inputEmail}, ${inputPassword}`);
+
     const deletedUser = await userAuthService.deleteUser({ currentUserId, inputEmail, inputPassword });
-    console.log(`userAuthService result: ${deletedUser}`);
+
     if (deletedUser.error) {
       throw new Error(deletedUser.error);
     }

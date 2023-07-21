@@ -1,4 +1,12 @@
 import { User, UserModel } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+
+// 회원 탈퇴시 다른 콜렉션에 있는 문서들도 일괄적으로 함께 삭제하기 위해서 필요합니다.
+import { AwardModel } from "../db";
+import { CertificateModel } from "../db";
+import { EducationModel } from "../db";
+import { ProjectModel } from "../db";
+import { TextboardModel } from "../db";
+
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -278,7 +286,15 @@ class userAuthService {
       // [버그] User 모델의 User.delete가 전혀 작동하지 않고 있습니다. mongoose 자체 메서드인 findOneAndDelete를 대신 사용합니다.
       // const deletedUser = await User.delete(currentUserId);
       const deletedUser = await UserModel.findOneAndDelete({ id: currentUserId });
-      return "계정 삭제 완료";
+
+      // 로그인한 사용자가 소유한 다른 콜렉션의 document들도 함께 삭제합니다.
+      const deletedAwards = await AwardModel.deleteMany({ userId: currentUserId });
+      const deletedCertificates = await CertificateModel.deleteMany({ userId: currentUserId });
+      const deletedEducations = await EducationModel.deleteMany({ userId: currentUserId });
+      const deletedProjects = await ProjectModel.deleteMany({ userId: currentUserId });
+      const deletedTextboards = await TextboardModel.deleteMany({ userId: currentUserId });
+      
+      return "사용자 계정 정보 및 사용자가 작성한 모든 문서들의 삭제가 완료되었습니다."
     }
     catch(error){
       throw new Error(error);
