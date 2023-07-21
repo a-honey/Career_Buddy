@@ -74,7 +74,7 @@ const Board = () => {
       }
     };
     fetchfunction();
-  }, [category, categoryList, userState, navigate]);
+  }, [category, categoryList, userState, navigate, isModal]);
 
   if (!isFetching) {
     return <Loading />;

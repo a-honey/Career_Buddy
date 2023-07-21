@@ -76,7 +76,7 @@ const PasswordChange = () => {
       <label className="withdrawl-label">Email |</label>
       <input
         value={email}
-        type="password"
+        type="text"
         onChange={(e) => setEmail(e.target.value)}
       />
       <label className="withdrawl-label">Origin Password |</label>
