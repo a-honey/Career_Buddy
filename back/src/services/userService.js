@@ -172,59 +172,66 @@ class userAuthService {
 
 
   //폼으로 이메일,입력받은 기존 비밀번호, 새로운 비밀번호를 입력받음
-  static async setPassword({user_id,email,inputPassword,newPassword,newPasswordConfirm}){
+  static async setPassword({email,inputPassword,newPassword,newPasswordConfirm}){
     
     // 이메일로 db에서 일치하는 사용자의 정보를 가져옴
     let user=await User.findByEmail({email})
 
     // 사용자의 정보가 없을 경우
     if (!user) {
-      const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+      throw new Error( "가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      ;
     }
     
     // 입력받은 기존 비밀번호가 없을 경우
     if (!inputPassword){
-      const errorMessage = "기존 비밀번호를 입력해주세요.";
-      return { errorMessage };
+      throw new Error( "기존 비밀번호를 입력해주세요.");
+      ;
     }
     
     const isPasswordCorrect = await bcrypt.compare(
       inputPassword,
       user.password
     );
+    const newPasswordHashed=await bcrypt.hash(newPassword,10)
+
+    const filter = { id: user.id };
+    const update = { ["password"]: newPasswordHashed };
+    const option = { returnOriginal: false };
+    const updatedUser = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
     
     // 기존 비밀번호가 사용자의 정보에 저장된 비밀번호와 다른 경우 -확인 완료
     // 보안부분이 추가되어야 할 것 같음
     if (!isPasswordCorrect){
-      const errorMessage = "기존 비밀번호를 잘못 입력했습니다. 다시 한 번 확인해 주세요";
-      return { errorMessage };
+      throw new Error( "기존 비밀번호를 잘못 입력했습니다. 다시 한 번 확인해 주세요");
+      ;
     }
     
     // 새로운 비밀번호가 입력되지 않았을 경우-확인 완료
     if (!newPassword){
-      const errorMessage = "새로운 비밀번호를 입력해주세요.";
-      return { errorMessage };
+      throw new Error( "새로운 비밀번호를 입력해주세요.");
+      ;
     }
     
     // 새로운 비밀번호의 글자수가 5글자 이하, 13글자 이상일 경우 -확인 완료
-    if (newPassword.length<6||newPassword.length>12){
-      const errorMessage = "비밀번호는 6글자 이상 12글자 이하여야 합니다.";
-      return { errorMessage };
+    if (newPassword.length<4||newPassword.length>12){
+      throw new Error( "비밀번호는 6글자 이상 12글자 이하여야 합니다.");
+      ;
     }
     if (!newPasswordConfirm){
-      const errorMessage = "새로운 비밀번호를 확인하기 위해 한번 더 입력해주세요.";
-      return { errorMessage };
+      throw new Error( "새로운 비밀번호를 확인하기 위해 한번 더 입력해주세요.");
+      ;
     }
     if(newPassword!==newPasswordConfirm){
-      const errorMessage="새로운 비밀번호가 확인되지 않았습니다."
-      return { errorMessage };
+      throw new Error("새로운 비밀번호가 확인되지 않았습니다.")
+      
     }
     // 변수를 유저모델과 일치시키니 실행되어 일단 임의로 변수 지정해서 값 넣어줌
-    const fieldToUpdate="password"
-    const newValue=await bcrypt.hash(newPassword,10)
-    user=await User.update({user_id,fieldToUpdate,newValue})
-    return user
+    return "변경이 완료되었습니다."
   }
 
   

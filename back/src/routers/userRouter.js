@@ -203,25 +203,26 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 
 
 // 임시로 지정한 URL
-userAuthRouter.put("/user/:user_id/password",
+userAuthRouter.put("/user/:userid/password",
 login_required,
 async function (req, res, next) {
   try{
     // 현재 로그인한 id. 833396cc~
     const currentUserId=req.currentUserId;
-    const user_id=req.params.user_id
+    const userid=req.params.userid
     const email=req.body.email;
     const inputPassword= req.body.inputPassword;
     const newPassword=req.body.newPassword;
+    const newPasswordConfirm=req.body.newPasswordConfirm
     const updatedPassword=await userAuthService.setPassword(
-      {user_id,email,inputPassword,newPassword}
+      {email,inputPassword,newPassword,newPasswordConfirm}
     )
     // 현재 로그인한 사용자의 id와 url로 전달받은 user_id가 다를 경우 -확인 완료
-    if (currentUserId!==user_id){
+    if (currentUserId!==userid){
       throw new Error("현재 로그인한 사용자가 아닙니다.")
     }
-    if (updatedPassword.errorMessage){
-      throw new Error(updatedPassword.errorMessage)
+    if (updatedPassword.error){
+      return(updatedPassword.error)
     }
     res.status(200).json(updatedPassword)
   } catch (error) {
