@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 const Loading = () => {
   return (
     <LoadingBlock>
-      <div>로딩중압니다!</div>
+      <div>로딩중입니다!</div>
     </LoadingBlock>
   );
 };

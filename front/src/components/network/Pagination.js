@@ -74,6 +74,7 @@ const PaginationBlock = styled.div`
       line-height: 35px;
       border: 2px solid ${mainColor};
       border-radius: 50%;
+      cursor: pointer;
       box-shadow: 0 2px 4px rgba(0.2, 0.5, 0.2, 0.5);
     }
     li.active {

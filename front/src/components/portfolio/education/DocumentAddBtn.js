@@ -13,8 +13,7 @@ const DocumentAddBtn = ({ setDatas, editId }) => {
         onClick={() => setIsAdding((isAdding) => !isAdding)}
         style={{
           marginTop: "30px",
-          marginLeft: "45px",
-          width: "90%",
+          width: "100%",
         }}
       >
         +
@@ -79,21 +78,21 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
       <form onSubmit={handleAddSubmit} className="input-edit">
         <div className="input-edit-content">
           <div className="education-main">
-            <label>교육기관</label>
+            <label className="edit-title">교육기관</label>
             <input
               type="text"
               placeholder="교육기관"
               value={content?.institution}
               onChange={(e) => handleChange(e, "institution")}
             />
-            <label>전공</label>
+            <label className="edit-title">전공</label>
             <input
               type="text"
               placeholder="전공"
               value={content?.major}
               onChange={(e) => handleChange(e, "major")}
             />
-            <label>학위</label>
+            <label className="edit-title">학위</label>
             <select
               value={content.degree || "학사"}
               onChange={(e) => handleChange(e, "degree")}
@@ -101,9 +100,8 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
               <option value="학사">학사</option>
               <option value="석사">석사</option>
               <option value="박사">박사</option>
-              <option value="">없음</option>
             </select>
-            <label>상태</label>
+            <label className="edit-title">상태</label>
             <select
               value={content.status || "졸업"}
               onChange={(e) => handleChange(e, "status")}
@@ -116,21 +114,21 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
             </select>
           </div>
           <div className="education-sub">
-            <label>입학년월</label>
+            <label className="edit-title">입학년월</label>
             <input
               type="date"
               placeholder="입학년월"
               value={content?.entryDate}
               onChange={(e) => handleChange(e, "entryDate")}
             />
-            <label>졸업년월</label>
+            <label className="edit-title">졸업년월</label>
             <input
               type="date"
               placeholder="졸업년월"
               value={content?.gradDate}
               onChange={(e) => handleChange(e, "gradDate")}
             />
-            <label>학점</label>
+            <label className="edit-title">학점</label>
             <input
               type="text"
               placeholder="학점"

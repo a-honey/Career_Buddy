@@ -13,8 +13,7 @@ const DocumentAddBtn = ({ setDatas, editId }) => {
         onClick={() => setIsAdding((isAdding) => !isAdding)}
         style={{
           marginTop: "30px",
-          marginLeft: "45px",
-          width: "90%",
+          width: "100%",
         }}
       >
         +

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { EmptyBtn, FullBtn } from "../common/Btns";
 import { boardUserPost, boardUserPut } from "../../services/board";
@@ -12,12 +11,13 @@ const PostEditer = ({
   documentId,
   state,
 }) => {
-  const navigate = useNavigate();
   const [title, setTitle] = useState(post ? post.title : "");
   const [text, setText] = useState(post ? post.text : "");
   const [category, setCategory] = useState(post ? post.category : "free");
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     if (!title || !text || !category) {
       alert("입력값을 확인해주세요.");
       return;
@@ -44,7 +44,6 @@ const PostEditer = ({
           });
         });
         setIsModal(false);
-        navigate("/board");
       } catch (err) {
         alert(err.message);
       }

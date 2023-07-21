@@ -7,7 +7,7 @@ import Category from "./Category";
 import { styled } from "styled-components";
 import { UserStateContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import { hoverColor, mainColor } from "../common/color";
+import { backColor, hoverColor } from "../common/color";
 import PostEditer from "./Editer";
 import {
   boardByALL,
@@ -182,17 +182,23 @@ const Block = styled.div`
   grid-gap: 20px;
   padding: 40px 20px 0 20px;
 `;
+
 const StyledBlock = styled.div`
   border: 1px solid ${hoverColor};
   width: 200px;
   height: 400px;
   position: relative;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 20px;
   h1 {
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 25px;
     margin-bottom: 20px;
+  }
+  p {
+    width: 100%;
+    height: 215px;
+    overflow: hidden;
   }
   div {
     display: 100%;
@@ -216,10 +222,12 @@ const StyledBlock = styled.div`
     button {
       padding: 5px;
       border-radius: 10px;
-      color: balck;
+      color: white;
       font-size: 10px;
-      background-color: #ffffff;
-      border: 1px solid ${mainColor};
+      background-color: ${backColor};
+      &:nth-child(2) {
+        background-color: #dd0000;
+      }
     }
   }
 `;
@@ -239,7 +247,7 @@ const WriteBlock = styled.button`
 
 const CategoryBlock = styled.div`
   position: absolute;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 10px;
   color: #ffffff;
   background-color: ${hoverColor};

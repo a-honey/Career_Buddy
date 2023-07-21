@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import * as Api from "../../../api";
 import { FullBtn } from "../../common/Btns";
 import { EditContext } from "../../../contexts/EditContext";
+import { styled } from "styled-components";
 
 function UserEditForm({ user, setUser }) {
   //useState로 name 상태를 생성함.
@@ -111,7 +112,7 @@ function UserEditForm({ user, setUser }) {
           업로드
         </button>
       </form>
-      <form
+      <Form
         style={{
           display: "flex",
           flexDirection: "column",
@@ -119,7 +120,6 @@ function UserEditForm({ user, setUser }) {
         }}
         onSubmit={handleSubmit}
       >
-        <label> 사용자 email</label>
         <div>{email}</div>
         <label>이름</label>
         <input
@@ -157,9 +157,33 @@ function UserEditForm({ user, setUser }) {
         <FullBtn type="submit" className="me-3">
           확인
         </FullBtn>
-      </form>
+      </Form>
     </>
   );
 }
 
 export default UserEditForm;
+
+const Form = styled.form`
+  padding-top: 20px;
+  div {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  label {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  textarea {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+`;

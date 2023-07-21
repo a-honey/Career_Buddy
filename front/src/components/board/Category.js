@@ -26,7 +26,7 @@ const CategoryBlock = styled.div`
   justify-content: center;
   margin: 0 auto;
   position: absolute;
-  top: -45px;
+  top: -20px;
   right: 200px;
   left: 200px;
   .cate-other {
@@ -39,7 +39,7 @@ const CategoryBlock = styled.div`
     &:hover {
       background-color: ${mainColor};
       position: relative;
-      top: 20px;
+      top: 3px;
       z-index: 1;
     }
   }
@@ -47,7 +47,7 @@ const CategoryBlock = styled.div`
   .cate-active {
     background-color: ${mainColor};
     position: relative;
-    top: 20px;
+    top: 3px;
     margin: 10px;
     padding: 10px;
     width: 150px;
