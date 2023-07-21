@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import * as Api from "../../../api";
 import { FullBtn } from "../../common/Btns";
 import { EditContext } from "../../../contexts/EditContext";
-import { userImg } from "../../../services/ect";
 
 function UserEditForm({ user, setUser }) {
   //useState로 name 상태를 생성함.
@@ -36,6 +35,24 @@ function UserEditForm({ user, setUser }) {
     setIsEditing(false);
   };
 
+  function handleFileSubmit(e) {
+    e.preventDefault();
+
+    const headers = new Headers();
+    headers.append(
+      "Authorization",
+      `Bearer  ${sessionStorage.getItem("userToken")}`
+    );
+
+    fetch(
+      `http://${window.location.hostname}:${5001}/user/${user.id}/fileupload`,
+      {
+        method: "POST",
+        headers: headers,
+        body: new FormData(e.target), // 폼 데이터를 서버로 전송
+      }
+    );
+  }
   function handleImgChange(e) {
     const img = e.target.files[0];
 
@@ -81,26 +98,14 @@ function UserEditForm({ user, setUser }) {
           }
         />
       </div>
-      <form
-        action={
-          "http://" +
-          window.location.hostname +
-          ":" +
-          5001 +
-          "/" +
-          user.id +
-          "/fileupload"
-        }
-        encType="multipart/form-data"
-        method="post"
-      >
+      <form encType="multipart/form-data" onSubmit={handleFileSubmit}>
         <input
           className="choose-file-btn"
           type="file"
           name="file"
           onChange={handleImgChange}
         />
-        <button class="upload-btn" type="submit" value="프로필 사진 업로드">
+        <button className="upload-btn" type="submit" value="프로필 사진 업로드">
           업로드
         </button>
       </form>

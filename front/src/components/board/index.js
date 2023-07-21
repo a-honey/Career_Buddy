@@ -27,10 +27,6 @@ const Board = () => {
   const navigator = useNavigate();
   const userState = useContext(UserStateContext);
 
-  if (!userState.user.id) {
-    navigator("/login");
-  }
-
   const categoryList = useMemo(() => {
     const categoryList = [
       "ALL",
@@ -56,6 +52,11 @@ const Board = () => {
   };
 
   useEffect(() => {
+    if (!userState.user) {
+      navigator("/login", { replace: true });
+      return;
+    }
+
     const fetchfunction = async () => {
       // 전체 데이터를 불러옴, category state 바뀔때마다 새로 불러옴, mine일 경우 id로불러옴 Userstate필요
       if (category === "ALL") {
@@ -73,7 +74,7 @@ const Board = () => {
       }
     };
     fetchfunction();
-  }, [category, categoryList, userState.user.id]);
+  }, [category, categoryList, userState, navigator]);
 
   if (!isFetching) {
     return <Loading />;
