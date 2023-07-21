@@ -24,7 +24,7 @@ const Board = () => {
   const [posts, setPosts] = useState([]);
   const [isModal, setIsModal] = useState(false);
 
-  const navigator = useNavigate();
+  const navigate = useNavigate();
   const userState = useContext(UserStateContext);
 
   const categoryList = useMemo(() => {
@@ -74,7 +74,7 @@ const Board = () => {
       }
     };
     fetchfunction();
-  }, [category, categoryList, userState, navigator]);
+  }, [category, categoryList, userState, navigate]);
 
   if (!isFetching) {
     return <Loading />;

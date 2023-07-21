@@ -26,6 +26,10 @@ function RegisterForm() {
       );
   };
 
+  const validateName = (name) => {
+    return name.match(/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/);
+  };
+
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
   const isEmailValid = validateEmail(email);
   // 비밀번호가 4글자 이상인지 여부를 확인함.
@@ -33,7 +37,7 @@ function RegisterForm() {
   // 비밀번호와 확인용 비밀번호가 일치하는지 여부를 확인함.
   const isPasswordSame = password === confirmPassword;
   // 이름이 2글자 이상인지 여부를 확인함.
-  const isNameValid = name.length >= 2;
+  const isNameValid = name.length >= 2 && validateName(name);
 
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   const isFormValid =
@@ -118,7 +122,7 @@ function RegisterForm() {
                 />
                 {!isNameValid && (
                   <Form.Text className="text-success">
-                    이름은 2글자 이상으로 설정해 주세요.
+                    이름은 2글자 이상의 특수문자를 제외한 값으로 설정해 주세요.
                   </Form.Text>
                 )}
               </Form.Group>

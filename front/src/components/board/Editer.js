@@ -18,6 +18,10 @@ const PostEditer = ({
   const [category, setCategory] = useState(post ? post.category : "free");
 
   async function handleSubmit() {
+    if (!title || !text || !category) {
+      alert("입력값을 확인해주세요.");
+      return;
+    }
     const newdata = { title, text, category };
     if (state === "글쓰기") {
       try {

@@ -74,14 +74,27 @@ const PasswordChange = () => {
     <WithdrawalBlock onSubmit={handleClick}>
       <h1>비밀번호 변경</h1>
       <label className="withdrawl-label">Email |</label>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input
+        value={email}
+        type="password"
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <label className="withdrawl-label">Origin Password |</label>
-      <input value={oldPw} onChange={(e) => setOldPw(e.target.value)} />
+      <input
+        value={oldPw}
+        type="password"
+        onChange={(e) => setOldPw(e.target.value)}
+      />
       <label className="withdrawl-label">New Password |</label>
-      <input value={newPw} onChange={(e) => setNewPw(e.target.value)} />
+      <input
+        value={newPw}
+        type="password"
+        onChange={(e) => setNewPw(e.target.value)}
+      />
       <label className="withdrawl-label">New Password Confirm |</label>
       <input
         value={newPwConfirm}
+        type="password"
         onChange={(e) => setNewPwConfirm(e.target.value)}
       />
       <div className="pwBtns">

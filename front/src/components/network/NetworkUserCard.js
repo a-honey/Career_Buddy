@@ -130,13 +130,15 @@ const CardBlock = styled.div`
       object-fit: cover;
       height: 200px;
       width: 200px;
+      border-radius: 3px;
     }
   }
 
   .user-name {
-    font-size: 23px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    margin-top: 10px;
   }
   .user-description {
     font-size: 18px;

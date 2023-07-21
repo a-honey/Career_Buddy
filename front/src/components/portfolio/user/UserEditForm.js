@@ -13,18 +13,25 @@ function UserEditForm({ user, setUser }) {
   const [github, setGithub] = useState(user?.social?.github);
   const [insta, setInsta] = useState(user?.social?.insta);
   const [blog, setBlog] = useState(user?.social?.blog);
-  const [imgFile, setImgFile] = useState();
-
   const { setIsEditing } = useContext(EditContext);
+
+  const validateName = (name) => {
+    return name.match(/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateName(name) || name.length < 2) {
+      alert("입력값을 다시 확인해주세요.");
+      return;
+    }
+
     const res = await Api.put(`users/${user.id}`, {
       name,
       email,
       description,
       social: { github, blog, insta },
-      imgBase64: toString(imgFile),
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -74,7 +81,6 @@ function UserEditForm({ user, setUser }) {
         reader.onload = () => {
           const previewImg = document.getElementById("previewImg");
           previewImg.src = reader.result;
-          setImgFile(reader.result);
         };
 
         reader.readAsDataURL(img);

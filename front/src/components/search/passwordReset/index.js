@@ -46,9 +46,17 @@ const PasswordReset = () => {
     <WithdrawalBlock onSubmit={handleClick}>
       <h1>비밀번호 찾기</h1>
       <label className="withdrawl-label">Email |</label>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <label className="withdrawl-label">Proof |</label>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <input
+        value={email}
+        placeholder="사용자 계정을 입력해주세요."
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <label className="withdrawl-label">Name |</label>
+      <input
+        value={name}
+        placeholder="사용자 이름을 입력해주세요."
+        onChange={(e) => setName(e.target.value)}
+      />
       <div className="pwBtns">
         <FullRedBtn>비밀번호 찾기</FullRedBtn>
         <EmptyBtn

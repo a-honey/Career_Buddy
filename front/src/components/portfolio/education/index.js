@@ -142,7 +142,7 @@ const DocumentItem = ({ data, setDatas }) => {
                 <option value="학사">학사</option>
                 <option value="석사">석사</option>
                 <option value="박사">박사</option>
-                <option value="없음">없음</option>
+                <option value="">없음</option>
               </select>
               <label>상태</label>
               <select

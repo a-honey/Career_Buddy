@@ -2,8 +2,10 @@
 //elice rgb(202, 191, 240);
 //elice rgb(148, 116, 255);
 //elice rgb(148, 116, 255);
-const r = 97;
-const g = 61;
+//elice rgb(187, 84, 212);
+
+const r = 187;
+const g = 84;
 const b = 214;
 
 export const mainColor = `rgb(${r}, ${g}, ${b})`;
