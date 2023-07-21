@@ -41,7 +41,7 @@ function UserEditForm({ user, setUser }) {
     const headers = new Headers();
     headers.append(
       "Authorization",
-      `Bearer  ${sessionStorage.getItem("userToken")}`
+      `Bearer ${sessionStorage.getItem("userToken")}`
     );
 
     fetch(
