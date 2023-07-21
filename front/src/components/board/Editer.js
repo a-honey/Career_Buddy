@@ -25,8 +25,8 @@ const PostEditer = ({
     const newdata = { title, text, category };
     if (state === "글쓰기") {
       try {
-        await boardUserPost(userId, newdata);
-        setPosts((prev) => [...prev, newdata]);
+        const res = await boardUserPost(userId, newdata);
+        setPosts((prev) => [...prev, res.data]);
         setIsModal(false);
       } catch (err) {
         alert(err.message);
