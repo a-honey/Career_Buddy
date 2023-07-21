@@ -24,10 +24,10 @@ const NetworkUserCard = ({ user, userState }) => {
       <h1 className="user-name">{user.name}</h1>
       <div className="user-description">{user?.description}</div>
       <div className="user-icons">
-        {user?.github?.github && (
+        {user?.social?.github && (
           <a
             className="snsUrl"
-            href={user?.github?.github}
+            href={user?.social?.github}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -43,9 +43,9 @@ const NetworkUserCard = ({ user, userState }) => {
             </svg>
           </a>
         )}
-        {user?.github?.insta && (
+        {user?.social?.insta && (
           <a
-            href={user?.github?.insta}
+            href={user?.social?.insta}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"
@@ -62,9 +62,9 @@ const NetworkUserCard = ({ user, userState }) => {
             </svg>
           </a>
         )}
-        {user?.github?.blog && (
+        {user?.social?.blog && (
           <a
-            href={user?.github?.blog}
+            href={user?.social?.blog}
             className="snsUrl"
             target="_blank"
             rel="noopener noreferrer"
@@ -113,6 +113,7 @@ export default NetworkUserCard;
 
 const CardBlock = styled.div`
   display: flex;
+  height: 380px;
   flex-direction: column;
   align-items: center;
   padding: 20px 20px;

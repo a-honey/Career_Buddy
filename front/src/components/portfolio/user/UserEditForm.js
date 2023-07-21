@@ -11,9 +11,9 @@ function UserEditForm({ user, setUser }) {
   const [email] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
-  const [github, setGithub] = useState(user?.github?.github);
-  const [insta, setInsta] = useState(user?.github?.insta);
-  const [blog, setBlog] = useState(user?.github?.blog);
+  const [github, setGithub] = useState(user?.social?.github);
+  const [insta, setInsta] = useState(user?.social?.insta);
+  const [blog, setBlog] = useState(user?.social?.blog);
   const [imgFile, setImgFile] = useState();
 
   const { setIsEditing } = useContext(EditContext);
