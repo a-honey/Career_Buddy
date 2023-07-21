@@ -1,11 +1,11 @@
 import { User, UserModel } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 
 // 회원 탈퇴시 다른 콜렉션에 있는 문서들도 일괄적으로 함께 삭제하기 위해서 필요합니다.
-import { AwardModel } from "../db";
-import { CertificateModel } from "../db";
-import { EducationModel } from "../db";
-import { ProjectModel } from "../db";
-import { TextboardModel } from "../db";
+import { AwardModel } from "../db/schemas/award";
+import { CertificateModel } from "../db/schemas/certificate";
+import { EducationModel } from "../db/schemas/education";
+import { ProjectModel } from "../db/schemas/project";
+import { TextboardModel } from "../db/schemas/textboard";
 
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
