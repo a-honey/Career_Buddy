@@ -177,7 +177,7 @@ const DocumentItem = ({ data, setDatas, userId }) => {
       <FieldDocumentBlock
         setDatas={setDatas}
         documentId={data._id}
-        fieldName={"award"}
+        fieldName={"certificate"}
         isDocumentEditing={isDocumentEditing}
         setIsDocumentEditing={setIsDocumentEditing}
       >
