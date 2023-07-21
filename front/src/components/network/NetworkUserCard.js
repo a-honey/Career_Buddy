@@ -113,12 +113,11 @@ export default NetworkUserCard;
 
 const CardBlock = styled.div`
   display: flex;
-  height: 380px;
+  height: 450px;
   flex-direction: column;
   align-items: center;
   padding: 20px 20px;
-  border: solid 1px ${mainColor};
-  box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.8, 0.5);
+  border: solid 3px ${mainColor};
   border-radius: 20px;
   position: relative;
   .img-container {
@@ -138,21 +137,19 @@ const CardBlock = styled.div`
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
   }
   .user-description {
     font-size: 18px;
     width: 200px;
-    height: 25px;
+    height: 60px;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: wrap;
     text-overflow: ellipsis;
   }
   .user-icons {
-    padding: 10px;
     display: flex;
     width: 170px;
     justify-content: space-between;
-    margin-bottom: 25px;
   }
 `;

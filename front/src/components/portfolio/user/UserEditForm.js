@@ -14,6 +14,7 @@ function UserEditForm({ user, setUser }) {
   const [github, setGithub] = useState(user?.social?.github);
   const [insta, setInsta] = useState(user?.social?.insta);
   const [blog, setBlog] = useState(user?.social?.blog);
+  const [isChange, setIsChange] = useState(false);
   const { setIsEditing } = useContext(EditContext);
 
   const validateName = (name) => {
@@ -24,10 +25,15 @@ function UserEditForm({ user, setUser }) {
     e.preventDefault();
 
     if (!validateName(name) || name.length < 2) {
-      alert("입력값을 다시 확인해주세요.");
+      alert(
+        "이름은 특수문자(띄어쓰기 포함)를 제외한 2글자 이상으로 입력해주세요."
+      );
       return;
     }
-
+    if (isChange) {
+      alert("업로드는 업로드 버튼을 클릭해야 업로드 됩니다.");
+      return;
+    }
     const res = await Api.put(`users/${user.id}`, {
       name,
       email,
@@ -46,6 +52,7 @@ function UserEditForm({ user, setUser }) {
   function handleFileSubmit(e) {
     e.preventDefault();
 
+    setIsChange(false);
     const headers = new Headers();
     headers.append(
       "Authorization",
@@ -59,7 +66,13 @@ function UserEditForm({ user, setUser }) {
         headers: headers,
         body: new FormData(e.target), // 폼 데이터를 서버로 전송
       }
-    );
+    )
+      .then((res) => {
+        alert("업로드 성공");
+      })
+      .catch((err) => {
+        alert("업로드 실패");
+      });
   }
   function handleImgChange(e) {
     const img = e.target.files[0];
@@ -72,6 +85,7 @@ function UserEditForm({ user, setUser }) {
       return;
     }
     if (img) {
+      setIsChange(true);
       try {
         const reader = new FileReader();
 

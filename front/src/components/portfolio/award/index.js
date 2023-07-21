@@ -113,14 +113,14 @@ const DocumentItem = ({ data, setDatas }) => {
         <form onSubmit={handlePutSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
-              <label>수상명</label>
+              <label className="field-title">수상명</label>
               <input
                 type="text"
                 placeholder="수상명"
                 value={content.title}
                 onChange={(e) => handleChange(e, "title")}
               />
-              <label>발급기관</label>
+              <label className="field-title">발급기관</label>
               <input
                 type="text"
                 placeholder="발급기관"
@@ -128,15 +128,20 @@ const DocumentItem = ({ data, setDatas }) => {
                 onChange={(e) => handleChange(e, "issuer")}
               />
             </div>
-            <div className="education-sub">
-              <label>수상일</label>
+            <div
+              className="education-sub"
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <label className="field-title">수상일</label>
               <input
                 type="date"
                 placeholder="수상일"
                 value={content.awardDate}
                 onChange={(e) => handleChange(e, "awardDate")}
               />
-              <label>비고</label>
+              <label className="field-title">비고</label>
               <input
                 type="text"
                 placeholder="설명"
@@ -145,7 +150,15 @@ const DocumentItem = ({ data, setDatas }) => {
               />
             </div>
           </div>
-          <div className="input-edit-btns">
+          <div
+            style={{
+              marginTop: "10px",
+              marginLeft: "600px",
+              width: "250px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <FullBtn type="submit">수정</FullBtn>
             <EmptyBtn onClick={handleGetDocument}>초기화</EmptyBtn>
             <FullBtn
@@ -170,29 +183,37 @@ const DocumentItem = ({ data, setDatas }) => {
         setIsDocumentEditing={setIsDocumentEditing}
       >
         <div className="field-main before partition">
-          <div className="field-content">
+          <div
+            className="field-content"
+            style={{
+              width: "400px",
+
+              overflow: "hidden",
+              whiteSpace: "wrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <span className="field-title">수상명 | </span>
             {data?.title}
           </div>
-        </div>
-        <div className="field-sub partition">
-          <div className="field-sub-content">
-            <span className="field-title">수상일 | </span>
-            {data?.awardDate}
-          </div>
+
           <div className="field-sub-content">
             <span className="field-title">발급기관 | </span>
             {data?.issuer}
           </div>
         </div>
-        {data.description && (
-          <div className="field-last partition">
+        <div className="field-last partition">
+          <div className="field-sub-content">
+            <span className="field-title">수상일 | </span>
+            {data?.awardDate}
+          </div>
+          {data.description && (
             <div className="field-sub-content">
               <span className="field-title">비고 | </span>
               {data.description}
             </div>
-          </div>
-        )}
+          )}
+        </div>
         {data.file && (
           <img
             className="award-file"

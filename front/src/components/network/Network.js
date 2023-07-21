@@ -5,6 +5,8 @@ import NetworkUserCard from "./NetworkUserCard";
 import { userPagenation } from "../../services/ect";
 import Pagination from "./Pagination";
 import Loading from "../common/Loading";
+import { AddContext } from "../../contexts/AddContext";
+import { useNavigate } from "react-router-dom";
 
 function Network() {
   // useState 훅을 통해 users 상태를 생성함, 응답의 users와 구분.
@@ -13,11 +15,18 @@ function Network() {
   const [stateCurrentPage, setCurrentPage] = useState(1);
 
   const [isFetching, setIsFetching] = useState(false);
+  const { added, setAdded } = useContext(AddContext);
+  const navigate = useNavigate();
 
   const userState = useContext(UserStateContext);
 
   useEffect(() => {
     // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
+    if (added) {
+      setAdded(false);
+      navigate("/");
+    }
+
     userPagenation(stateCurrentPage)
       .then((res) => {
         const { users, totalPages, currentPage } = res;
@@ -70,5 +79,7 @@ const UserBlock = styled.div`
   grid-template-rows: 2;
   grid-gap: 20px;
   grid-column-gap: 20px;
-  margin: 20px auto;
+  margin: 30px auto;
+  margin-bottom: 20px;
+  min-height: 800px;
 `;

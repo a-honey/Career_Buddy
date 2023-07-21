@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { hoverColor, mainColor } from "../common/color";
+import { mainColor } from "../common/color";
 
 const Pagination = ({ totalPages, currentPage, handlePage }) => {
   currentPage = Number(currentPage);
@@ -68,30 +68,24 @@ const PaginationBlock = styled.div`
     justify-content: space-between;
     align-items: center;
     li {
-      width: 40px;
-      height: 40px;
+      width: 20px;
+      height: 20px;
       text-align: center;
       line-height: 35px;
-      border: 2px solid ${mainColor};
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0.2, 0.5, 0.2, 0.5);
     }
     li.active {
-      border: 2px solid ${mainColor};
-      background-color: ${mainColor};
-      color: #ffffff;
+      color: ${mainColor};
+      font-size: 22px;
     }
     li:hover {
-      border: 2px solid ${hoverColor};
-      background-color: ${hoverColor};
-      color: #ffffff;
+      color: ${mainColor};
     }
     li.disabled {
-      border: 2px solid gray;
+      font-size: 15px;
       cursor: not-allowed;
-      color: black;
-      background-color: white;
+      color: gray;
     }
   }
 `;

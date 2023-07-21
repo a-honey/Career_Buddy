@@ -118,37 +118,39 @@ const DocumentItem = ({ data, setDatas, userId }) => {
         <form onSubmit={handlePutSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
-              <label>자격증명</label>
+              <label className="field-title">자격증명</label>
               <input
                 type="text"
                 placeholder="수상명"
                 value={content?.title}
                 onChange={(e) => handleChange(e, "title")}
               />
-              <label>발급기관</label>
+              <label className="field-title">발급기관</label>
               <input
                 type="text"
-                placeholder="issuer"
+                placeholder="발급기관"
                 value={content?.issuer}
                 onChange={(e) => handleChange(e, "issuer")}
               />
             </div>
             <div className="education-sub">
-              <label>발급일</label>
+              <label className="field-title">발급일</label>
               <input
                 type="date"
                 placeholder="수상일"
                 value={content?.certDate}
                 onChange={(e) => handleChange(e, "certDate")}
               />
-              <label>만료일</label>
+              <label className="field-title" style={{ margin: "10px 0" }}>
+                만료일
+              </label>
               <input
                 type="date"
                 placeholder="수상일"
                 value={content?.expDate}
                 onChange={(e) => handleChange(e, "expDate")}
               />
-              <label>비고</label>
+              <label className="field-title">비고</label>
               <input
                 type="text"
                 placeholder="설명"
@@ -157,7 +159,15 @@ const DocumentItem = ({ data, setDatas, userId }) => {
               />
             </div>
           </div>
-          <div className="input-edit-btns">
+          <div
+            style={{
+              marginTop: "10px",
+              marginLeft: "600px",
+              width: "250px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <FullBtn type="submit">수정</FullBtn>
             <EmptyBtn onClick={handleGetDocument}>초기화</EmptyBtn>
             <FullBtn
@@ -182,7 +192,16 @@ const DocumentItem = ({ data, setDatas, userId }) => {
         setIsDocumentEditing={setIsDocumentEditing}
       >
         <div className="field-main before partition">
-          <div className="field-content">
+          <div
+            className="field-content"
+            style={{
+              width: "390px",
+
+              overflow: "hidden",
+              whiteSpace: "wrap",
+              textOverflow: "ellipsis",
+            }}
+          >
             <span className="field-title">자격증명 | </span>
             {data?.title}
           </div>

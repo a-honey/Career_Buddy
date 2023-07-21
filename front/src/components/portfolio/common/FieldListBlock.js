@@ -11,26 +11,27 @@ const ListBlock = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   padding: 5px 20px;
   border-radius: 15px;
   margin: 30px;
   position: relative;
-  padding-top: 50px;
+  padding-top: 40px;
   .fieldName {
     margin-bottom: 20px;
     font-size: 30px;
     font-weight: 700;
     text-transform: uppercase;
     position: relative;
-    padding: 10px 0;
+    padding: 20px 0;
+    text-align: left;
     &::after {
       content: "";
       background-color: ${mainColor};
       height: 5px;
       position: absolute;
-      left: -20px;
-      right: -20px;
+      width: 100%;
+      right: 10px;
       bottom: 0;
     }
   }

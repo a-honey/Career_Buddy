@@ -7,7 +7,7 @@ import Category from "./Category";
 import { styled } from "styled-components";
 import { UserStateContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import { backColor, hoverColor } from "../common/color";
+import { hoverColor, mainColor } from "../common/color";
 import PostEditer from "./Editer";
 import {
   boardByALL,
@@ -102,6 +102,7 @@ const Board = () => {
         <Block>
           {posts.map((post) => (
             <PostItem
+              key={post._id}
               userId={userState.user.id}
               post={post}
               setPosts={setPosts}
@@ -109,7 +110,9 @@ const Board = () => {
           ))}
         </Block>
       ) : (
-        <NoneData />
+        <div style={{ display: "flex", height: "1000px", marginTop: "30px" }}>
+          <NoneData />
+        </div>
       )}
     </ListBlock>
   );
@@ -175,8 +178,8 @@ const PostItem = ({ post, setPosts, userId }) => {
 
 const Block = styled.div`
   width: 1200px;
-  min-height: 500px;
-  margin: 0 auto;
+  min-height: 1000px;
+  margin: 30px auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 20px;
@@ -184,12 +187,11 @@ const Block = styled.div`
 `;
 
 const StyledBlock = styled.div`
-  border: 1px solid ${hoverColor};
-  width: 200px;
+  border: 3px solid ${hoverColor};
   height: 400px;
   position: relative;
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
   h1 {
     margin-top: 10px;
     font-size: 25px;
@@ -224,7 +226,7 @@ const StyledBlock = styled.div`
       border-radius: 10px;
       color: white;
       font-size: 10px;
-      background-color: ${backColor};
+      background-color: ${mainColor};
       &:nth-child(2) {
         background-color: #dd0000;
       }
@@ -250,7 +252,7 @@ const CategoryBlock = styled.div`
   padding: 5px 10px;
   border-radius: 10px;
   color: #ffffff;
-  background-color: ${hoverColor};
+  background-color: ${mainColor};
   bottom: 20px;
   right: 10px;
   text-align: center;

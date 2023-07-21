@@ -66,7 +66,7 @@ function Header() {
 export default Header;
 
 const HeaderBlock = styled.div`
-  background-color: #ffffff;
+  background-color: ${mainColor};
   z-index: 1000;
   position: fixed;
   width: 100%;
@@ -76,7 +76,6 @@ const HeaderBlock = styled.div`
   display: flex;
   z-index: 100;
   justify-content: space-between;
-  border-bottom: 1px solid black;
   .logged-out {
     position: absolute;
     visibility: hidden;
@@ -84,7 +83,7 @@ const HeaderBlock = styled.div`
   }
 
   span {
-    color: ${mainColor};
+    color: #ffffff;
   }
   ul {
     display: flex;
@@ -94,18 +93,10 @@ const HeaderBlock = styled.div`
     li {
       position: relative;
       cursor: pointer;
+      color: #ffffff;
       &:hover {
-        color: ${mainColor};
+        color: #ffffff;
         font-size: 18px;
-        &::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -5px;
-          right: -5px;
-          height: 2px;
-          background-color: ${mainColor};
-        }
       }
     }
   }

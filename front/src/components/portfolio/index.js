@@ -6,6 +6,7 @@ import * as Api from "../../api";
 
 import UserContainer from "./user/UserContainer";
 import Loading from "../common/Loading";
+import { AddContext } from "../../contexts/AddContext";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function Portfolio() {
   const [portfolioOwner, setPortfolioOwner] = useState(null);
   // portfolio의 주인을 담는 state가 진행 중임을 담을 state를 생성
   const [isFetching, setIsFetching] = useState(true);
+
+  const { added, setAdded } = useContext(AddContext);
 
   const userState = useContext(UserStateContext);
 
@@ -37,6 +40,10 @@ function Portfolio() {
     if (!userState.user) {
       navigate("/login", { replace: true });
       return;
+    }
+
+    if (added) {
+      setAdded(false);
     }
 
     if (params.userId) {

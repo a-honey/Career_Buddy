@@ -81,12 +81,14 @@ const PasswordChange = () => {
       />
       <label className="withdrawl-label">Origin Password |</label>
       <input
+        autoComplete="current-password"
         value={oldPw}
         type="password"
         onChange={(e) => setOldPw(e.target.value)}
       />
       <label className="withdrawl-label">New Password |</label>
       <input
+        autoComplete="new-password"
         value={newPw}
         type="password"
         onChange={(e) => setNewPw(e.target.value)}

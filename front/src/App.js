@@ -12,6 +12,7 @@ import { EditContextProvider } from "./contexts/EditContext";
 import PassWordChangePage from "./pages/PassWordChangePage";
 import PassWordResetPage from "./pages/PassWordReset";
 import BoardPage from "./pages/BoardPage";
+import { AddContextProvider } from "./contexts/AddContext";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -59,19 +60,21 @@ function App() {
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
         <EditContextProvider>
-          <Router>
-            <Routes>
-              <Route path="/" exact element={<PortfolioPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/users/:userId" element={<PortfolioPage />} />
-              <Route path="/network" element={<NetworkPage />} />
-              <Route path="/search" element={<PassWordChangePage />} />
-              <Route path="/reset" element={<PassWordResetPage />} />
-              <Route path="/board" element={<BoardPage />} />
-              <Route path="*" element={<PortfolioPage />} />
-            </Routes>
-          </Router>
+          <AddContextProvider>
+            <Router>
+              <Routes>
+                <Route path="/" exact element={<PortfolioPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/users/:userId" element={<PortfolioPage />} />
+                <Route path="/network" element={<NetworkPage />} />
+                <Route path="/search" element={<PassWordChangePage />} />
+                <Route path="/reset" element={<PassWordResetPage />} />
+                <Route path="/board" element={<BoardPage />} />
+                <Route path="*" element={<PortfolioPage />} />
+              </Routes>
+            </Router>
+          </AddContextProvider>
         </EditContextProvider>
       </UserStateContext.Provider>
     </DispatchContext.Provider>

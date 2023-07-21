@@ -26,7 +26,7 @@ const CategoryBlock = styled.div`
   justify-content: center;
   margin: 0 auto;
   position: absolute;
-  top: -20px;
+  top: -35px;
   right: 200px;
   left: 200px;
   .cate-other {

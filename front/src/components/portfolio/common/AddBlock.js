@@ -8,15 +8,23 @@ const AddBlock = ({ children }) => {
 export default AddBlock;
 
 const Block = styled.div`
-  border: solid 2px ${mainColor};
+  border: solid 3px ${mainColor};
   border-radius: 8px;
   margin: 10px 20px;
-  width: 900px;
-  margin-top: 40px;
   display: flex;
   position: relative;
-  padding: 30px 20px;
-  box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.8, 0.5);
-  .flexblock {
+  padding: 15px 0;
+  width: 900px;
+  .btns {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    button {
+      height: 50px;
+      margin-right: 20px;
+    }
   }
 `;

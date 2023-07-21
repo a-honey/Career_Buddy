@@ -114,14 +114,14 @@ const DocumentItem = ({ data, setDatas }) => {
         <form onSubmit={handlePutSubmit}>
           <div className="input-edit-content">
             <div className="education-main">
-              <label>프로젝트명</label>
+              <label className="field-title">프로젝트명</label>
               <input
                 type="text"
                 placeholder="프로젝트명"
                 value={content?.title}
                 onChange={(e) => handleChange(e, "title")}
               />
-              <label>소속 단체</label>
+              <label className="field-title">소속 단체</label>
               <input
                 type="text"
                 placeholder="단체 프로젝트일 경우 입력해주세요"
@@ -130,21 +130,21 @@ const DocumentItem = ({ data, setDatas }) => {
               />
             </div>
             <div className="education-sub">
-              <label>시작일</label>
+              <label className="field-title">시작일</label>
               <input
                 type="date"
                 placeholder="시작일"
                 value={content?.startDate}
                 onChange={(e) => handleChange(e, "startDate")}
               />
-              <label>종료일</label>
+              <label className="field-title">종료일</label>
               <input
                 type="date"
                 placeholder="종료일"
                 value={content?.endDate}
                 onChange={(e) => handleChange(e, "endDate")}
               />
-              <label>비고</label>
+              <label className="field-title">비고</label>
               <input
                 type="text"
                 placeholder="비고"
@@ -153,7 +153,15 @@ const DocumentItem = ({ data, setDatas }) => {
               />
             </div>
           </div>
-          <div className="input-edit-btns">
+          <div
+            style={{
+              marginTop: "10px",
+              marginLeft: "600px",
+              width: "250px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <FullBtn type="submit">수정</FullBtn>
             <EmptyBtn onClick={handleGetDocument}>초기화</EmptyBtn>
             <FullBtn
@@ -178,8 +186,10 @@ const DocumentItem = ({ data, setDatas }) => {
         setIsDocumentEditing={setIsDocumentEditing}
       >
         <div className="field-main before partition">
-          <div className="field-content">
-            <span className="field-title">프로젝트명 | </span>
+          <div className="field-content" style={{ width: "400px" }}>
+            <span className="field-title" style={{ width: "100px" }}>
+              프로젝트명 |{" "}
+            </span>
             {data.title}
           </div>
           {data.organization && (
@@ -198,11 +208,9 @@ const DocumentItem = ({ data, setDatas }) => {
           </div>
         </div>
         {data.description && (
-          <div className="field-last partition">
-            <div className="field-sub-content">
-              <span className="field-title">비고 | </span>
-              {data.description}
-            </div>
+          <div className="field-sub-content">
+            <span className="field-title">비고 | </span>
+            {data.description}
           </div>
         )}
       </FieldDocumentBlock>
