@@ -124,7 +124,7 @@ const WithdrawalBlock = styled.form`
   flex-direction: column;
   margin: 60px auto;
   margin-top: 100px;
-  border: solid 1px ${mainColor};
+  border: solid 3px ${mainColor};
   border-radius: 8px;
   h1 {
     font-size: 25px;

@@ -14,6 +14,7 @@ const LayoutPage = ({ children }) => {
           paddingBottom: "250px",
           width: "1350px",
           margin: "0 auto",
+          minHeight: "970px",
         }}
       >
         {children}
