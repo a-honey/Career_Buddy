@@ -46,7 +46,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
 
         <li
           className={currentPage === totalPages ? "disabled" : ""}
-          onClick={currentPage === 1 ? undefined : handleRightClick}
+          onClick={currentPage === totalPages ? null : handleRightClick}
         >
           &gt;
         </li>
