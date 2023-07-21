@@ -363,27 +363,39 @@ class userAuthService {
         await emailTransporter.sendMail(emailOptions);
       };
 
+      // 새로운 랜덤 비밀번호를 생성합니다.
       const newPassword = randomstring.generate();
 
       const targetDocument = await UserModel.findOne({ email: inputEmail });
 
       if(!targetDocument) {
         throw new Error("입력하신 이메일에 해당하는 계정 정보를 찾을 수 없습니다.");
-      }      
+      } 
 
       const targetDocumentId = targetDocument['id'];
 
+      // [사용금지] 프론트엔드에서 넘어오는 입력값은 sanitized 되어 있으므로, 특수문자가 들어가는 SNS 주소 등은 validation에 사용할 수 없는 상황입니다.
+      // 본인임을 인증할 수 있는 정보가 실제 문서에 포함되어 있는지를 검증합니다. 
+      /*
       const referenceDocument = Object.values(targetDocument)[2];
       const evidences = Object.values(referenceDocument)
-
-      // 본인임을 인증할 수 있는 정보가 실제 문서에 포함되어 있는지를 검증합니다. 
+      
       if(!evidences.includes(inputProof)) {
         throw new Error("본인임을 인증하는 입력값에 해당하는 계정 정보를 찾을 수 없습니다.");        
       }
+      */
+
+      // 현재 휴대폰 본인인증 등의 기능이 없으므로 일단 사용자 이름으로만 본인인증을 진행합니다.
+      if(inputProof !== targetDocument["name"]) {
+        throw new Error("입력하신 정보로는 계정 정보를 찾을 수 없습니다.");
+      }
+
+      // [보안] 생성된 랜덤 비밀번호를 DB에 저장하기 전에 hash 처리를 해줍니다.
+      const newHashedPassword = await bcrypt.hash(newPassword, 10);
 
       // 사용자의 비밀번호가 초기화되었다는 플래그를 함께 담아서 문서를 업데이트합니다.
       const updatedUserData = {
-        "password" : newPassword,
+        "password" : newHashedPassword,
         "isPasswordReset" : true,
       }
 
@@ -400,7 +412,7 @@ class userAuthService {
       // 이메일을 실제로 전송합니다.
       sendEmail({
         subject: "요청하신 비밀번호 초기화가 완료되었습니다.",
-        text: `안녕하세요 회원님! 비밀번호가 초기화되었습니다. ${newPassword} 비밀번호를 사용해서 다시 로그인하세요.`,
+        text: `안녕하세요 회원님! 비밀번호가 초기화되었습니다. 새로 발급해드린 비밀번호를 사용해서 다시 로그인하세요: ${newPassword}`,
         to: inputEmail,
         from: process.env.EMAIL
       });
