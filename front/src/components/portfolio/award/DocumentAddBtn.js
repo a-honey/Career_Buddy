@@ -55,6 +55,33 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
     }));
   }
 
+  //"/awards/:docid/fileupload",
+  function handleFileSubmit(e) {
+    e.preventDefault();
+    const headers = new Headers();
+    headers.append(
+      "Authorization",
+      `Bearer ${sessionStorage.getItem("userToken")}`
+    );
+
+    fetch(
+      `http://${window.location.hostname}:${5001}/awards/${
+        content._id
+      }/fileupload`,
+      {
+        method: "POST",
+        headers: headers,
+        body: new FormData(e.target), // 폼 데이터를 서버로 전송
+      }
+    )
+      .then((res) => {
+        alert("업로드 성공");
+      })
+      .catch((err) => {
+        alert("업로드 실패");
+      });
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     //setDatas에 데이터 추가
@@ -131,6 +158,12 @@ const DocumentAddItem = ({ setIsAdding, setDatas, editId }) => {
             취소
           </EmptyBtn>
         </div>
+      </form>
+      <form encType="multipart/form-data" onSubmit={handleFileSubmit}>
+        <input className="choose-file-btn" type="file" name="file" />
+        <button className="upload-btn" type="submit" value="프로필 사진 업로드">
+          업로드
+        </button>
       </form>
     </AddBlock>
   );

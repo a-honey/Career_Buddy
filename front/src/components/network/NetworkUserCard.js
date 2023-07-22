@@ -118,7 +118,7 @@ const CardBlock = styled.div`
   align-items: center;
   padding: 20px 20px;
   border: solid 3px ${mainColor};
-  border-radius: 20px;
+  border-radius: 12px;
   position: relative;
   .img-container {
     width: 200px;

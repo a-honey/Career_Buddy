@@ -41,7 +41,8 @@ function Portfolio() {
       navigate("/login", { replace: true });
       return;
     }
-
+    // 추가될 반환값없는 라우터(교육라우터 제외 나머지)의 경우, 새로운 값을 넣는 대신 네트워크 페이지에 갔다가 다시 편집 모드로 돌아옴
+    // 교육을 제외한 각 필드에서는 데이터가 추가될 경우 네트워크페이지에 갔다가 다시 돌아옴
     if (added) {
       setAdded(false);
     }
@@ -76,4 +77,4 @@ function Portfolio() {
   );
 }
 
-export default Portfolio; //
+export default Portfolio;
