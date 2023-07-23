@@ -1,8 +1,5 @@
 import { TextboardModel } from "../schemas/textboard";
 
-// [REFACTOR] COLLSCAN 쿼리 전략 대신에 IXSCAN 쿼리 젼략을 사용할 수 있도록 필드에 indexing 처리를 해주면 성능이 크게 향상됩니다.
-//            mongoose.explain(executionStats) 메서드를 사용해서 쿼리 결과값이 아닌 쿼리 '수행' 과정에 대한 정보를 얻을 수 있습니다.
-
 // 게시판 document를 다루는 CRUD 작업을 객체지향적 메소드로 정의합니다.
 class Textboard {
 
@@ -10,10 +7,7 @@ class Textboard {
   // 전달받은 newText 데이터로 새로운 게시글 document를 만들어 데이터베이스에 저장합니다.
   static async create(newPost) {
     try {
-
-      // [REFACTOR] 카테고리별로 게시글을 가져오는 작업에 IXSCAN 쿼리 전략을 사용하기 위해 인덱스를 생성해줍니다.
-      //            중복되지 않는 고유값을 부여하기 위해 unique 옵션을 사용합니다.
-      const result = await TextboardModel.create(newPost).createIndex({ "category": 1 }, { "unique": true });
+      const result = await TextboardModel.create(newPost);
       return result;
     }
     catch (error) {
