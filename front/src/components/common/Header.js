@@ -25,7 +25,7 @@ function Header() {
   return (
     <HeaderBlock>
       <Logo className="logo" key="logo">
-        Career <span>Gram</span>
+        Career <span>Buddy</span>
       </Logo>
       <ul>
         {isLogin ? (
