@@ -9,7 +9,6 @@ const Footer = () => {
             FRONT
           </li>
           <li key="ah">정아현</li>
-          <li key="jae">이재민</li>
         </ul>
         <ul className="back">
           <li className="developer" key="back">

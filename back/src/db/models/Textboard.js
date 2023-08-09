@@ -5,9 +5,9 @@ class Textboard {
 
   // [CRUD] CREATE
   // 전달받은 newText 데이터로 새로운 게시글 document를 만들어 데이터베이스에 저장합니다.
-  static async create(newPost) {
+  static async create(newText) {
     try {
-      const result = await TextboardModel.create(newPost);
+      const result = await TextboardModel.create(newText);
       return result;
     }
     catch (error) {

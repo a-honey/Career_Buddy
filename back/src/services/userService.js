@@ -294,15 +294,7 @@ class userAuthService {
       const deletedProjects = await ProjectModel.deleteMany({ userId: currentUserId });
       const deletedTextboards = await TextboardModel.deleteMany({ userId: currentUserId });
       
-      // document 삭제 작업을 일괄적으로 처리해줍니다.
-      Promise.all([deletedUser, deletedAwards, deletedCertificates, deletedEducations, deletedProjects, deletedTextboards])
-        .then((values) => { 
-          return "사용자 계정 정보 및 사용자 계정과 연결된 모든 문서를 삭제했습니다.";
-        })
-        .catch((error) => {
-          return `오류가 발생했습니다: ${error}`;
-        });
-        
+      return "사용자 계정 정보 및 사용자가 작성한 모든 문서들의 삭제가 완료되었습니다."
     }
     catch(error){
       throw new Error(error);
