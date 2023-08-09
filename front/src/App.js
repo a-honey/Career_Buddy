@@ -13,6 +13,7 @@ import PassWordChangePage from "./pages/PassWordChangePage";
 import PassWordResetPage from "./pages/PassWordReset";
 import BoardPage from "./pages/BoardPage";
 import { AddContextProvider } from "./contexts/AddContext";
+import MainPage from "./pages/MainPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -63,7 +64,7 @@ function App() {
           <AddContextProvider>
             <Router>
               <Routes>
-                <Route path="/" exact element={<PortfolioPage />} />
+                <Route path="/" exact element={<MainPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/users/:userId" element={<PortfolioPage />} />

@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 2000px;
+}
+
+.main-title {
+  color: yellow;
+  margin: 500px 150px;
+  margin: 0 0 100px 0;
+}
