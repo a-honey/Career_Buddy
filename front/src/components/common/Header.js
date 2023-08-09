@@ -29,7 +29,7 @@ function Header() {
       </Logo>
       <ul>
         {isLogin ? (
-          <li key="myPage" onClick={() => navigate("/")}>
+          <li key="myPage" onClick={() => navigate("/users")}>
             나의 페이지
           </li>
         ) : (
